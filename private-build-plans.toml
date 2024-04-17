@@ -15,6 +15,12 @@ serifs = "sans"
 exportGlyphNames = true
 buildTextureFeature = true
 
+[buildPlans.Lode.metricOverride]
+# ascender = 735    # height of b - default is 735
+# cap = 735         # height of H - default is 735
+leading = 1200    # default is 1250
+xHeight = 560     # height of x - default is 520
+
 [buildPlans.Lode.variants.design]
 capital-a = "straight-serifless"
 capital-b = "standard-serifless"
@@ -42,10 +48,15 @@ f = "flat-hook-serifless"
 # l = "zshaped"
 # j = "flat-hook-serifed"
 
-# Sans?
-i = "flat-tailed"
-l = "flat-tailed"
-j = "flat-hook-serifless"
+# Sans? didn't like this
+# i = "flat-tailed"
+# l = "flat-tailed"
+# j = "flat-hook-serifless"
+
+# Another attempt
+i = "hooky"
+l = "serifed-flat-tailed"
+j = "flat-hook-serfied"
 
 k = "straight-serifless"
 r = "hookless-serifless"
@@ -83,18 +94,21 @@ d = "tailed-serifless"
 f = "flat-hook-tailed"
 g = "double-storey"
 h = "tailed-serifless"
-i = "semi-tailed"
+i = "serifed-diagonal-tailed"
 k = "cursive-bottom-right-serifed"
+l = "serifed-diagonal-tailed"
 m = "tailed-serifless"
 n = "tailed-serifless"
-q = "tailed-serifless"
-v = "curly-serifless"
+q = "diagonal-tailed-serifless"
+t = "diagonal-tailed"
+v = "straight-serifless"
 w = "straight-flat-top-serifless"
 x = "semi-chancery-straight"
 y = "cursive-flat-hook-serifless"
 z = "curly-serifless"
 
 [buildPlans.Lode.ligations]
+inherits = "calt"
 enables = [
     "center-ops",
     "center-op-trigger-plus-minus-l",
@@ -135,6 +149,9 @@ enables = [
     "plus-plus",
     "underscore-underscore-underscore",
     "hash-hash",
+]
+disables = [
+    "colon-greater-as-colon-arrow"
 ]
 
 [buildPlans.Lode.widths.Condensed]
@@ -177,10 +194,11 @@ shape = 400
 menu = 400
 css = 400
 
+# Is this weird?
 [buildPlans.Lode.weights.Bold]
 shape = 600
-menu = 600
-css = 600
+menu = 700
+css = 700
 
 [buildPlans.Lode.slopes.Upright]
 angle = 0         # Angle in degrees. Valid range [0, 15]
