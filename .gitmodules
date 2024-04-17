@@ -1,3 +1,4 @@
 [submodule "iosevka"]
 	path = iosevka
 	url = https://github.com/be5invis/Iosevka.git
+	shallow = true
