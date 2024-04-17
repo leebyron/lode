@@ -2,6 +2,7 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  "postCreateCommand": "git submodule update --init --recursive",
   "hostRequirements": {
     "cpus": 16,
     "memory": "16gb"
