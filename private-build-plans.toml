@@ -78,7 +78,7 @@ percent = "rings-continuous-slash"
 bar = "force-upright"
 lig-plus-chain = "with-notch"
 
-[buildPlans.IosevkaCustom.variants.italic]
+[buildPlans.Lode.variants.italic]
 d = "tailed-serifless"
 f = "flat-hook-tailed"
 g = "double-storey"
