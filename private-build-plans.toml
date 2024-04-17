@@ -13,6 +13,7 @@ family = "Lode"
 spacing = "normal"
 serifs = "sans"
 exportGlyphNames = true
+buildTextureFeature = true
 
 [buildPlans.Lode.variants.design]
 capital-a = "straight-serifless"
@@ -30,12 +31,24 @@ capital-w = "straight-flat-top-serifless"
 capital-x = "straight-serifless"
 d = "toothed-serifless"
 f = "flat-hook-serifless"
-i = "hooky"
-j = "flat-hook-serifed"
-k = "straight-serifless"
+
+# First attempt
+# i = "hooky"
 # l = "semi-tailed"
-l = "zshaped"
-r = "compact-serifless"
+# j = "flat-hook-serifed"
+
+# Classic
+# i = "zshaped"
+# l = "zshaped"
+# j = "flat-hook-serifed"
+
+# Sans?
+i = "flat-tailed"
+l = "flat-tailed"
+j = "flat-hook-serifless"
+
+k = "straight-serifless"
+r = "hookless-serifless"
 t = "flat-hook"
 v = "straight-serifless"
 w = "straight-flat-top-serifless"
@@ -52,7 +65,7 @@ eight = "two-circles"
 # nine = "open-contour"
 nine = "straight-bar"
 tilde = "low"
-asterisk = "penta-low"
+asterisk = "hex-low"
 underscore = "above-baseline"
 caret = "medium"
 brace = "curly"
@@ -64,6 +77,22 @@ cent = "open"
 percent = "rings-continuous-slash"
 bar = "force-upright"
 lig-plus-chain = "with-notch"
+
+[buildPlans.IosevkaCustom.variants.italic]
+d = "tailed-serifless"
+f = "flat-hook-tailed"
+g = "double-storey"
+h = "tailed-serifless"
+i = "semi-tailed"
+k = "cursive-bottom-right-serifed"
+m = "tailed-serifless"
+n = "tailed-serifless"
+q = "tailed-serifless"
+v = "curly-serifless"
+w = "straight-flat-top-serifless"
+x = "semi-chancery-straight"
+y = "cursive-flat-hook-serifless"
+z = "curly-serifless"
 
 [buildPlans.Lode.ligations]
 enables = [
@@ -97,7 +126,7 @@ enables = [
     "llgg",
     "llggeq",
     "html-comment",
-    "colon-greater-as-colon-arrow",
+    # "colon-greater-as-colon-arrow",
     "brace-bar",
     "brack-bar",
     "tilde-tilde",
