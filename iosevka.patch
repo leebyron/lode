@@ -7,7 +7,7 @@ index 5406718..f24a396 100644
  
  	# Arrow parameters
 -	define arrowheadSlope : 1 / LessSlope
-+	define arrowheadSlope : 2 # 1 / LessSlope
++	define arrowheadSlope : 1 / 2 # LessSlope
  
  	local arrowExtend : clamp 0 Width (RightSB - 0.5 * OperatorStroke * arrowheadSlope)
  	local arrowJ      : clamp 0 Width (SB + 0.5 * OperatorStroke * arrowheadSlope)
