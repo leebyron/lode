@@ -9,10 +9,9 @@
 #   - Defaults to a wider form, with semi-widths available
 
 [buildPlans.Lode]
-family = "Leetcode"
+family = "Lode"
 spacing = "normal"
 serifs = "sans"
-noCvSs = false
 exportGlyphNames = true
 
 [buildPlans.Lode.variants.design]
@@ -34,7 +33,8 @@ f = "flat-hook-serifless"
 i = "hooky"
 j = "flat-hook-serifed"
 k = "straight-serifless"
-l = "semi-tailed"
+# l = "semi-tailed"
+l = "zshaped"
 r = "compact-serifless"
 t = "flat-hook"
 v = "straight-serifless"
@@ -45,12 +45,15 @@ two = "straight-neck-serifless"
 three = "two-arcs"
 four = "closed-serifless"
 five = "oblique-arched-serifless"
-six = "open-contour"
+# six = "open-contour"
+six = "straight-bar"
 seven = "straight-serifless"
 eight = "two-circles"
-nine = "open-contour"
+# nine = "open-contour"
+nine = "straight-bar"
 tilde = "low"
 asterisk = "penta-low"
+underscore = "above-baseline"
 caret = "medium"
 brace = "curly"
 guillemet = "straight"
@@ -98,44 +101,70 @@ enables = [
     "brace-bar",
     "brack-bar",
     "tilde-tilde",
+    "tidle-tilde-tilde",
     "minus-minus-minus",
     "plus-plus",
     "underscore-underscore-underscore",
     "hash-hash",
 ]
 
-
 [buildPlans.Lode.widths.Condensed]
 shape = 500
 menu = 3
 css = "condensed"
 
-[buildPlans.Lode.widths.Normal]
+[buildPlans.Lode.widths.Extended]
 shape = 600
+menu = 7
+css = "expanded"
+
+# [buildPlans.Lode.widths.UltraCondensed]
+# shape = 416
+# menu = 1
+# css = "ultra-condensed"
+
+# [buildPlans.Lode.widths.ExtraCondensed]
+# shape = 456
+# menu = 2
+# css = "extra-condensed"
+
+[buildPlans.Lode.widths.Normal]
+shape = 548
 menu = 5
 css = "normal"
 
-[buildPlans.Lode.widths.UltraCondensed]
-shape = 416
-menu = 1
-css = "ultra-condensed"
+# [buildPlans.Lode.widths.SemiExtended]
+# shape = 658
+# menu = 6
+# css = "semi-expanded"
 
-[buildPlans.Lode.widths.ExtraCondensed]
-shape = 456
-menu = 2
-css = "extra-condensed"
+# [buildPlans.Lode.widths.Extended]
+# shape = 720
+# menu = 7
+# css = "expanded"
 
-[buildPlans.Lode.widths.SemiCondensed]
-shape = 548
-menu = 4
-css = "semi-condensed"
+[buildPlans.Lode.weights.Regular]
+shape = 400
+menu = 400
+css = 400
 
-[buildPlans.Lode.widths.SemiExtended]
-shape = 658
-menu = 6
-css = "semi-expanded"
+[buildPlans.Lode.weights.Bold]
+shape = 600
+menu = 600
+css = 600
 
-[buildPlans.Lode.widths.Extended]
-shape = 720
-menu = 7
-css = "expanded"
+[buildPlans.Lode.slopes.Upright]
+angle = 0         # Angle in degrees. Valid range [0, 15]
+shape = "upright" # Slope grade used for shape selection.  `upright` | `oblique` | `italic`
+menu = "upright"  # Slope grade used for naming.           `upright` | `oblique` | `italic`
+css = "normal"    # Slope grade used for webfont CSS.      `normal`  | `oblique` | `italic`
+
+[buildPlans.Lode.slopes.Italic]
+angle = 9.4
+shape = "italic"
+menu = "italic"
+css = "italic"
+
+[collectPlans.Lode]
+release = true
+from = ["Lode"]
