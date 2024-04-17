@@ -1,0 +1,13 @@
+diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
+index 5406718..f24a396 100644
+--- a/packages/font-glyphs/src/symbol/ligation.ptl
++++ b/packages/font-glyphs/src/symbol/ligation.ptl
+@@ -26,7 +26,7 @@ glyph-block Symbol-Ligation : begin
+ 	define RodBarHOffset : 0.5 * Width - [HSwToV HalfStroke] - RodBarHGap
+ 
+ 	# Arrow parameters
+-	define arrowheadSlope : 1 / LessSlope
++	define arrowheadSlope : 2 # 1 / LessSlope
+ 
+ 	local arrowExtend : clamp 0 Width (RightSB - 0.5 * OperatorStroke * arrowheadSlope)
+ 	local arrowJ      : clamp 0 Width (SB + 0.5 * OperatorStroke * arrowheadSlope)
