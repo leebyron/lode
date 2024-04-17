@@ -1,0 +1,141 @@
+# Lode is a variant of Iosevka
+# It's a portmanteu of Lee and Code, and sounds like "load"
+#
+# It's goal is readability and minimalism:
+#   - Removes most serifs where possible
+#   - Ends curves on the 90deg horizontal instead of 180deg vertical
+#   - Follows neo-grotesque form when available
+#   - Minimal but useful punctuation ligatures
+#   - Defaults to a wider form, with semi-widths available
+
+[buildPlans.Lode]
+family = "Leetcode"
+spacing = "normal"
+serifs = "sans"
+noCvSs = false
+exportGlyphNames = true
+
+[buildPlans.Lode.variants.design]
+capital-a = "straight-serifless"
+capital-b = "standard-serifless"
+capital-d = "more-rounded-serifless"
+capital-g = "toothless-rounded-serifless-hooked"
+capital-i = "short-serifed"
+capital-j = "serifless"
+capital-k = "straight-serifless"
+capital-m = "hanging-serifless"
+capital-n = "standard-serifless"
+capital-q = "crossing"
+capital-v = "straight-serifless"
+capital-w = "straight-flat-top-serifless"
+capital-x = "straight-serifless"
+d = "toothed-serifless"
+f = "flat-hook-serifless"
+i = "hooky"
+j = "flat-hook-serifed"
+k = "straight-serifless"
+l = "semi-tailed"
+r = "compact-serifless"
+t = "flat-hook"
+v = "straight-serifless"
+w = "straight-flat-top-serifless"
+zero = "slashed-split"
+one = "no-base"
+two = "straight-neck-serifless"
+three = "two-arcs"
+four = "closed-serifless"
+five = "oblique-arched-serifless"
+six = "open-contour"
+seven = "straight-serifless"
+eight = "two-circles"
+nine = "open-contour"
+tilde = "low"
+asterisk = "penta-low"
+caret = "medium"
+brace = "curly"
+guillemet = "straight"
+number-sign = "slanted"
+at = "compact"
+dollar = "open"
+cent = "open"
+percent = "rings-continuous-slash"
+bar = "force-upright"
+lig-plus-chain = "with-notch"
+
+[buildPlans.Lode.ligations]
+enables = [
+    "center-ops",
+    "center-op-trigger-plus-minus-l",
+    "center-op-trigger-plus-minus-r",
+    "center-op-trigger-equal-l",
+    "center-op-trigger-equal-r",
+    "center-op-trigger-bar-l",
+    "center-op-trigger-bar-r",
+    "center-op-trigger-angle-inside",
+    "center-op-trigger-angle-outside",
+    "center-op-influence-dot",
+    "center-op-influence-colon",
+    "arrow-l",
+    "arrow-r",
+    "arrow-lr",
+    "counter-arrow-l",
+    "counter-arrow-r",
+    "trig",
+    "eqeq",
+    "lteq-separate",
+    "gteq-separate",
+    "ltgt-diamond-tag",
+    "ltgt-slash-tag",
+    "brst",
+    "slash-asterisk",
+    "kern-dotty",
+    "kern-bars",
+    "logic",
+    "llgg",
+    "llggeq",
+    "html-comment",
+    "colon-greater-as-colon-arrow",
+    "brace-bar",
+    "brack-bar",
+    "tilde-tilde",
+    "minus-minus-minus",
+    "plus-plus",
+    "underscore-underscore-underscore",
+    "hash-hash",
+]
+
+
+[buildPlans.Lode.widths.Condensed]
+shape = 500
+menu = 3
+css = "condensed"
+
+[buildPlans.Lode.widths.Normal]
+shape = 600
+menu = 5
+css = "normal"
+
+[buildPlans.Lode.widths.UltraCondensed]
+shape = 416
+menu = 1
+css = "ultra-condensed"
+
+[buildPlans.Lode.widths.ExtraCondensed]
+shape = 456
+menu = 2
+css = "extra-condensed"
+
+[buildPlans.Lode.widths.SemiCondensed]
+shape = 548
+menu = 4
+css = "semi-condensed"
+
+[buildPlans.Lode.widths.SemiExtended]
+shape = 658
+menu = 6
+css = "semi-expanded"
+
+[buildPlans.Lode.widths.Extended]
+shape = 720
+menu = 7
+css = "expanded"
