@@ -16,10 +16,11 @@ exportGlyphNames = true
 buildTextureFeature = true
 
 [buildPlans.Lode.metricOverride]
-# ascender = 735    # height of b - default is 735
-# cap = 735         # height of H - default is 735
-leading = 1200    # default is 1250
-xHeight = 560     # height of x - default is 520
+ascender = 750    # height of b - default is 735
+descender = -190   # default xH - ascender
+cap = 750         # height of H - default is 735
+# leading = 1200    # default is 1250
+xHeight = 562     # height of x - default is 520
 
 [buildPlans.Lode.variants.design]
 capital-a = "straight-serifless"
@@ -56,7 +57,7 @@ f = "flat-hook-serifless"
 # Another attempt
 i = "hooky"
 l = "serifed-flat-tailed"
-j = "flat-hook-serfied"
+j = "flat-hook-serifed"
 
 k = "straight-serifless"
 r = "hookless-serifless"

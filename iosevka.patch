@@ -1,3 +1,26 @@
+diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
+index 39e7da7..fd91b99 100644
+--- a/packages/font-glyphs/src/auto-build/transformed.ptl
++++ b/packages/font-glyphs/src/auto-build/transformed.ptl
+@@ -731,6 +731,7 @@ glyph-block Autobuild-Transformed-Texture : begin
+ 		# link-relations relSets
+ 
+ 	define ranges : list
++		list 0x20 0x20
+ 		list 0x41 0x5A
+ 		list 0x61 0x7A
+ 		list 0xC0 0xFF
+@@ -747,8 +748,8 @@ glyph-block Autobuild-Transformed-Texture : begin
+ 				if source : results.push { null source }
+ 		return results
+ 
+-	define EXTENSION :  1 / 12
+-	define SHRINK    : -1 / 12
++	define EXTENSION :  1 / 8
++	define SHRINK    : -1 / 8
+ 	createTextureDerivatives Texture.ExtL  EXTENSION 0         [jobs 0xF000]
+ 	createTextureDerivatives Texture.ExtR  0         EXTENSION [jobs 0xF100]
+ 	createTextureDerivatives Texture.ExtLR EXTENSION EXTENSION [jobs 0xF200]
 diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
 index 5406718..1e401f5 100644
 --- a/packages/font-glyphs/src/symbol/ligation.ptl
@@ -20,3 +43,16 @@ index 5406718..1e401f5 100644
  			include : HBar.m (-arrowExtend) (RightSB - Width) SymbolMid OperatorStroke
  
  		# Right-shifted >
+diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
+index f5286c1..38ebce9 100644
+--- a/packages/font-otl/src/gsub-texture.ptl
++++ b/packages/font-otl/src/gsub-texture.ptl
+@@ -9,7 +9,7 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+ 	local anyMark : Array.from markGlyphs.all
+ 	local rec : gsub.beginBlock
+ 
+-	define txtr : gsub.addCommonFeature : gsub.createFeature 'TXTR'
++	define txtr : gsub.addCommonFeature : gsub.createFeature 'txtr'
+ 	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
+ 	define look-around null
+ 
