@@ -16,11 +16,10 @@ exportGlyphNames = true
 buildTextureFeature = true
 
 [buildPlans.Lode.metricOverride]
-ascender = 750    # height of b - default is 735
-descender = -190   # default xH - ascender
-cap = 750         # height of H - default is 735
+ascender = 790    # height of b - default is 735
+cap = 740         # height of H - default is 735
 # leading = 1200    # default is 1250
-xHeight = 562     # height of x - default is 520
+xHeight = 560     # height of x - default is 520
 
 [buildPlans.Lode.variants.design]
 capital-a = "straight-serifless"
@@ -109,7 +108,6 @@ y = "cursive-flat-hook-serifless"
 z = "curly-serifless"
 
 [buildPlans.Lode.ligations]
-inherits = "calt"
 enables = [
     "center-ops",
     "center-op-trigger-plus-minus-l",
@@ -144,49 +142,27 @@ enables = [
     # "colon-greater-as-colon-arrow",
     "brace-bar",
     "brack-bar",
-    "tilde-tilde",
-    "tidle-tilde-tilde",
+    "tilde-tilde-tilde",
     "minus-minus-minus",
-    "plus-plus",
+    "plus-plus-plus",
     "underscore-underscore-underscore",
     "hash-hash",
 ]
-disables = [
-    "colon-greater-as-colon-arrow"
-]
-
-[buildPlans.Lode.widths.Condensed]
-shape = 500
-menu = 3
-css = "condensed"
-
-[buildPlans.Lode.widths.Extended]
-shape = 600
-menu = 7
-css = "expanded"
-
-# [buildPlans.Lode.widths.UltraCondensed]
-# shape = 416
-# menu = 1
-# css = "ultra-condensed"
-
-# [buildPlans.Lode.widths.ExtraCondensed]
-# shape = 456
-# menu = 2
-# css = "extra-condensed"
 
 [buildPlans.Lode.widths.Normal]
 shape = 548
 menu = 5
 css = "normal"
 
-# [buildPlans.Lode.widths.SemiExtended]
-# shape = 658
-# menu = 6
-# css = "semi-expanded"
+# Temporarily disable to speed up builds
+# [buildPlans.Lode.widths.Condensed]
+# shape = 500
+# menu = 3
+# css = "condensed"
 
+# Temporarily disable to speed up builds
 # [buildPlans.Lode.widths.Extended]
-# shape = 720
+# shape = 600
 # menu = 7
 # css = "expanded"
 
@@ -207,11 +183,12 @@ shape = "upright" # Slope grade used for shape selection.  `upright` | `oblique`
 menu = "upright"  # Slope grade used for naming.           `upright` | `oblique` | `italic`
 css = "normal"    # Slope grade used for webfont CSS.      `normal`  | `oblique` | `italic`
 
-[buildPlans.Lode.slopes.Italic]
-angle = 9.4
-shape = "italic"
-menu = "italic"
-css = "italic"
+# Temporarily disable to speed up builds
+# [buildPlans.Lode.slopes.Italic]
+# angle = 9.4
+# shape = "italic"
+# menu = "italic"
+# css = "italic"
 
 [collectPlans.Lode]
 release = true

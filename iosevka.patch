@@ -1,16 +1,23 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da7..fd91b99 100644
+index 39e7da7..e9ab0a3 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
-@@ -731,6 +731,7 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -731,6 +731,14 @@ glyph-block Autobuild-Transformed-Texture : begin
  		# link-relations relSets
  
  	define ranges : list
-+		list 0x20 0x20
++		list 0x20 0x21
++		list 0x27 0x29
++		list 0x2C 0x2C
++		list 0x2E 0x2E
++		list 0x2E 0x2E
++		list 0x5B 0x5D
++		list 0x60 0x60
++		list 0x6B 0x6D
  		list 0x41 0x5A
  		list 0x61 0x7A
  		list 0xC0 0xFF
-@@ -747,8 +748,8 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -747,8 +755,8 @@ glyph-block Autobuild-Transformed-Texture : begin
  				if source : results.push { null source }
  		return results
  
@@ -44,7 +51,7 @@ index 5406718..1e401f5 100644
  
  		# Right-shifted >
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1..38ebce9 100644
+index f5286c1..a77d5f5 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
 @@ -9,7 +9,7 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
@@ -52,7 +59,7 @@ index f5286c1..38ebce9 100644
  	local rec : gsub.beginBlock
  
 -	define txtr : gsub.addCommonFeature : gsub.createFeature 'TXTR'
-+	define txtr : gsub.addCommonFeature : gsub.createFeature 'txtr'
++	define txtr : gsub.addCommonFeature : gsub.createFeature 'kern'
  	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
  	define look-around null
  
