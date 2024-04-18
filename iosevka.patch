@@ -1,11 +1,12 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da7..e9ab0a3 100644
+index 39e7da7..bd36fe0 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
-@@ -731,6 +731,14 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -731,6 +731,15 @@ glyph-block Autobuild-Transformed-Texture : begin
  		# link-relations relSets
  
  	define ranges : list
++		# Adds more of ascii, allowing letters to expand into space and punctation
 +		list 0x20 0x21
 +		list 0x27 0x29
 +		list 0x2C 0x2C
@@ -17,31 +18,77 @@ index 39e7da7..e9ab0a3 100644
  		list 0x41 0x5A
  		list 0x61 0x7A
  		list 0xC0 0xFF
-@@ -747,8 +755,8 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -747,8 +756,9 @@ glyph-block Autobuild-Transformed-Texture : begin
  				if source : results.push { null source }
  		return results
  
 -	define EXTENSION :  1 / 12
 -	define SHRINK    : -1 / 12
-+	define EXTENSION :  1 / 8
-+	define SHRINK    : -1 / 8
++	# More dramatic effect to texture extension and shrink
++	define EXTENSION :  5 / 32
++	define SHRINK    : -5 / 32
  	createTextureDerivatives Texture.ExtL  EXTENSION 0         [jobs 0xF000]
  	createTextureDerivatives Texture.ExtR  0         EXTENSION [jobs 0xF100]
  	createTextureDerivatives Texture.ExtLR EXTENSION EXTENSION [jobs 0xF200]
 diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
-index 5406718..1e401f5 100644
+index 5406718..83e362f 100644
 --- a/packages/font-glyphs/src/symbol/ligation.ptl
 +++ b/packages/font-glyphs/src/symbol/ligation.ptl
-@@ -26,7 +26,7 @@ glyph-block Symbol-Ligation : begin
- 	define RodBarHOffset : 0.5 * Width - [HSwToV HalfStroke] - RodBarHGap
+@@ -115,12 +115,14 @@ glyph-block Symbol-Ligation : begin
  
- 	# Arrow parameters
--	define arrowheadSlope : 1 / LessSlope
-+	define arrowheadSlope : 1 / 2 # LessSlope
+ 	do "Waves"
+ 		glyph-block-import Shared-Symbol-Shapes : CreateWaveShape
+-		define WaveShape : CreateWaveShape (EqualHalfSpace + 0.5 * OperatorStroke) OperatorStroke (-1 / 4)
++		# Make wave about the same height as a tilde, remove phase shift
++		define WaveShape : CreateWaveShape (EqualHalfSpace + OperatorStroke) OperatorStroke 0
  
- 	local arrowExtend : clamp 0 Width (RightSB - 0.5 * OperatorStroke * arrowheadSlope)
- 	local arrowJ      : clamp 0 Width (SB + 0.5 * OperatorStroke * arrowheadSlope)
-@@ -180,7 +180,7 @@ glyph-block Symbol-Ligation : begin
+ 		define LR  (2  / 32)
+ 		define LR1 (9  / 32)
+-		define Z   (1  / 4)
+-		define F   (-1 / 4)
++		define Z   (1  / 8)
++		define F   (-1 / 8)
++		define F1  (-1 / 8)
+ 		define C   0
+ 		define J   (-1 / 8)
+ 
+@@ -128,6 +130,7 @@ glyph-block Symbol-Ligation : begin
+ 			l    { LR   (-arrowExtend)                           false }
+ 			l1   { LR1  (-arrowExtend - arrowheadsKern)          false }
+ 			f    { F    nothing                                  false }
++			f1   { F1   nothing                                  false }
+ 			z    { Z    nothing                                  false }
+ 			c    { C    nothing                                  false }
+ 			m    { J    (0 - RodBarHOffset)                       true }
+@@ -138,12 +141,19 @@ glyph-block Symbol-Ligation : begin
+ 			r    { LR   (Width + arrowExtend)                    false }
+ 			r1   { LR1  (Width + arrowExtend + arrowheadsKern)   false }
+ 			f    { F    nothing                                  false }
++			f1   { F1   nothing                                  false }
+ 			z    { Z    nothing                                  false }
+ 			c    { C    nothing                                  false }
+ 			m    { J    (Width + RodBarHOffset)                   true }
+ 			j    { J    (Width + arrowJ)                          true }
+ 			j1   { J    (Width + arrowJ + arrowheadsKern)         true }
+ 
++        # Along with the above, applies frequency shaping to short waves
++        # this allows the wave ends to better match the tilde shape it replaces
++		define shapeFreqs : object
++			f1c  (-1.21)
++			cf1  (1.21)
++
+ 		foreach [lS : items-of : Object.keys lk] : foreach [rS : items-of : Object.keys rk] : create-glyph"wave.lig.\(lS)\(rS)" : glyph-proc
+ 			include : SetJoiningKind lS rS
+ 			local {tL jL djL} lk.(lS)
+@@ -155,6 +165,7 @@ glyph-block Symbol-Ligation : begin
+ 				xfJoin -- jR
+ 				diagJoinS -- djL
+ 				diagJoinF -- djR
++				shapeFreq -- [fallback shapeFreqs.("\(lS)\(rS)") 0]
+ 
+ 
+ 	do "Arrowheads"
+@@ -180,7 +191,7 @@ glyph-block Symbol-Ligation : begin
  		derive-glyphs 'exclam.lig.htmlcommentstart' null 'exclam' : function [src gr] : glyph-proc
  			Joining.set currentGlyph Joining.Classes.Mid
  			include : refer-glyph src
@@ -50,15 +97,137 @@ index 5406718..1e401f5 100644
  			include : HBar.m (-arrowExtend) (RightSB - Width) SymbolMid OperatorStroke
  
  		# Right-shifted >
+diff --git a/packages/font-glyphs/src/symbol/math/arith.ptl b/packages/font-glyphs/src/symbol/math/arith.ptl
+index e5ca318..0380d45 100644
+--- a/packages/font-glyphs/src/symbol/math/arith.ptl
++++ b/packages/font-glyphs/src/symbol/math/arith.ptl
+@@ -80,7 +80,9 @@ glyph-block Symbol-Math-Arith : begin
+ 			include : VBar.m ([mix SB RightSB (3/4)] + (1/8) * [HSwToV OperatorStroke]) PlusTop PlusBot fine
+ 
+ 	do "Multiply"
+-		define Size : 0.5 * (RightSB - SB) + 0.25 * SB
++		# Make multiply the same visual size as a plus operator
++		# TODO: Does this break bowtie glyphs?
++		define Size : 0.5 * (RightSB - SB) - 0.5 * OperatorStroke # + 0.25 * SB
+ 		define swBowtie : AdviceStroke 4.25
+ 		define swBowtieHv : AdviceStroke 4.75
+ 
+diff --git a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl b/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
+index 9ece5e7..059a66e 100644
+--- a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
++++ b/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
+@@ -21,7 +21,10 @@ glyph-block Symbol-Punctuation-Ascii-Marks : begin
+ 
+ 	create-glyph 'asciiTilde.low' : composite-proc
+ 		refer-glyph 'asciiTilde.high'
+-		ApparentTranslate 0 (SymbolMid - XH - AccentStackOffset)
++		# Adjust tilde to be center-aligned
++		# TODO: I'm sure there's a more correct formula to represent this, however
++		# given current metrics this looks correct.
++		ApparentTranslate 0 (SymbolMid - XH - (AccentStackOffset * 0.75))
+ 		MarkSet.plus
+ 	create-glyph 'asciiCaret.medium' : composite-proc
+ 		refer-glyph 'asciiCaret.high'
+diff --git a/packages/font-glyphs/src/symbol/shared.ptl b/packages/font-glyphs/src/symbol/shared.ptl
+index b46689f..2a6aa62 100644
+--- a/packages/font-glyphs/src/symbol/shared.ptl
++++ b/packages/font-glyphs/src/symbol/shared.ptl
+@@ -14,11 +14,16 @@ glyph-block Shared-Symbol-Shapes : begin
+ 		define WaveMagnitude : dist * (3 / 4) - sw / 2
+ 		define WaveAdj : TanSlope * WaveMagnitude * (-0.75)
+ 		define phaseShift : fallback _phaseShift 0
+-		define [WaveShapeImpl] : with-params [left right ts te xsJoin xfJoin diagJoinS diagJoinF] : glyph-proc
++		# Adds shapeFreq, which uses a power function to increase wave frequency from a given end
++		define [WaveShapeImpl] : with-params [left right ts te xsJoin xfJoin diagJoinS diagJoinF shapeFreq] : glyph-proc
+ 			local resolution : Math.ceil (WaveResolution * (te - ts))
+ 			local knots {}
+ 			foreach [pr : range 0 till resolution] : begin
+-				local theta : (phaseShift + [mix ts te (pr / resolution)]) * Math.PI * 2
++				local rawStep : mix ts te (pr / resolution)
++				local step : if (shapeFreq > 0)
++					[Math.pow (rawStep + 1) shapeFreq] - 1
++					if (shapeFreq < 0) (1 - [Math.pow (2 - rawStep) (-1 * shapeFreq)]) rawStep
++				local theta : (phaseShift + step) * Math.PI * 2
+ 				local waveRelY : [Math.sin theta] + 0.075 * [Math.sin (theta * 3)]
+ 				knots.push : g2
+ 					(WaveAdj * waveRelY) + [mix left right (pr / resolution)]
+@@ -33,7 +38,7 @@ glyph-block Shared-Symbol-Shapes : begin
+ 					list [g2                   xfJoin SymbolMid]
+ 					list [straight.right.end   xfJoin SymbolMid]
+ 
+-		define [WaveShape] : with-params [left right xsJoin xfJoin diagJoinS diagJoinF [waveCount 1] [unitWidth Width]] : WaveShapeImpl (unitWidth * -left) (unitWidth * (1 + right)) (-left * waveCount) ((1 + right) * waveCount) xsJoin xfJoin diagJoinS diagJoinF
++		define [WaveShape] : with-params [left right xsJoin xfJoin diagJoinS diagJoinF [waveCount 1] [unitWidth Width] [shapeFreq 0]] : WaveShapeImpl (unitWidth * -left) (unitWidth * (1 + right)) (-left * waveCount) ((1 + right) * waveCount) xsJoin xfJoin diagJoinS diagJoinF shapeFreq
+ 		return WaveShape
+ 
+ 	glyph-block-export TriangleShape
+diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
+index f3301b5..a284840 100644
+--- a/packages/font-otl/src/gsub-ligation.ptl
++++ b/packages/font-otl/src/gsub-ligation.ptl
+@@ -112,6 +112,34 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 
+ 	define regexLookAround [less.concat hyphen equal exclam greater anyBar]
+ 
++	# Adds a ligature for 0xFEFF style hexcodes
++	define zero {'zero.lnum'}
++	define hexDigit {
++		'zero.lnum',
++		'one.lnum',
++		'two.lnum',
++		'three.lnum',
++		'four.lnum',
++		'five.lnum',
++		'six.lnum',
++		'seven.lnum',
++		'eight.lnum',
++		'nine.lnum',
++		'a', 'A'
++		'b', 'B'
++		'c', 'C'
++		'd', 'D'
++		'e', 'E'
++		'f', 'F'
++	}
++
++	LigGroup "Hex-code" : begin
++		CreateLigationLookup : list
++			chain-rule # 0xD
++				zero           ~> look-around
++				{'x'}          ~> {'multiply'}
++				hexDigit       ~> look-around
++
+ 	LigGroup "Bracket-star" : if [hasLG 'brst'] : begin
+ 		CreateLigationLookup : list
+ 			chain-rule # (*
+@@ -1018,12 +1046,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 					[src] ~> [sfx "cc"]
+ 					[src] ~> [sfx "cf"]
+ 				chain-rule # Start 3
+-					[src] ~> [sfx "fc"]
++				    # Modified to use variable frequency ends
++					[src] ~> [sfx "f1c"]
+ 					[src] ~> [sfx "cc"]
+-					[src] ~> [sfx "cf"]
++					[src] ~> [sfx "cf1"]
+ 				chain-rule # Start 2
+-					[src] ~> [if [hasLG "\(gr)-\(gr)"] [sfx "fc"] advance]
+-					[src] ~> [if [hasLG "\(gr)-\(gr)"] [sfx "cf"] advance]
++				    # Modified to use variable frequency ends
++					[src] ~> [if [hasLG "\(gr)-\(gr)"] [sfx "f1c"] advance]
++					[src] ~> [if [hasLG "\(gr)-\(gr)"] [sfx "cf1"] advance]
+ 			CreateLigationLookup : list
+ 				chain-rule
+ 					{[sfx "jf"]} ~> {[sfx "jc"]}
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1..a77d5f5 100644
+index f5286c1..c743563 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
-@@ -9,7 +9,7 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -9,7 +9,8 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  	local anyMark : Array.from markGlyphs.all
  	local rec : gsub.beginBlock
  
 -	define txtr : gsub.addCommonFeature : gsub.createFeature 'TXTR'
++	# Renames TXTR to kern to enable by default in most environments
 +	define txtr : gsub.addCommonFeature : gsub.createFeature 'kern'
  	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
  	define look-around null

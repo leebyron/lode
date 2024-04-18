@@ -16,10 +16,10 @@ exportGlyphNames = true
 buildTextureFeature = true
 
 [buildPlans.Lode.metricOverride]
-ascender = 790    # height of b - default is 735
-cap = 740         # height of H - default is 735
+ascender = 790 # height of b - default is 735
+cap = 740      # height of H - default is 735
 # leading = 1200    # default is 1250
-xHeight = 560     # height of x - default is 520
+xHeight = 560 # height of x - default is 520
 
 [buildPlans.Lode.variants.design]
 capital-a = "straight-serifless"
@@ -37,6 +37,7 @@ capital-w = "straight-flat-top-serifless"
 capital-x = "straight-serifless"
 d = "toothed-serifless"
 f = "flat-hook-serifless"
+g = "single-storey-flat-hook-serifless"
 
 # First attempt
 # i = "hooky"
@@ -143,6 +144,7 @@ enables = [
     "brace-bar",
     "brack-bar",
     "tilde-tilde-tilde",
+    "tilde-tilde",
     "minus-minus-minus",
     "plus-plus-plus",
     "underscore-underscore-underscore",
@@ -171,11 +173,12 @@ shape = 400
 menu = 400
 css = 400
 
+# Temporarily disable to speed up builds
 # Is this weird?
-[buildPlans.Lode.weights.Bold]
-shape = 600
-menu = 700
-css = 700
+# [buildPlans.Lode.weights.Bold]
+# shape = 600
+# menu = 700
+# css = 700
 
 [buildPlans.Lode.slopes.Upright]
 angle = 0         # Angle in degrees. Valid range [0, 15]
