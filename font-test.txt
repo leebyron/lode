@@ -22,7 +22,7 @@ E3CGQ g9q¶ uvw ſßðþ ΓΔΛαδιλμξπτχ∂ ЖЗКУЯжзклмнру�
 ~~~~
 |-~> ~~~~----~~~> ~~~
 ~~d~= ~~ ~~>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 0x0+0xAB12 000000 xx 0x3FE32+3 ×+3 i ×x
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 0x0+0xAB12 000000 xx 0x3FE32+3 ×+3 i a0xw0e
 +
 ×
 x
@@ -75,3 +75,26 @@ Tlg
  ~~
  m~~~m m~~m
 <~~~
+
+
+Difficult affine fjord
+after affine art interface
+ff ffi fft ft fi tt tf df dt ff kf kt rf
+rt vf vt wf wt yf yt ¡¿What?!
+
+/******/
+1x2\b\u\
+10xA
+
+12345678901234567890
+
+1x2
+11x22
+a1x2
+a11x1
+a111x1
+11x111a
+
+0xF
+0b10
+0o7

@@ -1,8 +1,21 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da7..bd36fe0 100644
+index 39e7da7..8c62ab1 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
-@@ -731,6 +731,15 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -443,6 +443,12 @@ glyph-block Autobuild-Transformed : begin
+ 			list 0x1E069 'cyrl/dze'
+ 			list 0x1E06A 'cyrl/dzhe'
+ 
++		# Numeric literal base ligation
++		createSubscripts 'numericbase' null : list
++			list null 'b'
++			list null 'o'
++			list null 'x'
++
+ 		createSubscripts 'denominator' DenominatorForm : list
+ 			list null 'zero.onum'
+ 			list null 'one.onum'
+@@ -731,6 +737,15 @@ glyph-block Autobuild-Transformed-Texture : begin
  		# link-relations relSets
  
  	define ranges : list
@@ -18,7 +31,7 @@ index 39e7da7..bd36fe0 100644
  		list 0x41 0x5A
  		list 0x61 0x7A
  		list 0xC0 0xFF
-@@ -747,8 +756,9 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -747,8 +762,9 @@ glyph-block Autobuild-Transformed-Texture : begin
  				if source : results.push { null source }
  		return results
  
@@ -98,7 +111,7 @@ index 5406718..83e362f 100644
  
  		# Right-shifted >
 diff --git a/packages/font-glyphs/src/symbol/math/arith.ptl b/packages/font-glyphs/src/symbol/math/arith.ptl
-index e5ca318..0380d45 100644
+index e5ca318..9bf5d21 100644
 --- a/packages/font-glyphs/src/symbol/math/arith.ptl
 +++ b/packages/font-glyphs/src/symbol/math/arith.ptl
 @@ -80,7 +80,9 @@ glyph-block Symbol-Math-Arith : begin
@@ -108,10 +121,21 @@ index e5ca318..0380d45 100644
 -		define Size : 0.5 * (RightSB - SB) + 0.25 * SB
 +		# Make multiply the same visual size as a plus operator
 +		# TODO: Does this break bowtie glyphs?
-+		define Size : 0.5 * (RightSB - SB) - 0.5 * OperatorStroke # + 0.25 * SB
++		define Size : 0.5 * (RightSB - SB) - 0.5 * OperatorStroke
  		define swBowtie : AdviceStroke 4.25
  		define swBowtieHv : AdviceStroke 4.75
  
+@@ -117,6 +119,10 @@ glyph-block Symbol-Math-Arith : begin
+ 			include : refer-glyph "multiply"
+ 			include : HBar.b (Middle - Size) (Middle + Size) 0 OperatorStroke
+ 
++		# Used for the x multiply ligature
++		create-glyph "x.multiply" : glyph-proc
++			include : refer-glyph "multiply"
++
+ 		alias 'vectorOrCrossProduct' 0x2A2F 'multiply'
+ 
+ 		create-glyph 'multiplyInMulDiv' : glyph-proc
 diff --git a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl b/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
 index 9ece5e7..059a66e 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
@@ -161,45 +185,131 @@ index b46689f..2a6aa62 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5..a284840 100644
+index f3301b5..63fe997 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
-@@ -112,6 +112,34 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -11,14 +11,14 @@ define look-around null
+ define advance : lambda [t] null
+ define ident : lambda [t] : t.map : lambda [x] x
+ 
+-export : define [buildLigations gsub para plm] : begin
++export : define [buildLigations gsub glyphStore para plm] : begin
+ 	# Initialize features
+ 	define features : new Map
+ 	foreach [ { featureTag } : pairs-of plm] : begin
+ 		local feature : gsub.addCommonFeature : gsub.createFeature featureTag
+ 		features.set featureTag feature
+ 
+-	buildLigationsImpl gsub para [DoLigGroupT gsub plm features]
++	buildLigationsImpl gsub glyphStore para [DoLigGroupT gsub plm features]
+ 
+ define [DoLigGroupT gsub plm features] : function [F] : begin
+ 	define deDupeGroups : new Map
+@@ -88,7 +88,7 @@ define-macro LigGroup : syntax-rules
+ ###################################################################################################
+ ###################################################################################################
+ 
+-define [buildLigationsImpl gsub para $LigGroup$] : begin
++define [buildLigationsImpl gsub glyphStore para $LigGroup$] : begin
+ 	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
+ 
+ 	define less {'less'}
+@@ -112,6 +112,94 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  
  	define regexLookAround [less.concat hyphen equal exclam greater anyBar]
  
-+	# Adds a ligature for 0xFEFF style hexcodes
-+	define zero {'zero.lnum'}
-+	define hexDigit {
-+		'zero.lnum',
-+		'one.lnum',
-+		'two.lnum',
-+		'three.lnum',
-+		'four.lnum',
-+		'five.lnum',
-+		'six.lnum',
-+		'seven.lnum',
-+		'eight.lnum',
-+		'nine.lnum',
-+		'a', 'A'
-+		'b', 'B'
-+		'c', 'C'
-+		'd', 'D'
-+		'e', 'E'
-+		'f', 'F'
++	# Adds ligatures for x multiply and numeric literals
++	define alpha {}
++	foreach [j : range 0 26] : alpha.push
++		glyphStore.queryNameByUnicode (['a'.charCodeAt 0] + j)
++		glyphStore.queryNameByUnicode (['A'.charCodeAt 0] + j)
++
++	define digit {}
++	foreach [j : range 0 9] : digit.push
++		glyphStore.queryNameByUnicode (['0'.charCodeAt 0] + j)
++
++	define zero       digit.0
++	define binDigit : digit.slice 0 2
++	define octDigit : digit.slice 0 8
++	define hexDigit : digit.concat alpha.slice 0 12
++	define alphaNum : digit.concat alpha 'underscore'
++
++	define numericLiterals {
++		{ {'b'} binDigit }
++		{ {'o'} octDigit }
++		{ {'x'} hexDigit }
 +	}
 +
-+	LigGroup "Hex-code" : begin
++	LigGroup "Numeric literals" : if [hasLG 'numeric-literals'] : begin
++		foreach { baseLetter baseDigit } numericLiterals : begin
++			local notBaseDigit : alphaNum.filter : x => : not : baseDigit.includes x
++
++			CreateLigationLookup : list
++				chain-rule
++					alphaNum            ~> look-around
++					zero                ~> look-around
++					baseLetter          ~> advance
++				chain-rule
++					baseLetter          ~> advance
++					baseDigit           ~> look-around
++					notBaseDigit        ~> look-around
++				chain-rule
++					baseLetter          ~> advance
++					baseDigit           ~> look-around
++					baseDigit           ~> look-around
++					notBaseDigit        ~> look-around
++				chain-rule
++					baseLetter          ~> advance
++					baseDigit           ~> look-around
++					baseDigit           ~> look-around
++					baseDigit           ~> look-around
++					notBaseDigit        ~> look-around
++				chain-rule
++					zero                ~> look-around
++					baseLetter          ~> {"numericbase{\(baseLetter.0)}"}
++					baseDigit           ~> look-around
++
++	LigGroup "X-Multiply" : if [hasLG 'x-multiply'] : begin
 +		CreateLigationLookup : list
-+			chain-rule # 0xD
-+				zero           ~> look-around
-+				{'x'}          ~> {'multiply'}
-+				hexDigit       ~> look-around
++			chain-rule
++				alpha          ~> look-around
++				digit          ~> look-around
++				digit          ~> look-around
++				digit          ~> look-around
++				{'x'}          ~> advance
++			chain-rule
++				alpha          ~> look-around
++				digit          ~> look-around
++				digit          ~> look-around
++				{'x'}          ~> advance
++			chain-rule
++				alpha          ~> look-around
++				digit          ~> look-around
++				{'x'}          ~> advance
++			chain-rule
++				{'x'}          ~> advance
++				digit          ~> look-around
++				alpha          ~> look-around
++			chain-rule
++				{'x'}          ~> advance
++				digit          ~> look-around
++				digit          ~> look-around
++				alpha          ~> look-around
++			chain-rule
++				{'x'}          ~> advance
++				digit          ~> look-around
++				digit          ~> look-around
++				digit          ~> look-around
++				alpha          ~> look-around
++			chain-rule # 2x2
++				digit          ~> look-around
++				{'x'}          ~> {'x.multiply'}
++				digit          ~> look-around
 +
  	LigGroup "Bracket-star" : if [hasLG 'brst'] : begin
  		CreateLigationLookup : list
  			chain-rule # (*
-@@ -1018,12 +1046,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -1018,12 +1106,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3
@@ -232,3 +342,35 @@ index f5286c1..c743563 100644
  	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
  	define look-around null
  
+diff --git a/packages/font-otl/src/index.ptl b/packages/font-otl/src/index.ptl
+index bb5e890..e609274 100644
+--- a/packages/font-otl/src/index.ptl
++++ b/packages/font-otl/src/index.ptl
+@@ -53,7 +53,7 @@ define [buildGSUB para glyphStore markGlyphs] : begin
+ 		define plm : Object.assign {.} para.ligation.defaultBuildup
+ 		if (para.ligation.caltBuildup && para.ligation.caltBuildup.length) : begin
+ 			set plm.calt para.ligation.caltBuildup
+-		buildLigations gsub para plm
++		buildLigations gsub glyphStore para plm
+ 
+ 	# frac
+ 	buildFrac gsub glyphStore
+diff --git a/params/ligation-set.toml b/params/ligation-set.toml
+index 77834a1..2a751ec 100644
+--- a/params/ligation-set.toml
++++ b/params/ligation-set.toml
+@@ -253,6 +253,14 @@ desc = 'Make 2 or more contiguous hash signs (number signs) (like `##`, `###` an
+ samples = ["###", "####"]
+ desc = 'Make 3 or more contiguous hash signs (number signs) (like `##` and `###`) connected'
+ 
++[simple.x-multiply]
++samples = ["2x2"]
++desc = 'Display the letter x as a multiply when between two numbers'
++
++[simple.numeric-literals]
++samples = ["0xF00D", "0o7104", "0b10010"]
++desc = 'Shows the base in subscript within a numeric literal'
++
+ ###################################################################################################
+ 
+ # Non-tagged composites, used for inheritance

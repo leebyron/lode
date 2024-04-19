@@ -36,8 +36,8 @@ capital-v = "straight-serifless"
 capital-w = "straight-flat-top-serifless"
 capital-x = "straight-serifless"
 d = "toothed-serifless"
-f = "flat-hook-serifless"
-g = "single-storey-flat-hook-serifless"
+f = "flat-hook-serifless-crossbar-at-x-height"   # "flat-hook-serifless"
+g = "single-storey-serifless"                    # "single-storey-flat-hook-serifless"
 
 # First attempt
 # i = "hooky"
@@ -64,7 +64,7 @@ r = "hookless-serifless"
 t = "flat-hook"
 v = "straight-serifless"
 w = "straight-flat-top-serifless"
-zero = "slashed-split"
+zero = "dotted"                   # "slashed-split"
 one = "no-base"
 two = "straight-neck-serifless"
 three = "two-arcs"
@@ -78,7 +78,7 @@ eight = "two-circles"
 nine = "straight-bar"
 tilde = "low"
 asterisk = "hex-low"
-underscore = "above-baseline"
+underscore = "high"                # "above-baseline"
 caret = "medium"
 brace = "curly"
 guillemet = "straight"
@@ -92,7 +92,7 @@ lig-plus-chain = "with-notch"
 
 [buildPlans.Lode.variants.italic]
 d = "tailed-serifless"
-f = "flat-hook-tailed"
+f = "flat-hook-tailed-crossbar-at-x-height" # "flat-hook-tailed"
 g = "double-storey"
 h = "tailed-serifless"
 i = "serifed-diagonal-tailed"
@@ -148,8 +148,17 @@ enables = [
     "minus-minus-minus",
     "plus-plus-plus",
     "underscore-underscore-underscore",
+    "hash-hash-hash",
     "hash-hash",
+
+    # Custom additions
+    "x-multiply",
+    "numeric-literals",
 ]
+
+#######################
+## Widths
+#######################
 
 [buildPlans.Lode.widths.Normal]
 shape = 548
@@ -173,7 +182,6 @@ shape = 400
 menu = 400
 css = 400
 
-# Temporarily disable to speed up builds
 # Is this weird?
 # [buildPlans.Lode.weights.Bold]
 # shape = 600
@@ -186,7 +194,6 @@ shape = "upright" # Slope grade used for shape selection.  `upright` | `oblique`
 menu = "upright"  # Slope grade used for naming.           `upright` | `oblique` | `italic`
 css = "normal"    # Slope grade used for webfont CSS.      `normal`  | `oblique` | `italic`
 
-# Temporarily disable to speed up builds
 # [buildPlans.Lode.slopes.Italic]
 # angle = 9.4
 # shape = "italic"
