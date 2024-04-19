@@ -185,7 +185,7 @@ index b46689f..2a6aa62 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5..63fe997 100644
+index f3301b5..572c92d 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -214,7 +214,7 @@ index f3301b5..63fe997 100644
  	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
  
  	define less {'less'}
-@@ -112,6 +112,94 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -112,6 +112,91 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  
  	define regexLookAround [less.concat hyphen equal exclam greater anyBar]
  
@@ -228,17 +228,14 @@ index f3301b5..63fe997 100644
 +	foreach [j : range 0 9] : digit.push
 +		glyphStore.queryNameByUnicode (['0'.charCodeAt 0] + j)
 +
-+	define zero       digit.0
++	define zero       {digit.0}
 +	define binDigit : digit.slice 0 2
 +	define octDigit : digit.slice 0 8
-+	define hexDigit : digit.concat alpha.slice 0 12
-+	define alphaNum : digit.concat alpha 'underscore'
++	define hexDigit : digit.concat : alpha.slice 0 12
++	define numeric  : digit.concat {'period' 'underscore'}
++	define alphaNum : alpha.concat numeric
 +
-+	define numericLiterals {
-+		{ {'b'} binDigit }
-+		{ {'o'} octDigit }
-+		{ {'x'} hexDigit }
-+	}
++	define numericLiterals {{{'b'} binDigit} {{'o'} octDigit} {{'x'} hexDigit}}
 +
 +	LigGroup "Numeric literals" : if [hasLG 'numeric-literals'] : begin
 +		foreach { baseLetter baseDigit } numericLiterals : begin
@@ -273,18 +270,18 @@ index f3301b5..63fe997 100644
 +		CreateLigationLookup : list
 +			chain-rule
 +				alpha          ~> look-around
++				numeric        ~> look-around
++				numeric        ~> look-around
 +				digit          ~> look-around
-+				digit          ~> look-around
++				{'x'}          ~> advance
++			chain-rule
++				alpha          ~> look-around
++				numeric        ~> look-around
 +				digit          ~> look-around
 +				{'x'}          ~> advance
 +			chain-rule
 +				alpha          ~> look-around
 +				digit          ~> look-around
-+				digit          ~> look-around
-+				{'x'}          ~> advance
-+			chain-rule
-+				alpha          ~> look-around
-+				digit          ~> look-around
 +				{'x'}          ~> advance
 +			chain-rule
 +				{'x'}          ~> advance
@@ -293,13 +290,13 @@ index f3301b5..63fe997 100644
 +			chain-rule
 +				{'x'}          ~> advance
 +				digit          ~> look-around
-+				digit          ~> look-around
++				numeric        ~> look-around
 +				alpha          ~> look-around
 +			chain-rule
 +				{'x'}          ~> advance
 +				digit          ~> look-around
-+				digit          ~> look-around
-+				digit          ~> look-around
++				numeric        ~> look-around
++				numeric        ~> look-around
 +				alpha          ~> look-around
 +			chain-rule # 2x2
 +				digit          ~> look-around
@@ -309,7 +306,7 @@ index f3301b5..63fe997 100644
  	LigGroup "Bracket-star" : if [hasLG 'brst'] : begin
  		CreateLigationLookup : list
  			chain-rule # (*
-@@ -1018,12 +1106,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -1018,12 +1103,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3
@@ -356,7 +353,7 @@ index bb5e890..e609274 100644
  	# frac
  	buildFrac gsub glyphStore
 diff --git a/params/ligation-set.toml b/params/ligation-set.toml
-index 77834a1..2a751ec 100644
+index 77834a1..f953e8c 100644
 --- a/params/ligation-set.toml
 +++ b/params/ligation-set.toml
 @@ -253,6 +253,14 @@ desc = 'Make 2 or more contiguous hash signs (number signs) (like `##`, `###` an
@@ -368,7 +365,7 @@ index 77834a1..2a751ec 100644
 +desc = 'Display the letter x as a multiply when between two numbers'
 +
 +[simple.numeric-literals]
-+samples = ["0xF00D", "0o7104", "0b10010"]
++samples = ["0xF00D", "0o7104", "0b10010111"]
 +desc = 'Shows the base in subscript within a numeric literal'
 +
  ###################################################################################################
