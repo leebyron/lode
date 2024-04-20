@@ -44,10 +44,20 @@ index 39e7da7..8c62ab1 100644
  	createTextureDerivatives Texture.ExtR  0         EXTENSION [jobs 0xF100]
  	createTextureDerivatives Texture.ExtLR EXTENSION EXTENSION [jobs 0xF200]
 diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
-index 5406718..83e362f 100644
+index 5406718..2796c6a 100644
 --- a/packages/font-glyphs/src/symbol/ligation.ptl
 +++ b/packages/font-glyphs/src/symbol/ligation.ptl
-@@ -115,12 +115,14 @@ glyph-block Symbol-Ligation : begin
+@@ -63,7 +63,8 @@ glyph-block Symbol-Ligation : begin
+ 				j    (-join)
+ 				j1   (-join - kern)
+ 				z    zleft
+-				lx : mix arrowl 0 0.5
++				# Replaced with a variant that gives the arrow head more space
++				lx   (cleft + (RightSB - Width))
+ 
+ 			define rk : object
+ 				x    (RightSB + Width)
+@@ -115,12 +116,14 @@ glyph-block Symbol-Ligation : begin
  
  	do "Waves"
  		glyph-block-import Shared-Symbol-Shapes : CreateWaveShape
@@ -65,7 +75,7 @@ index 5406718..83e362f 100644
  		define C   0
  		define J   (-1 / 8)
  
-@@ -128,6 +130,7 @@ glyph-block Symbol-Ligation : begin
+@@ -128,6 +131,7 @@ glyph-block Symbol-Ligation : begin
  			l    { LR   (-arrowExtend)                           false }
  			l1   { LR1  (-arrowExtend - arrowheadsKern)          false }
  			f    { F    nothing                                  false }
@@ -73,7 +83,7 @@ index 5406718..83e362f 100644
  			z    { Z    nothing                                  false }
  			c    { C    nothing                                  false }
  			m    { J    (0 - RodBarHOffset)                       true }
-@@ -138,12 +141,19 @@ glyph-block Symbol-Ligation : begin
+@@ -138,12 +142,19 @@ glyph-block Symbol-Ligation : begin
  			r    { LR   (Width + arrowExtend)                    false }
  			r1   { LR1  (Width + arrowExtend + arrowheadsKern)   false }
  			f    { F    nothing                                  false }
@@ -93,7 +103,7 @@ index 5406718..83e362f 100644
  		foreach [lS : items-of : Object.keys lk] : foreach [rS : items-of : Object.keys rk] : create-glyph"wave.lig.\(lS)\(rS)" : glyph-proc
  			include : SetJoiningKind lS rS
  			local {tL jL djL} lk.(lS)
-@@ -155,6 +165,7 @@ glyph-block Symbol-Ligation : begin
+@@ -155,6 +166,7 @@ glyph-block Symbol-Ligation : begin
  				xfJoin -- jR
  				diagJoinS -- djL
  				diagJoinF -- djR
@@ -101,15 +111,17 @@ index 5406718..83e362f 100644
  
  
  	do "Arrowheads"
-@@ -180,7 +191,7 @@ glyph-block Symbol-Ligation : begin
+@@ -180,8 +192,8 @@ glyph-block Symbol-Ligation : begin
  		derive-glyphs 'exclam.lig.htmlcommentstart' null 'exclam' : function [src gr] : glyph-proc
  			Joining.set currentGlyph Joining.Classes.Mid
  			include : refer-glyph src
 -			include : Translate (((RightSB - Width) + (Width - arrowExtend / 2)) / 2 - Middle) 0
-+			# include : Translate (((RightSB - Width) + (Width - arrowExtend / 2)) / 2 - Middle) 0
- 			include : HBar.m (-arrowExtend) (RightSB - Width) SymbolMid OperatorStroke
+-			include : HBar.m (-arrowExtend) (RightSB - Width) SymbolMid OperatorStroke
++			# Replaced with a variant that gives the arrow head more space
++			include : HBar.m (-arrowExtend) SB SymbolMid OperatorStroke
  
  		# Right-shifted >
+ 		define [ArrowShiftTranslate k] : glyph-proc
 diff --git a/packages/font-glyphs/src/symbol/math/arith.ptl b/packages/font-glyphs/src/symbol/math/arith.ptl
 index e5ca318..9bf5d21 100644
 --- a/packages/font-glyphs/src/symbol/math/arith.ptl

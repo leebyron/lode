@@ -17,7 +17,7 @@ buildTextureFeature = true
 
 [buildPlans.Lode.metricOverride]
 ascender = 790 # height of b - default is 735
-cap = 740      # height of H - default is 735
+cap = 725      # height of H - default is 735
 # leading = 1200    # default is 1250
 xHeight = 560 # height of x - default is 520
 
