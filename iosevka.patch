@@ -72,10 +72,10 @@ index b546cf3..856a4a9 100644
  	parenOutside               0.2
  	parenOutsideSwAdj          0.2
 diff --git a/packages/font-glyphs/src/symbol/arrow.ptl b/packages/font-glyphs/src/symbol/arrow.ptl
-index 557cd7c..03f8e12 100644
+index 557cd7c..70a9726 100644
 --- a/packages/font-glyphs/src/symbol/arrow.ptl
 +++ b/packages/font-glyphs/src/symbol/arrow.ptl
-@@ -8,18 +8,19 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -8,18 +8,23 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  	glyph-block-import CommonShapes
  	glyph-block-import Common-Derivatives
  	glyph-block-import Symbol-Geometric-Shared : UnicodeWeightGrade
@@ -85,10 +85,13 @@ index 557cd7c..03f8e12 100644
 -	define arrowWidth  : Math.min (MosaicWidth - SB / 2) arrowHeight
 -	define arrowTop : [mix OperBot OperTop (1 / 2)] + arrowHeight / 2
 -	define arrowBot : [mix OperBot OperTop (1 / 2)] - arrowHeight / 2
-+	define arrowHeight : para.arrowHeight * (Width - SB) * [Math.pow (MosaicWidth / MosaicUnitWidth) (1 / 3)]
-+	define arrowWidth  : Math.min (MosaicWidth - SB) arrowHeight
-+	define arrowTop  arrowHeight # [mix OperBot OperTop (1 / 2)] + arrowHeight / 2
-+	define arrowBot  0 # [mix OperBot OperTop (1 / 2)] - arrowHeight / 2
++	# Arrow width as the width of two operators
++	define arrowWidth : MosaicWidth - SB * 4
++	define arrowHeight : Width * 2 - SB * 4
++
++	# Arrow vertically baseline aligned
++	define arrowTop  arrowHeight
++	define arrowBot  0
  	define arrowMidX : MosaicWidth / 2
  	define arrowSB : (MosaicWidth - arrowWidth) / 2
  	define arrowRSB : MosaicWidth - arrowSB
@@ -96,18 +99,19 @@ index 557cd7c..03f8e12 100644
  
 -	define arrowHeadSize : (Width - SB) * DesignParameters.arrow_size * [Math.pow (arrowWidth / Width) 0.5] - [AdviceStroke 5] / 4
  	define arrowSw       OperatorStroke
-+	define arrowHeadSize : (CAP - arrowSw) / 2 * [Math.pow (MosaicWidth / 2 / Width) 0.5] # (Width - SB) * DesignParameters.arrow_size * [Math.pow (arrowWidth / Width) 0.5] # - arrowSw / 4
++	# Arrow head relative to cap height
++	define arrowHeadSize : (CAP - arrowSw) / 2 * [Math.pow (MosaicWidth / 2 / Width) 0.5]
  	define halfArrowSw : arrowSw / 2
  	define bendArrowHeadSize : mix arrowSw arrowHeadSize 0.75
  	define fine : AdviceStroke 3.5
-@@ -30,13 +31,26 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -30,13 +35,26 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  	define kLongArrowSB : [DivFrame MosaicWidthScalar 4].leftSB / [DivFrame MosaicWidthScalar 2].leftSB
  
  	# Diagonal arrow params
 -	define diagPropX : 1 / [Math.pow 2 (1 / 4)]
 -	define diagPropY : 1 / [Math.pow 2 (1 / 4)]
-+	define diagPropX : 1 / [Math.pow 2 (1 / 2)]
-+	define diagPropY : 1 / [Math.pow 2 (1 / 2)]
++	define diagPropX : 1 / [Math.pow 2 (2 / 5)]
++	define diagPropY : 1 / [Math.pow 2 (2 / 5)]
  	define arrowDiagRSB : mix arrowMidX arrowRSB diagPropX
  	define arrowDiagSB  : mix arrowMidX arrowSB  diagPropX
  	define arrowDiagBot : mix arrowMidX arrowBot diagPropY
@@ -129,7 +133,26 @@ index 557cd7c..03f8e12 100644
  	define [ArrowBar x1 y1 x2 y2 halfSw w _offset] : begin
  		return : PointingTo x1 y1 x2 y2 : lambda [mag] : begin
  			local p : (mag - [fallback _offset : o + halfSw * [fallback w 1.1]]) / mag
-@@ -97,16 +111,16 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -90,23 +108,32 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+ 				flat (mag - [Math.abs s] / 2) 0 [widths.center (halfSw * 2)]
+ 				curl [mix mag 0 p] 0
+ 
+-	define [ArrowHead x1 y1 x2 y2 _size] : union
+-		LHSHalfArrowHead x1 y1 x2 y2 0 _size
+-		RHSHalfArrowHead x1 y1 x2 y2 0 _size
++	# Squared arrow head
++	define [ArrowHead x1 y1 x2 y2 _size] : begin
++		local size : fallback _size arrowHeadSize
++		return : union
++			new-glyph : PointingTo x1 y1 x2 y2 : lambda [mag] : dispiro
++				widths.lhs arrowSw
++				flat (o) 0
++				curl (o + size) (-size)
++			new-glyph : PointingTo x1 y1 x2 y2 : lambda [mag] : dispiro
++				widths.rhs arrowSw
++				flat (o) 0
++				curl (o + size) size
+ 
  	define [LHSHalfArrowHead x1 y1 x2 y2 width _size] : begin
  		local size : fallback _size arrowHeadSize
  		return : new-glyph : PointingTo x1 y1 x2 y2 : lambda [mag] : dispiro
@@ -137,7 +160,7 @@ index 557cd7c..03f8e12 100644
 +			widths.lhs arrowSw
  			flat (o) (width / 2) [heading Downward]
 -			curl (o + size) (-size) [widths.lhs terminal]
-+			curl (o + size) (-size) [widths.lhs arrowSw]
++			curl (o + size) (-size)
  
  	define [RHSHalfArrowHead x1 y1 x2 y2 width _size] : begin
  		local size : fallback _size arrowHeadSize
@@ -146,21 +169,21 @@ index 557cd7c..03f8e12 100644
 +			widths.rhs arrowSw
  			flat (o) (-width / 2) [heading Upward]
 -			curl (o + size) size [widths.rhs terminal]
-+			curl (o + size) size [widths.rhs arrowSw]
++			curl (o + size) size
  
  	define [SsArrowHead x1 y1 x2 y2 _size] : union
  		LHSHalfSsArrowHead x1 y1 x2 y2 0 _size
-@@ -731,7 +745,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -731,7 +758,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  		DoubleArrow2 [HalfArrowShape LHSHalfArrowHead] [HalfArrowShape RHSHalfArrowHead] [MangleName 'arrowUpHLDownHR']    [MangleUnicode 0x2951] arrowMidX arrowTop arrowMidX arrowBot
  
  
 -	define waveArrowAmplitude : (Width - SB) * DesignParameters.arrow_size * (0.7 + 0.4 * MosaicWidthScalar)
 +    # Match wave ligations
-+	define waveArrowAmplitude : (EqualHalfSpace + OperatorStroke) / 0.8 # (Width - SB) * DesignParameters.arrow_size * (0.7 + 0.4 * MosaicWidthScalar)
++	define waveArrowAmplitude : (EqualHalfSpace + OperatorStroke) / 0.6 # (Width - SB) * DesignParameters.arrow_size * (0.7 + 0.4 * MosaicWidthScalar)
  	do "Wave arrows"
  		glyph-block-import Shared-Symbol-Shapes : CreateWaveShape
  		define WaveSw : AdviceStroke (5.5 - MosaicWidthScalar)
-@@ -1098,17 +1113,17 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1098,17 +1126,17 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  				VBar.m l (SymbolMid - arrowHeadSize) (SymbolMid + arrowHeadSize) fine
  
  	do "Double-headed Arrows"
@@ -187,18 +210,18 @@ index 557cd7c..03f8e12 100644
  
  		create-glyph [MangleName 'arrowUpDownBar'] [MangleUnicode 0x21A8] : composite-proc
  			refer-glyph : MangleName 'arrowUpDown.bottomSpaceLeft'
-@@ -1121,8 +1136,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1121,8 +1149,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  
  	do "Double-line Double-headed Arrows"
  		define dasw doubleArrowStemWidth
 -		DoubleArrow [DoubleArrowShape dasw] [MangleName 'dblArrowLeftRight'] [MangleUnicode 0x21D4] arrowSB SymbolMid arrowRSB SymbolMid
 -		DoubleArrow [DoubleArrowShape dasw] [MangleName 'dblArrowUpDown'] [MangleUnicode 0x21D5] arrowMidX arrowTop arrowMidX arrowBot
 +		DoubleArrow [DoubleArrowShape dasw] [MangleName 'dblArrowLeftRight'] [MangleUnicode 0x21D4] arrowDoubleSB SymbolMid arrowDoubleRSB SymbolMid
-+		DoubleArrow [DoubleArrowShape dasw] [MangleName 'dblArrowUpDown'] [MangleUnicode 0x21D5] arrowDoubleMidX arrowTop arrowDoubleMidX arrowBot
++		DoubleArrow [DoubleArrowShape dasw] [MangleName 'dblArrowUpDown'] [MangleUnicode 0x21D5] arrowDoubleMidX arrowDoubleTop arrowDoubleMidX arrowDoubleBot
  
  		if (MosaicWidthScalar > 1 && !para.forceMonospace) : do
  			define l : mix 0 arrowSB kLongArrowSB
-@@ -1130,10 +1145,10 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1130,10 +1158,10 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  			DoubleArrow [DoubleArrowShape dasw] 'longDblArrowLeftRight' 0x27FA l SymbolMid r SymbolMid
  
  	do "Same-side Double-headed Arrows"
@@ -214,20 +237,101 @@ index 557cd7c..03f8e12 100644
  	do "Head-and-Tail Arrows"
  		MkArrow htArrowShape [MangleName 'htArrowLeft'] [MangleUnicode 0x21A2] arrowRSB SymbolMid arrowSB SymbolMid
 diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
-index 5406718..420c06a 100644
+index 5406718..f6bfc4a 100644
 --- a/packages/font-glyphs/src/symbol/ligation.ptl
 +++ b/packages/font-glyphs/src/symbol/ligation.ptl
-@@ -63,7 +63,8 @@ glyph-block Symbol-Ligation : begin
+@@ -26,13 +26,25 @@ glyph-block Symbol-Ligation : begin
+ 	define RodBarHOffset : 0.5 * Width - [HSwToV HalfStroke] - RodBarHGap
+ 
+ 	# Arrow parameters
+-	define arrowheadSlope : 1 / LessSlope
+-
+-	local arrowExtend : clamp 0 Width (RightSB - 0.5 * OperatorStroke * arrowheadSlope)
+-	local arrowJ      : clamp 0 Width (SB + 0.5 * OperatorStroke * arrowheadSlope)
+-
+-	local dblExtend : clamp 0 Width (RightSB - EqualHalfSpace * arrowheadSlope)
+-	local dblArrowJ : clamp 0 Width (SB + EqualHalfSpace * arrowheadSlope)
++	define arrowheadSlope (1 / 2)
++
++	# Mirror unicode arrows
++	# Ideally this would be imported from "Symbol-Arrow", or a better fix would be
++	# to move these to a "common" glyph module. But for convenience they are just copied.
++	local arrowSw         OperatorStroke
++	local arrowWidth    : Width * 2 - SB * 4
++	local arrowSB       : Width - arrowWidth / 2
++	local arrowRSB      : Width - arrowSB
++	local arrowHeadSize : (CAP - arrowSw) / 2
++	local o : O * 2
++
++	local arrowShift  : OperatorStroke * arrowheadSlope - o
++	local arrowExtend : clamp 0 Width (arrowRSB - arrowShift)
++	local arrowJ      : clamp 0 Width (arrowSB + arrowShift)
++
++	local dblShift  : (EqualHalfSpace + OperatorStroke) * arrowheadSlope - o
++	local dblExtend : clamp 0 Width (arrowRSB - dblShift)
++	local dblArrowJ : clamp 0 Width (arrowSB + dblShift)
+ 
+ 	define [HyphenNotch x] : union
+ 		VBar.m x (SymbolMid + OperatorStroke / 3) (SymbolMid + OperatorStroke) EqualHoleWidth
+@@ -43,18 +55,15 @@ glyph-block Symbol-Ligation : begin
+ 		define [ArrowBarConfig extend kern join doubleBar] : begin
+ 			define cleft O
+ 			define cright (Width - O)
+-			define arrowr : if doubleBar
+-				Width + SB + [HSwToV OperatorStroke]
+-				Width + extend
+-			define arrowl : if doubleBar
+-				-Width + RightSB - [HSwToV OperatorStroke]
+-				0 - extend
+-			define zleft : cleft - Width + RightSB
+-			define zright : cright + SB
++			# Ensure double and single arrows use the same bar measurements
++			define arrowr : Width + extend
++			define arrowl : 0 - extend
++			define zleft : cleft - Width + arrowRSB
++			define zright : cright + arrowSB
+ 			define lk : object
+-				x    (SB - Width)
++				x    (arrowSB - Width)
+ 				y    (-join - Width)
+-				f    SB
++				f    arrowSB
+ 				p    (arrowl + Width)
+ 				l    arrowl
+ 				l1 : arrowl - kern
+@@ -63,12 +72,13 @@ glyph-block Symbol-Ligation : begin
  				j    (-join)
  				j1   (-join - kern)
  				z    zleft
 -				lx : mix arrowl 0 0.5
 +				# Replaced with a variant that gives the arrow head more space
-+				lx   (cleft + (RightSB - Width))
++				lx   (cleft + (arrowRSB - Width))
  
  			define rk : object
- 				x    (RightSB + Width)
-@@ -115,12 +116,14 @@ glyph-block Symbol-Ligation : begin
+-				x    (RightSB + Width)
++				x    (arrowRSB + Width)
+ 				y    (2 * Width + join)
+-				f    RightSB
++				f    arrowRSB
+ 				p    (arrowr - Width)
+ 				r    arrowr
+ 				r1 : arrowr + kern
+@@ -102,10 +112,10 @@ glyph-block Symbol-Ligation : begin
+ 						include : SetJoiningKind lS rS
+ 						include : difference
+ 							Shape left right
+-							if (fNotch && left < (SB - Width))       [Notch (-Width)]    [no-shape]
+-							if (fNotch && left < SB)                 [Notch 0]           [no-shape]
+-							if (fNotch && right > RightSB)           [Notch Width]       [no-shape]
+-							if (fNotch && right > (RightSB + Width)) [Notch (2 * Width)] [no-shape]
++							if (fNotch && left < (arrowSB - Width))   [Notch (-Width)]    [no-shape]
++							if (fNotch && left < arrowSB)             [Notch 0]           [no-shape]
++							if (fNotch && right > arrowRSB)           [Notch Width]       [no-shape]
++							if (fNotch && right > (arrowRSB + Width)) [Notch (2 * Width)] [no-shape]
+ 
+ 				select-variant "\(prefix).lig.\(lS)\(rS)"
+ 					follow -- "lig-\(prefix)"
+@@ -115,12 +125,14 @@ glyph-block Symbol-Ligation : begin
  
  	do "Waves"
  		glyph-block-import Shared-Symbol-Shapes : CreateWaveShape
@@ -245,7 +349,7 @@ index 5406718..420c06a 100644
  		define C   0
  		define J   (-1 / 8)
  
-@@ -128,6 +131,7 @@ glyph-block Symbol-Ligation : begin
+@@ -128,6 +140,7 @@ glyph-block Symbol-Ligation : begin
  			l    { LR   (-arrowExtend)                           false }
  			l1   { LR1  (-arrowExtend - arrowheadsKern)          false }
  			f    { F    nothing                                  false }
@@ -253,7 +357,7 @@ index 5406718..420c06a 100644
  			z    { Z    nothing                                  false }
  			c    { C    nothing                                  false }
  			m    { J    (0 - RodBarHOffset)                       true }
-@@ -138,12 +142,19 @@ glyph-block Symbol-Ligation : begin
+@@ -138,12 +151,19 @@ glyph-block Symbol-Ligation : begin
  			r    { LR   (Width + arrowExtend)                    false }
  			r1   { LR1  (Width + arrowExtend + arrowheadsKern)   false }
  			f    { F    nothing                                  false }
@@ -267,13 +371,13 @@ index 5406718..420c06a 100644
 +        # Along with the above, applies frequency shaping to short waves
 +        # this allows the wave ends to better match the tilde shape it replaces
 +		define shapeFreqs : object
-+			f1c  (-1.21)
-+			cf1  (1.21)
++			f1c  (-1.2)
++			cf1  (1.2)
 +
  		foreach [lS : items-of : Object.keys lk] : foreach [rS : items-of : Object.keys rk] : create-glyph"wave.lig.\(lS)\(rS)" : glyph-proc
  			include : SetJoiningKind lS rS
  			local {tL jL djL} lk.(lS)
-@@ -155,12 +166,56 @@ glyph-block Symbol-Ligation : begin
+@@ -155,15 +175,35 @@ glyph-block Symbol-Ligation : begin
  				xfJoin -- jR
  				diagJoinS -- djL
  				diagJoinF -- djR
@@ -284,31 +388,6 @@ index 5406718..420c06a 100644
  		glyph-block-import Symbol-Math-Relation-Common : dH
  		glyph-block-import Symbol-Math-Relation-Inequality : LigationLessShape LigationGreaterShape
  
-+#		create-glyph 'less.lig.head' : glyph-proc
-+#			Joining.set currentGlyph Joining.Classes.Right
-+#			include : refer-glyph 'arrowHeadLeft'
-+#
-+#		create-glyph 'greater.lig.head' : glyph-proc
-+#			Joining.set currentGlyph Joining.Classes.Right
-+#			include : refer-glyph 'arrowHeadRight'
-+
-+		# Ideally this would be imported, and a better fix would be to move these to a "common"
-+		# glyph module. But for convenience they are just copied.
-+		define MosaicWidth : Width * 2
-+		define MosaicUnitWidth : MosaicWidth / 2
-+		define arrowSw       OperatorStroke
-+		# TODO: Not all of these vars are used
-+		define arrowHeight : para.arrowHeight * (Width - SB) * [Math.pow (MosaicWidth / MosaicUnitWidth) (1 / 3)]
-+		define arrowWidth  : Math.min (MosaicWidth - SB) arrowHeight
-+		define arrowTop : [mix OperBot OperTop (1 / 2)] + arrowHeight / 2
-+		define arrowBot : [mix OperBot OperTop (1 / 2)] - arrowHeight / 2
-+		define arrowMidX : MosaicWidth / 2
-+		define arrowSB : (MosaicWidth - arrowWidth) / 2
-+		define arrowRSB : Width - arrowSB
-+		#define arrowHeadSize : (Width - SB) * DesignParameters.arrow_size * [Math.pow (arrowWidth / Width) 0.5] # - arrowSw / 4
-+		define arrowHeadSize : (CAP - arrowSw) / 2
-+		define o : O * 2
-+
 +		define [ArrowHead x1 y1 x2 y2 _size] : union
 +			LHSHalfArrowHead x1 y1 x2 y2 0 _size
 +			RHSHalfArrowHead x1 y1 x2 y2 0 _size
@@ -317,20 +396,35 @@ index 5406718..420c06a 100644
 +			local size : fallback _size arrowHeadSize
 +			return : new-glyph : PointingTo x1 y1 x2 y2 : lambda [mag] : dispiro
 +				widths.lhs arrowSw
-+				flat (o) (width / 2) [heading Downward]
-+				curl (o + size) (-size) [widths.lhs arrowSw]
++				flat (o) (width / 2)
++				curl (o + size) (-size)
 +
 +		define [RHSHalfArrowHead x1 y1 x2 y2 width _size] : begin
 +			local size : fallback _size arrowHeadSize
 +			return : new-glyph : PointingTo x1 y1 x2 y2 : lambda [mag] : dispiro
 +				widths.rhs arrowSw
-+				flat (o) (-width / 2) [heading Upward]
-+				curl (o + size) size [widths.rhs arrowSw]
++				flat (o) (-width / 2)
++				curl (o + size) (size)
 +
  		create-glyph 'less.lig.dblhead' : glyph-proc
  			Joining.set currentGlyph Joining.Classes.Right
- 			include : LigationLessShape (SymbolMid + dH) (SymbolMid - dH) SB RightSB OperatorStroke OperatorStroke (2 * EqualHalfSpace)
-@@ -180,8 +235,8 @@ glyph-block Symbol-Ligation : begin
+-			include : LigationLessShape (SymbolMid + dH) (SymbolMid - dH) SB RightSB OperatorStroke OperatorStroke (2 * EqualHalfSpace)
++			# Replaced with an arrow head
++			include : ArrowHead arrowRSB SymbolMid arrowSB SymbolMid
+ 			create-aliased-glyph 'less.lig.dblhead.mid'
+ 			create-forked-glyph 'less.lig.dblhead.shift1' : glyph-proc
+ 				Joining.set currentGlyph Joining.Classes.Mid
+@@ -171,7 +211,8 @@ glyph-block Symbol-Ligation : begin
+ 
+ 		create-glyph 'greater.lig.dblhead' : glyph-proc
+ 			Joining.set currentGlyph Joining.Classes.Left
+-			include : LigationGreaterShape (SymbolMid + dH) (SymbolMid - dH) SB RightSB OperatorStroke OperatorStroke (2 * EqualHalfSpace)
++			# Replaced with an arrow head
++			include : ArrowHead arrowSB SymbolMid arrowRSB SymbolMid
+ 			create-aliased-glyph 'greater.lig.dblhead.mid'
+ 			create-forked-glyph 'greater.lig.dblhead.shift1' : glyph-proc
+ 				Joining.set currentGlyph Joining.Classes.Mid
+@@ -180,8 +221,8 @@ glyph-block Symbol-Ligation : begin
  		derive-glyphs 'exclam.lig.htmlcommentstart' null 'exclam' : function [src gr] : glyph-proc
  			Joining.set currentGlyph Joining.Classes.Mid
  			include : refer-glyph src
@@ -341,25 +435,92 @@ index 5406718..420c06a 100644
  
  		# Right-shifted >
  		define [ArrowShiftTranslate k] : glyph-proc
-@@ -190,7 +245,8 @@ glyph-block Symbol-Ligation : begin
- 			if (k < 0) : Joining.set currentGlyph Joining.Classes.Left
+@@ -191,65 +232,57 @@ glyph-block Symbol-Ligation : begin
  
  		create-glyph 'greater.lig.shift0' : glyph-proc
--			include [refer-glyph 'greater'] AS_BASE ALSO_METRICS
-+			include : ArrowHead arrowSB SymbolMid arrowRSB SymbolMid
-+			#include [refer-glyph 'arrowHeadRight.WWID']# AS_BASE ALSO_METRICS
- 			create-aliased-glyph 'greater.lig.shift0.head'
- 			create-aliased-glyph 'greater.lig.shift0.mid'
- 			create-aliased-glyph 'greater.lig.shift0.anti'
-@@ -208,7 +264,7 @@ glyph-block Symbol-Ligation : begin
+ 			include [refer-glyph 'greater'] AS_BASE ALSO_METRICS
+-			create-aliased-glyph 'greater.lig.shift0.head'
+-			create-aliased-glyph 'greater.lig.shift0.mid'
+-			create-aliased-glyph 'greater.lig.shift0.anti'
+-			create-aliased-glyph 'greater.lig.shiftN0'
+-			create-aliased-glyph 'greater.lig.shiftN0.mid'
+ 			create-forked-glyph 'greater.lig.shift0h'      : ArrowShiftTranslate   0.5
+ 			create-forked-glyph 'greater.lig.shift1'       : ArrowShiftTranslate   1.0
+-			create-forked-glyph 'greater.lig.shift1.head'  : ArrowShiftTranslate   1.0
+ 			create-forked-glyph 'greater.lig.shift1h'      : ArrowShiftTranslate   1.5
+ 			create-forked-glyph 'greater.lig.shift2'       : ArrowShiftTranslate   2.0
+ 			create-forked-glyph 'greater.lig.shiftN0h'     : ArrowShiftTranslate (-0.5)
+ 			create-forked-glyph 'greater.lig.shiftN1'      : ArrowShiftTranslate (-1.0)
+-			create-forked-glyph 'greater.lig.shiftN1.anti' : ArrowShiftTranslate (-1.0)
+ 			create-forked-glyph 'greater.lig.shiftN1h'     : ArrowShiftTranslate (-1.5)
  			create-forked-glyph 'greater.lig.shiftN2'      : ArrowShiftTranslate (-2.0)
  
++		# Use arrow head glyph
++		create-glyph 'greater.lig.shift0.head' : glyph-proc
++			include : ArrowHead arrowSB SymbolMid arrowRSB SymbolMid
++			create-aliased-glyph 'greater.lig.shift0.mid'
++			create-aliased-glyph 'greater.lig.shift0.anti'
++			create-forked-glyph 'greater.lig.shift1.head'  : ArrowShiftTranslate   1.0
++			create-forked-glyph 'greater.lig.shiftN1.anti' : ArrowShiftTranslate (-1.0)
++
  		create-glyph 'less.lig.shift0' : glyph-proc
--			include [refer-glyph 'less'] AS_BASE ALSO_METRICS
+ 			include [refer-glyph 'less'] AS_BASE ALSO_METRICS
+-			create-aliased-glyph 'less.lig.shift0.head'
+-			create-aliased-glyph 'less.lig.shift0.mid'
+-			create-aliased-glyph 'less.lig.shift0.anti'
+-			create-aliased-glyph 'less.lig.shiftN0'
+-			create-aliased-glyph 'less.lig.shiftN0.mid'
+ 			create-forked-glyph 'less.lig.shift0h'      : ArrowShiftTranslate (-0.5)
+ 			create-forked-glyph 'less.lig.shift1'       : ArrowShiftTranslate (-1.0)
+-			create-forked-glyph 'less.lig.shift1.head'  : ArrowShiftTranslate (-1.0)
+ 			create-forked-glyph 'less.lig.shift1h'      : ArrowShiftTranslate (-1.5)
+ 			create-forked-glyph 'less.lig.shift2'       : ArrowShiftTranslate (-2.0)
+ 			create-forked-glyph 'less.lig.shiftN0h'     : ArrowShiftTranslate   0.5
+ 			create-forked-glyph 'less.lig.shiftN1'      : ArrowShiftTranslate   1.0
+-			create-forked-glyph 'less.lig.shiftN1.anti' : ArrowShiftTranslate   1.0
+ 			create-forked-glyph 'less.lig.shiftN1h'     : ArrowShiftTranslate   1.5
+ 			create-forked-glyph 'less.lig.shiftN2'      : ArrowShiftTranslate   2.0
+ 
++		# Use arrow head glyph
++		create-glyph 'less.lig.shift0.head' : glyph-proc
 +			include : ArrowHead arrowRSB SymbolMid arrowSB SymbolMid
- 			create-aliased-glyph 'less.lig.shift0.head'
- 			create-aliased-glyph 'less.lig.shift0.mid'
- 			create-aliased-glyph 'less.lig.shift0.anti'
++			create-aliased-glyph 'less.lig.shift0.mid'
++			create-aliased-glyph 'less.lig.shift0.anti'
++			create-forked-glyph 'less.lig.shift1.head'  : ArrowShiftTranslate (-1.0)
++			create-forked-glyph 'less.lig.shiftN1.anti' : ArrowShiftTranslate   1.0
++
+ 		define [ArrowHeadHole] : Rect (SymbolMid + EqualHalfSpace - 0.5 * OperatorStroke) (SymbolMid - EqualHalfSpace + 0.5 * OperatorStroke) (-Width) (2 * Width)
+ 
+ 		create-glyph 'less.lig.hole' : glyph-proc
+ 			Joining.set currentGlyph Joining.Classes.Left
+ 			include : difference
+-				glyph-proc : include : refer-glyph "less"
++				glyph-proc : include : refer-glyph "less.lig.shift0.head"
+ 				ArrowHeadHole
++			create-forked-glyph 'less.lig.hole.shiftN1' : ArrowShiftTranslate 1.0
+ 
+ 		create-glyph 'greater.lig.hole' : glyph-proc
+ 			Joining.set currentGlyph Joining.Classes.Right
+ 			include : difference
+-				glyph-proc : include : refer-glyph "greater"
+-				ArrowHeadHole
+-
+-		create-glyph 'less.lig.hole.shiftN1' : glyph-proc
+-			Joining.set currentGlyph Joining.Classes.Mid
+-			include : difference
+-				glyph-proc : include : refer-glyph "less.lig.shiftN1"
+-				ArrowHeadHole
+-
+-		create-glyph 'greater.lig.hole.shiftN1' : glyph-proc
+-			Joining.set currentGlyph Joining.Classes.Mid
+-			include : difference
+-				glyph-proc : include : refer-glyph "greater.lig.shiftN1"
++				glyph-proc : include : refer-glyph "greater.lig.shift0.head"
+ 				ArrowHeadHole
++			create-forked-glyph 'greater.lig.hole.shiftN1' : ArrowShiftTranslate (-1.0)
+ 
+ 	do "bottom sign derivatives"
+ 		glyph-block-import Symbol-Punctuation-Dashes : UnderScoreConfig
 diff --git a/packages/font-glyphs/src/symbol/math/arith.ptl b/packages/font-glyphs/src/symbol/math/arith.ptl
 index e5ca318..9bf5d21 100644
 --- a/packages/font-glyphs/src/symbol/math/arith.ptl
@@ -435,7 +596,7 @@ index b46689f..2a6aa62 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5..572c92d 100644
+index f3301b5..649fcfa 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -556,7 +717,166 @@ index f3301b5..572c92d 100644
  	LigGroup "Bracket-star" : if [hasLG 'brst'] : begin
  		CreateLigationLookup : list
  			chain-rule # (*
-@@ -1018,12 +1103,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -350,9 +435,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				equal      ~> look-around
+ 				equal      ~> look-around
+ 			chain-rule # <<<=
+-				less       ~> [lsx 'shiftN0h']
++				less       ~> [lsx 'shiftN2']
++				less       ~> [lsx 'shiftN1']
+ 				less       ~> look-around
+-				less       ~> [lsx 'shift0h']
+ 				equal      ~> look-around
+ 			chain-rule # =>>>=
+ 				equal      ~> look-around
+@@ -367,9 +452,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				equal      ~> look-around
+ 				equal      ~> look-around
+ 			chain-rule # >>>=
+-				greater    ~> [lsx 'shift0h']
++				greater    ~> [lsx 'shift2']
++				greater    ~> [lsx 'shift1']
+ 				greater    ~> look-around
+-				greater    ~> [lsx 'shiftN0h']
+ 				equal      ~> look-around
+ 			chain-rule # =<<=
+ 				equal      ~> look-around
+@@ -382,8 +467,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				equal      ~> look-around
+ 				equal      ~> look-around
+ 			chain-rule # <<=
+-				less       ~> [lsx 'shiftN0h']
+-				less       ~> [lsx 'shift0h']
++				less       ~> [lsx 'shiftN1']
++				less       ~> look-around
+ 				equal      ~> look-around
+ 			chain-rule # =>>=
+ 				equal      ~> look-around
+@@ -396,8 +481,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				equal      ~> look-around
+ 				equal      ~> look-around
+ 			chain-rule # >>=
+-				greater    ~> [lsx 'shift0h']
+-				greater    ~> [lsx 'shiftN0h']
++				greater    ~> [lsx 'shift1']
++				greater    ~> look-around
+ 				equal      ~> look-around
+ 
+ 	LigGroup "HTML Comment" : if [hasLG 'html-comment'] : begin
+@@ -465,16 +550,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				regexLookAround ~> advance
+ 				regexLookAround ~> advance
+ 
+-			define [CJoinHeadForce]         : if dbl [lsx 'dblhead']        [lsx 'shift0.head']
+-			define [CJoinHeadMid]           : if dbl [lsx 'dblhead.mid']    [lsx 'shift0.mid']
+-			define [CJoinHeadForceShift1]   : if dbl [lsx 'dblhead.shift1'] [lsx 'shift1.head']
++			# Use simplified double arrow heads
++			define [CJoinHeadForce]           [lsx 'shift0.head']
++			define [CJoinHeadMid]           : if dbl [lsx 'hole']           [lsx 'shift0.mid']
++			define [CJoinHeadForceShift1]     [lsx 'shift1.head']
+ 			define [CAntiHeadForce]         : if dbl [lsx 'hole']           [lsx 'shift0.anti']
+ 			define [CAntiHeadForceShiftN1]  : if dbl [lsx 'hole.shiftN1']   [lsx 'shiftN1.anti']
+ 
+ 			define [LJoinHeadForce]         : if [hasLG 'arrow-l']                          [CJoinHeadForce]        advance
+ 			define [LJoinHeadForceLR]       : if ([hasLG 'arrow-l'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
+ 			define [LJoinHeadForceShift1]   : if [hasLG 'arrow-l']                          [CJoinHeadForceShift1]  advance
+-			define [LJoinHeadForceShift1LR] : if ([hasLG 'arrow-l'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
++			define [LJoinHeadForceShift1LR] : if ([hasLG 'arrow-l'] || [hasLG 'arrow-lr'])  [CJoinHeadForceShift1]  advance
+ 			define [LMiddleHead]            : if [hasLG 'counter-arrow-l']                  [CJoinHeadMid] : if [hasLG 'arrow-l'] [LJoinHeadForce] advance
+ 			define [LAntiHeadForce]         : if [hasLG 'counter-arrow-l']                  [CAntiHeadForce]        advance
+ 			define [LAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-l']                  [CAntiHeadForceShiftN1] advance
+@@ -482,7 +568,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 			define [RJoinHeadForce]         : if [hasLG 'arrow-r']                          [CJoinHeadForce]        advance
+ 			define [RJoinHeadForceLR]       : if ([hasLG 'arrow-r'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
+ 			define [RJoinHeadForceShift1]   : if [hasLG 'arrow-r']                          [CJoinHeadForceShift1]  advance
+-			define [RJoinHeadForceShift1LR] : if ([hasLG 'arrow-r'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
++			define [RJoinHeadForceShift1LR] : if ([hasLG 'arrow-r'] || [hasLG 'arrow-lr'])  [CJoinHeadForceShift1]  advance
+ 			define [RMiddleHead]            : if [hasLG 'counter-arrow-r']                  [CJoinHeadMid] : if [hasLG 'arrow-r'] [RJoinHeadForce] advance
+ 			define [RAntiHeadForce]         : if [hasLG 'counter-arrow-r']                  [CAntiHeadForce]        advance
+ 			define [RAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-r']                  [CAntiHeadForceShiftN1] advance
+@@ -538,13 +624,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 
+ 			begin "Dual / Spaceship"
+ 				heads.push : chain-rule # < < = > >
+-					less    ~> look-around
++					less    ~> [LJoinHeadForceLR]
+ 					less    ~> [LJoinHeadForceShift1LR]
+ 					rodCls  ~> look-around
+ 					greater ~> [RJoinHeadForceShift1LR]
+-					greater ~> look-around
++					greater ~> [RJoinHeadForceLR]
+ 				heads.push : chain-rule # < < = >
+-					less    ~> look-around
++					less    ~> [LJoinHeadForceLR]
+ 					less    ~> [LJoinHeadForceShift1LR]
+ 					rodCls  ~> look-around
+ 					greater ~> [RJoinHeadForceLR]
+@@ -552,7 +638,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 					less    ~> [LJoinHeadForceLR]
+ 					rodCls  ~> look-around
+ 					greater ~> [RJoinHeadForceShift1LR]
+-					greater ~> look-around
++					greater ~> [RJoinHeadForceLR]
++				# TODO: add in advance rule for actual spaceship operator if lt/gt is disabled
+ 				heads.push : chain-rule # < = >
+ 					less    ~> [LJoinHeadForceLR]
+ 					rodCls  ~> look-around
+@@ -562,17 +649,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				heads.push : chain-rule # = > >
+ 					rodCls  ~> look-around
+ 					greater ~> [RJoinHeadForceShift1]
+-					greater ~> look-around
++					greater ~> [RJoinHeadForceLR]
+ 				heads.push : chain-rule # = < <
+ 					rodCls  ~> look-around
+ 					less    ~> [LAntiHeadForceShiftN1]
+-					less    ~> look-around
++					less    ~> [LJoinHeadForceLR]
+ 				heads.push : chain-rule # > > =
+-					greater ~> look-around
++					greater ~> [RJoinHeadForceLR]
+ 					greater ~> [RAntiHeadForceShiftN1]
+ 					rodCls  ~> look-around
+ 				heads.push : chain-rule # < < =
+-					less    ~> look-around
++					less    ~> [LJoinHeadForceLR]
+ 					less    ~> [LJoinHeadForceShift1]
+ 					rodCls  ~> look-around
+ 				heads.push : chain-rule # = = >
+@@ -729,13 +816,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				regexLookAround ~> advance
+ 				regexLookAround ~> advance
+ 			chain-rule # <<<
+-				less       ~> [lsx 'shiftN0h']
++				less       ~> [lsx 'shiftN1']
+ 				less       ~> look-around
+-				less       ~> [lsx 'shift0h']
++				less       ~> [lsx 'shift1']
+ 			chain-rule # >>>
+-				greater    ~> [lsx 'shift0h']
++				greater    ~> [lsx 'shift1']
+ 				greater    ~> look-around
+-				greater    ~> [lsx 'shiftN0h']
++				greater    ~> [lsx 'shiftN1']
+ 			chain-rule # <<
+ 				less       ~> [lsx 'shiftN0h']
+ 				less       ~> [lsx 'shift0h']
+@@ -744,10 +831,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				greater    ~> [lsx 'shiftN0h']
+ 
+ 		# Cancel alternates of < and > shapes if there are more after them
+-		local lAll  { "less"    "less.lig.shift0h"    "less.lig.shiftN0h"    }
+-		local lNeut { "less"    "less"                "less"                 }
+-		local gAll  { "greater" "greater.lig.shift0h" "greater.lig.shiftN0h" }
+-		local gNeut { "greater" "greater"             "greater"              }
++		local lAll  { "less"    "less.lig.shift0h"    "less.lig.shiftN0h"    "less.lig.shift1"    "less.lig.shiftN1"    "less.lig.shift2"    "less.lig.shiftN2"    }
++		local lNeut { "less"    "less"                "less"                 "less"               "less"                "less"               "less"                }
++		local gAll  { "greater" "greater.lig.shift0h" "greater.lig.shiftN0h" "greater.lig.shift1" "greater.lig.shiftN1" "greater.lig.shift2" "greater.lig.shiftN2" }
++		local gNeut { "greater" "greater"             "greater"              "greater"            "greater"             "greater"            "greater"             }
+ 		local lgAll  : lAll.concat  gAll
+ 		local lgNeut : lNeut.concat gNeut
+ 		CreateLigationLookup : list
+@@ -1018,12 +1105,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3
@@ -622,15 +942,19 @@ index 77834a1..f953e8c 100644
  
  # Non-tagged composites, used for inheritance
 diff --git a/params/parameters.toml b/params/parameters.toml
-index e06f019..273ad43 100644
+index e06f019..d64087f 100644
 --- a/params/parameters.toml
 +++ b/params/parameters.toml
-@@ -26,7 +26,7 @@ tackSize = 0.80    # Size of logical operators (tacks, etc.)
- bgopSize = 1.10    # Size of "taller" mathematical operators
- plusSize = 0.52    # Size of plus and arith symbols
- pictSize = 1.10    # Size of pictograms
--arrowHeight = 1.50 # Height of arrows
-+arrowHeight = 1.4  # Height of arrows
+@@ -35,9 +35,9 @@ accentWidth = 200       # Width of accent marks.
+ accentClearance = 80    # Vertical clearance of accent marks to the base.
+ accentHeight = 140      # Height of accent marks.
+ accentStackOffset = 205 # Offset height of accent mark stack.
+-overshoot = -8          # Vertical overshoot for arcs.
+-overshootx = -8         # Horizontal overshoot for arcs.
+-oxhook = -2             # Horizontal overshoot for hook tips.
++overshoot = -16         # Vertical overshoot for arcs.
++overshootx = -16        # Horizontal overshoot for arcs.
++oxhook = -4             # Horizontal overshoot for hook tips.
  
- slopeAngle = 0     # slope angle, in degrees.
- derivedSlopeAngle = 10 # Slope angle of derived letters requiring italics
+ refJut = 85
+ 
