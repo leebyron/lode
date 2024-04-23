@@ -72,14 +72,14 @@ index b546cf3..856a4a9 100644
  	parenOutside               0.2
  	parenOutsideSwAdj          0.2
 diff --git a/packages/font-glyphs/src/symbol/arrow.ptl b/packages/font-glyphs/src/symbol/arrow.ptl
-index 557cd7c..ca7c9c6 100644
+index 557cd7c..b6cf5f2 100644
 --- a/packages/font-glyphs/src/symbol/arrow.ptl
 +++ b/packages/font-glyphs/src/symbol/arrow.ptl
-@@ -8,18 +8,23 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -8,35 +8,55 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  	glyph-block-import CommonShapes
  	glyph-block-import Common-Derivatives
  	glyph-block-import Symbol-Geometric-Shared : UnicodeWeightGrade
-+	glyph-block-import Symbol-Math-Relation-Common : EqualHalfSpace # EqualHoleWidth <- should use this for double lines
++	glyph-block-import Symbol-Math-Relation-Common : EqualHalfSpace IdentHalfSpace
  
 -	define arrowHeight : para.arrowHeight * (Width - SB / 2) * [Math.pow (MosaicWidth / MosaicUnitWidth) (1 / 3)]
 -	define arrowWidth  : Math.min (MosaicWidth - SB / 2) arrowHeight
@@ -104,7 +104,13 @@ index 557cd7c..ca7c9c6 100644
  	define halfArrowSw : arrowSw / 2
  	define bendArrowHeadSize : mix arrowSw arrowHeadSize 0.75
  	define fine : AdviceStroke 3.5
-@@ -30,13 +35,26 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+ 	define terminal : AdviceStroke 5
+ 	define halfTerminal : terminal / 2
+-	define doubleArrowStemWidth : arrowHeadSize * 1.1
++	# Match ligature arrows
++	define doubleArrowStemWidth : arrowSw + EqualHalfSpace * 2
++	define tripleArrowStemWidth : arrowSw + IdentHalfSpace * 2
+ 
  	define kLongArrowSB : [DivFrame MosaicWidthScalar 4].leftSB / [DivFrame MosaicWidthScalar 2].leftSB
  
  	# Diagonal arrow params
@@ -133,7 +139,7 @@ index 557cd7c..ca7c9c6 100644
  	define [ArrowBar x1 y1 x2 y2 halfSw w _offset] : begin
  		return : PointingTo x1 y1 x2 y2 : lambda [mag] : begin
  			local p : (mag - [fallback _offset : o + halfSw * [fallback w 1.1]]) / mag
-@@ -90,23 +108,32 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -90,23 +110,32 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  				flat (mag - [Math.abs s] / 2) 0 [widths.center (halfSw * 2)]
  				curl [mix mag 0 p] 0
  
@@ -173,7 +179,7 @@ index 557cd7c..ca7c9c6 100644
  
  	define [SsArrowHead x1 y1 x2 y2 _size] : union
  		LHSHalfSsArrowHead x1 y1 x2 y2 0 _size
-@@ -731,7 +758,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -731,7 +760,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  		DoubleArrow2 [HalfArrowShape LHSHalfArrowHead] [HalfArrowShape RHSHalfArrowHead] [MangleName 'arrowUpHLDownHR']    [MangleUnicode 0x2951] arrowMidX arrowTop arrowMidX arrowBot
  
  
@@ -183,7 +189,24 @@ index 557cd7c..ca7c9c6 100644
  	do "Wave arrows"
  		glyph-block-import Shared-Symbol-Shapes : CreateWaveShape
  		define WaveSw : AdviceStroke (5.5 - MosaicWidthScalar)
-@@ -1098,17 +1126,17 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -931,14 +961,14 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+ 			MkArrow [DoubleArrowShape dasw] 'longDblArrowRight' 0x27F9 l SymbolMid r SymbolMid
+ 
+ 	do "Triple-line Arrows"
+-		define dasw doubleArrowStemWidth
++		define dasw tripleArrowStemWidth
+ 		MkArrow [TripleArrowShape dasw] [MangleName 'tripleArrowLeft']    [MangleUnicode 0x21DA] arrowRSB SymbolMid arrowSB SymbolMid
+ 		MkArrow [TripleArrowShape dasw] [MangleName 'tripleArrowRight']   [MangleUnicode 0x21DB] arrowSB SymbolMid arrowRSB SymbolMid
+ 		MkArrow [TripleArrowShape dasw] [MangleName 'tripleArrowUp']      [MangleUnicode 0x290A] arrowMidX arrowBot arrowMidX arrowTop
+ 		MkArrow [TripleArrowShape dasw] [MangleName 'tripleArrowDown']    [MangleUnicode 0x290B] arrowMidX arrowTop arrowMidX arrowBot
+ 
+ 	do "Quadruple-line Arrows"
+-		define dasw doubleArrowStemWidth
++		define dasw tripleArrowStemWidth
+ 		MkArrow [QuadrupleArrowShape dasw] [MangleName 'quadrupleArrowUp']      [MangleUnicode 0x27F0] arrowMidX arrowBot arrowMidX arrowTop
+ 		MkArrow [QuadrupleArrowShape dasw] [MangleName 'quadrupleArrowDown']    [MangleUnicode 0x27F1] arrowMidX arrowTop arrowMidX arrowBot
+ 		MkArrow [QuadrupleArrowShape dasw] [MangleName 'quadrupleArrowLeft']    [MangleUnicode 0x2B45] arrowRSB SymbolMid arrowSB SymbolMid
+@@ -1098,17 +1128,17 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  				VBar.m l (SymbolMid - arrowHeadSize) (SymbolMid + arrowHeadSize) fine
  
  	do "Double-headed Arrows"
@@ -210,7 +233,7 @@ index 557cd7c..ca7c9c6 100644
  
  		create-glyph [MangleName 'arrowUpDownBar'] [MangleUnicode 0x21A8] : composite-proc
  			refer-glyph : MangleName 'arrowUpDown.bottomSpaceLeft'
-@@ -1121,8 +1149,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1121,8 +1151,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  
  	do "Double-line Double-headed Arrows"
  		define dasw doubleArrowStemWidth
@@ -221,7 +244,7 @@ index 557cd7c..ca7c9c6 100644
  
  		if (MosaicWidthScalar > 1 && !para.forceMonospace) : do
  			define l : mix 0 arrowSB kLongArrowSB
-@@ -1130,10 +1158,10 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1130,10 +1160,10 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  			DoubleArrow [DoubleArrowShape dasw] 'longDblArrowLeftRight' 0x27FA l SymbolMid r SymbolMid
  
  	do "Same-side Double-headed Arrows"
@@ -951,7 +974,7 @@ index 77834a1..f953e8c 100644
  
  # Non-tagged composites, used for inheritance
 diff --git a/params/parameters.toml b/params/parameters.toml
-index e06f019..d64087f 100644
+index e06f019..808c754 100644
 --- a/params/parameters.toml
 +++ b/params/parameters.toml
 @@ -35,9 +35,9 @@ accentWidth = 200       # Width of accent marks.
@@ -961,9 +984,22 @@ index e06f019..d64087f 100644
 -overshoot = -8          # Vertical overshoot for arcs.
 -overshootx = -8         # Horizontal overshoot for arcs.
 -oxhook = -2             # Horizontal overshoot for hook tips.
-+overshoot = -16         # Vertical overshoot for arcs.
-+overshootx = -16        # Horizontal overshoot for arcs.
++overshoot = -12         # Vertical overshoot for arcs.
++overshootx = -12        # Horizontal overshoot for arcs.
 +oxhook = -4             # Horizontal overshoot for hook tips.
  
  refJut = 85
  
+diff --git a/params/shape-weight.toml b/params/shape-weight.toml
+index 622031b..de47ac3 100644
+--- a/params/shape-weight.toml
++++ b/params/shape-weight.toml
+@@ -3,7 +3,7 @@ canonicalStrokeWidthMin = 18  # sync with 100 entry below
+ canonicalStrokeWidthMax = 108 # sync with 900 entry below
+ 
+ [shapeWeight.blend.400]
+-stroke = 70        # Primary stroke width
++stroke = 64        # Primary stroke width
+ contrast = 1.11    # Stroke width contrast
+ sb = 64            # Primary sidebearings
+ essRatio = 1.12    # Proportion of widen of center of "S"
