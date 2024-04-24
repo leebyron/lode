@@ -758,7 +758,7 @@ index b46689f..2a6aa62 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5..9c88c06 100644
+index f3301b5..ddcfa92 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -888,7 +888,20 @@ index f3301b5..9c88c06 100644
  	LigGroup "Bracket-star" : if [hasLG 'brst'] : begin
  		CreateLigationLookup : list
  			chain-rule # (*
-@@ -350,9 +436,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -279,6 +365,12 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				define dgRightHalf : [lsx 'dRightHalf'] dg
+ 				define dgMid       : [lsx 'dMid']       dg
+ 				CreateLigationLookup : list
++					# Skip mid dotty within regexp
++					chain-rule
++						{'parenLeft'}          ~> look-around
++						{'question'}           ~> look-around
++						regexLookAround        ~> advance
++						regexLookAround        ~> advance
+ 					chain-rule
+ 						boundary               ~> look-around
+ 						dgRight                ~> dgMid
+@@ -350,9 +442,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # <<<=
@@ -900,7 +913,7 @@ index f3301b5..9c88c06 100644
  				equal      ~> look-around
  			chain-rule # =>>>=
  				equal      ~> look-around
-@@ -367,9 +453,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -367,9 +459,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # >>>=
@@ -912,7 +925,7 @@ index f3301b5..9c88c06 100644
  				equal      ~> look-around
  			chain-rule # =<<=
  				equal      ~> look-around
-@@ -382,8 +468,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -382,8 +474,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # <<=
@@ -923,7 +936,7 @@ index f3301b5..9c88c06 100644
  				equal      ~> look-around
  			chain-rule # =>>=
  				equal      ~> look-around
-@@ -396,8 +482,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -396,8 +488,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # >>=
@@ -934,7 +947,7 @@ index f3301b5..9c88c06 100644
  				equal      ~> look-around
  
  	LigGroup "HTML Comment" : if [hasLG 'html-comment'] : begin
-@@ -414,6 +500,18 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -414,6 +506,18 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				hyphen ~> [lsx 'lxc']
  				hyphen ~> [lsx 'cf']
  
@@ -953,7 +966,7 @@ index f3301b5..9c88c06 100644
  	LigGroup "Arrows" : begin
  		define singular : hyphen.concat anyWave
  		define [CBarSingular k] : begin
-@@ -465,16 +563,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -465,16 +569,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  
@@ -975,7 +988,7 @@ index f3301b5..9c88c06 100644
  			define [LMiddleHead]            : if [hasLG 'counter-arrow-l']                  [CJoinHeadMid] : if [hasLG 'arrow-l'] [LJoinHeadForce] advance
  			define [LAntiHeadForce]         : if [hasLG 'counter-arrow-l']                  [CAntiHeadForce]        advance
  			define [LAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-l']                  [CAntiHeadForceShiftN1] advance
-@@ -482,7 +581,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -482,7 +587,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  			define [RJoinHeadForce]         : if [hasLG 'arrow-r']                          [CJoinHeadForce]        advance
  			define [RJoinHeadForceLR]       : if ([hasLG 'arrow-r'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
  			define [RJoinHeadForceShift1]   : if [hasLG 'arrow-r']                          [CJoinHeadForceShift1]  advance
@@ -984,7 +997,7 @@ index f3301b5..9c88c06 100644
  			define [RMiddleHead]            : if [hasLG 'counter-arrow-r']                  [CJoinHeadMid] : if [hasLG 'arrow-r'] [RJoinHeadForce] advance
  			define [RAntiHeadForce]         : if [hasLG 'counter-arrow-r']                  [CAntiHeadForce]        advance
  			define [RAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-r']                  [CAntiHeadForceShiftN1] advance
-@@ -538,13 +637,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -538,13 +643,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  
  			begin "Dual / Spaceship"
  				heads.push : chain-rule # < < = > >
@@ -1001,7 +1014,7 @@ index f3301b5..9c88c06 100644
  					less    ~> [LJoinHeadForceShift1LR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceLR]
-@@ -552,7 +651,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -552,7 +657,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1LR]
@@ -1011,7 +1024,7 @@ index f3301b5..9c88c06 100644
  				heads.push : chain-rule # < = >
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
-@@ -562,17 +662,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -562,17 +668,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				heads.push : chain-rule # = > >
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1]
@@ -1033,7 +1046,7 @@ index f3301b5..9c88c06 100644
  					less    ~> [LJoinHeadForceShift1]
  					rodCls  ~> look-around
  				heads.push : chain-rule # = = >
-@@ -695,9 +795,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -695,9 +801,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				chain-rule
  					rodTermLeft          ~> look-around
  					[[CRod 'zf'] rodCls] ~> [[CRod 'zm'] rodCls]
@@ -1047,7 +1060,7 @@ index f3301b5..9c88c06 100644
  					[[CRod 'fz'] rodCls] ~> [[CRod 'mz'] rodCls]
  					rodTermRight         ~> look-around
  
-@@ -729,13 +831,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -729,13 +837,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  			chain-rule # <<<
@@ -1065,7 +1078,7 @@ index f3301b5..9c88c06 100644
  			chain-rule # <<
  				less       ~> [lsx 'shiftN0h']
  				less       ~> [lsx 'shift0h']
-@@ -744,10 +846,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -744,10 +852,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				greater    ~> [lsx 'shiftN0h']
  
  		# Cancel alternates of < and > shapes if there are more after them
@@ -1080,7 +1093,7 @@ index f3301b5..9c88c06 100644
  		local lgAll  : lAll.concat  gAll
  		local lgNeut : lNeut.concat gNeut
  		CreateLigationLookup : list
-@@ -780,7 +882,28 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -780,7 +888,28 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				lAll ~> lNeut
  				lAll ~> lNeut
  
@@ -1109,7 +1122,7 @@ index f3301b5..9c88c06 100644
  	LigGroup "logical" : if [hasLG 'logic'] : begin
  		CreateLigationLookup : list
  			chain-rule
-@@ -790,15 +913,15 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -790,11 +919,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				backslash      ~> [csx 'left']
  				slash          ~> [csx 'right']
  			chain-rule
@@ -1123,15 +1136,9 @@ index f3301b5..9c88c06 100644
 +				anyStraightRod ~> [lsx 'fm.withoutNotch']
 +				bar            ~> [lsx "bottomMid"]
  			chain-rule
--				underscore     ~> [lsx 'fm']
-+				underscore     ~> [lsx 'fm.withoutNotch']
+ 				underscore     ~> [lsx 'fm']
  				bar            ~> [lsx 'bottomMid']
--				underscore     ~> [lsx 'mf']
-+				underscore     ~> [lsx 'mf.withoutNotch']
- 
- 	# == and !=, and other related
- 	LigGroup "equals" : begin
-@@ -1018,12 +1141,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -1018,12 +1147,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3

@@ -106,8 +106,6 @@ cyrl-capital-zhe = "symmetric-connected"
 cyrl-zhe = "symmetric-connected"
 cyrl-capital-u = "straight-serifless"
 
-[buildPlans.IosevkaCustom.variants.italic]
-
 [buildPlans.Lode.variants.italic]
 d = "tailed-serifless"
 f = "flat-hook-tailed-crossbar-at-x-height" # "flat-hook-tailed"
