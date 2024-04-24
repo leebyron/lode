@@ -159,6 +159,8 @@ enables = [
     # Custom additions
     "x-multiply",
     "numeric-literals",
+    "zig-zag",
+    "escape-seq",
 ]
 
 #######################
