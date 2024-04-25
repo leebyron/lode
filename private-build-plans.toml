@@ -17,6 +17,7 @@ buildTextureFeature = true
 
 [buildPlans.Lode.metricOverride]
 # leading = 1200    # default is 1250
+leading = 1350
 ascender = 800   # height of b - default is 735
 cap = 725        # height of H - default is 735
 symbolMid = 350  # default 340
@@ -30,12 +31,12 @@ two = "straight-neck-serifless"
 three = "two-arcs"
 four = "closed-serifless"
 five = "oblique-arched-serifless"
-# six = "open-contour"
-six = "straight-bar"
+six = "open-contour"
+# six = "straight-bar"
 seven = "straight-serifless"
 eight = "two-circles"
-# nine = "open-contour"
-nine = "straight-bar"
+nine = "open-contour"
+# nine = "straight-bar"
 tilde = "low"
 asterisk = "hex-low"
 underscore = "high"                              # "above-baseline"
@@ -58,7 +59,7 @@ capital-j = "serifless"
 capital-k = "straight-serifless"
 capital-m = "hanging-serifless"
 capital-n = "standard-serifless"
-capital-q = "crossing"
+capital-q = "curly-tailed"                       # "crossing"
 capital-v = "straight-serifless"
 capital-w = "straight-serifless"                 # "straight-flat-top-serifless"
 capital-x = "straight-serifless"
@@ -87,6 +88,7 @@ l = "serifed-flat-tailed"
 j = "flat-hook-serifed"
 
 k = "straight-serifless"
+q = "tailed-serifless"
 r = "hookless-serifless"
 # t = "flat-hook"
 t = "flat-hook-short-neck2"
@@ -117,6 +119,7 @@ l = "serifed-diagonal-tailed"
 m = "tailed-serifless"
 n = "tailed-serifless"
 q = "diagonal-tailed-serifless"
+# q = "tailed-serifless"
 # t = "diagonal-tailed"
 t = "diagonal-tailed-short-neck2"
 # v = "straight-serifless"
@@ -138,6 +141,8 @@ cyrl-zhe = "symmetric-connected"
 cyrl-capital-u = "cursive-serifless"
 cyrl-u = "cursive-serifless"
 
+# Which gets slanted by the italic
+number-sign = "upright"
 
 [buildPlans.Lode.ligations]
 enables = [
@@ -195,6 +200,7 @@ enables = [
 
 [buildPlans.Lode.widths.Normal]
 shape = 548
+# shape = 600
 menu = 5
 css = "normal"
 
@@ -215,10 +221,10 @@ shape = 400
 menu = 400
 css = 400
 
-[buildPlans.Lode.weights.Bold]
-shape = 700
-menu = 700
-css = 700
+# [buildPlans.Lode.weights.Bold]
+# shape = 700
+# menu = 700
+# css = 700
 
 [buildPlans.Lode.slopes.Upright]
 angle = 0         # Angle in degrees. Valid range [0, 15]
@@ -227,7 +233,7 @@ menu = "upright"  # Slope grade used for naming.           `upright` | `oblique`
 css = "normal"    # Slope grade used for webfont CSS.      `normal`  | `oblique` | `italic`
 
 [buildPlans.Lode.slopes.Italic]
-angle = 9.4
+angle = 15       # 9.4
 shape = "italic"
 menu = "italic"
 css = "italic"

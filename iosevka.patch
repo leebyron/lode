@@ -57,8 +57,25 @@ index 50a29c9..aafb3eb 100644
  
  	glyph-block-export AConfig
  	define AConfig : SuffixCfg.weave
+diff --git a/packages/font-glyphs/src/letter/latin/upper-q.ptl b/packages/font-glyphs/src/letter/latin/upper-q.ptl
+index 6666ea2..9eb695c 100644
+--- a/packages/font-glyphs/src/letter/latin/upper-q.ptl
++++ b/packages/font-glyphs/src/letter/latin/upper-q.ptl
+@@ -94,9 +94,10 @@ glyph-block Letter-Latin-Upper-Q : begin
+ 			widths.rhs
+ 			flat startx HalfStroke [heading Downward]
+ 			curl startx 0 [heading Downward]
+-			arcvh
++			# More distinctive curled tail, mirroring l and t.
++			arcvh.superness DesignParameters.tightHookSuperness
+ 			flat [Math.min (df.middle + HookX - 1) (startx - TailDepth - [HSwToV Stroke])] (Stroke + TailDepth)
+-			curl (df.middle + HookX) (Stroke + TailDepth)
++			curl (df.middle + HookX + Stroke) (Stroke + TailDepth)
+ 
+ 	define [QCrossingCurlyTail df top sw] : union
+ 		VBar.m df.middle HalfStroke [mix Descender HalfStroke 1.75] sw
 diff --git a/packages/font-glyphs/src/meta/aesthetics.ptl b/packages/font-glyphs/src/meta/aesthetics.ptl
-index b546cf3..856a4a9 100644
+index b546cf3..9bfae89 100644
 --- a/packages/font-glyphs/src/meta/aesthetics.ptl
 +++ b/packages/font-glyphs/src/meta/aesthetics.ptl
 @@ -383,7 +383,8 @@ export : define DesignParameters : object
@@ -71,6 +88,80 @@ index b546cf3..856a4a9 100644
  	# ()
  	parenOutside               0.2
  	parenOutsideSwAdj          0.2
+@@ -406,7 +407,7 @@ export : define DesignParameters : object
+ 	# Bar position
+ 	hBarPos                    0.525
+ 	eBarPos                    0.5
+-	fiveBarPos                 0.64
++	fiveBarPos                 0.65
+ 	overlayPos                 0.52
+ 	fBarPosToXH                0.875
+ 	gBarPos                    0.42
+diff --git a/packages/font-glyphs/src/number/0.ptl b/packages/font-glyphs/src/number/0.ptl
+index b7218ad..b52a4ca 100644
+--- a/packages/font-glyphs/src/number/0.ptl
++++ b/packages/font-glyphs/src/number/0.ptl
+@@ -151,7 +151,8 @@ glyph-block Digits-Zero : begin
+ 			MaskBelow (top * (1/2 + 1/16))
+ 
+ 	define [ZeroDotShape top] : begin
+-		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 4)
++		# Dot to fill 1/3 of inner width
++		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 6)
+ 		return : OShapeOutline.NoOvershoot
+ 			top / 2 + DotRadius
+ 			top / 2 - DotRadius
+@@ -162,7 +163,7 @@ glyph-block Digits-Zero : begin
+ 			ArchDepthBOf halfDotWidth (halfDotWidth * 2)
+ 
+ 	define [ZeroLongDotShape top] : begin
+-		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 4)
++		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 6)
+ 		local halfDotHeight : Math.max DotRadius : Math.min ((top - Stroke * 2) / 4) ((top - Stroke * 2 - (CircleInnerWidth - halfDotWidth * 2)) / 2)
+ 		return : OShapeOutline.NoOvershoot
+ 			top / 2 + halfDotHeight
+@@ -174,7 +175,7 @@ glyph-block Digits-Zero : begin
+ 			ArchDepthBOf halfDotWidth (halfDotWidth * 2)
+ 
+ 	define [ZeroOvalDotShape top] : begin
+-		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 4)
++		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 6)
+ 		return : OvalShapeT spiro-outline
+ 			top / 2 + DotRadius - O
+ 			top / 2 - DotRadius + O
+@@ -183,7 +184,7 @@ glyph-block Digits-Zero : begin
+ 			begin 0
+ 
+ 	define [ZeroOvalLongDotShape top] : begin
+-		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 4)
++		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 6)
+ 		local halfDotHeight : Math.max DotRadius : Math.min ((top - Stroke * 2) / 4) ((top - Stroke * 2 - (CircleInnerWidth - halfDotWidth * 2)) / 2)
+ 		return : OvalShapeT spiro-outline
+ 			top / 2 + halfDotHeight - O
+diff --git a/packages/font-glyphs/src/number/6.ptl b/packages/font-glyphs/src/number/6.ptl
+index 6f6947c..1da2588 100644
+--- a/packages/font-glyphs/src/number/6.ptl
++++ b/packages/font-glyphs/src/number/6.ptl
+@@ -11,7 +11,8 @@ glyph-block Digits-Six : begin
+ 
+ 	glyph-block-export OpenContourSixShape
+ 	define [OpenContourSixShape charTop] : glyph-proc
+-		local oTop : charTop * 0.55 + Stroke / 2
++		# Exagerate o in 6 and 9 to be closer to XH
++		local oTop : charTop * 0.6074 + Stroke / 2
+ 		local fine   : Stroke * CThinB
+ 		local coFine : Math.max [AdviceStroke 3.5] (Stroke - fine / 2)
+ 		include : dispiro
+@@ -51,7 +52,8 @@ glyph-block Digits-Six : begin
+ 
+ 	glyph-block-export StraightBarSixShape
+ 	define [StraightBarSixShape] : with-params [charTop [sw Stroke] [bbd 0]] : glyph-proc
+-		local oTop : charTop * 0.55 + sw / 2
++		# Exagerate o in 6 and 9 to be closer to XH
++		local oTop : charTop * 0.6074 + sw / 2
+ 		local fine   : sw * CThin
+ 		local coFine : Math.max (sw * CThin) (sw - fine / 2)
+ 
 diff --git a/packages/font-glyphs/src/symbol/arrow.ptl b/packages/font-glyphs/src/symbol/arrow.ptl
 index 557cd7c..b6cf5f2 100644
 --- a/packages/font-glyphs/src/symbol/arrow.ptl

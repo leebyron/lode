@@ -121,5 +121,5 @@ async function serve(fn) {
   })
   await promisify(server.listen).call(server, 3000)
   const { address, port } = server.address()
-  console.log(`listening on http://[${address}]:${port}`, server.address())
+  console.log(`listening on http://[${address}]:${port}`)
 }
