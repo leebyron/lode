@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da7..8c62ab1 100644
+index 39e7da72f..8c62ab17b 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -443,6 +443,12 @@ glyph-block Autobuild-Transformed : begin
@@ -44,7 +44,7 @@ index 39e7da7..8c62ab1 100644
  	createTextureDerivatives Texture.ExtR  0         EXTENSION [jobs 0xF100]
  	createTextureDerivatives Texture.ExtLR EXTENSION EXTENSION [jobs 0xF200]
 diff --git a/packages/font-glyphs/src/letter/latin/upper-a.ptl b/packages/font-glyphs/src/letter/latin/upper-a.ptl
-index 50a29c9..aafb3eb 100644
+index 50a29c90a..aafb3eb12 100644
 --- a/packages/font-glyphs/src/letter/latin/upper-a.ptl
 +++ b/packages/font-glyphs/src/letter/latin/upper-a.ptl
 @@ -28,7 +28,8 @@ glyph-block Letter-Latin-Upper-A : begin
@@ -58,7 +58,7 @@ index 50a29c9..aafb3eb 100644
  	glyph-block-export AConfig
  	define AConfig : SuffixCfg.weave
 diff --git a/packages/font-glyphs/src/letter/latin/upper-q.ptl b/packages/font-glyphs/src/letter/latin/upper-q.ptl
-index 6666ea2..9eb695c 100644
+index 6666ea2c9..9eb695cee 100644
 --- a/packages/font-glyphs/src/letter/latin/upper-q.ptl
 +++ b/packages/font-glyphs/src/letter/latin/upper-q.ptl
 @@ -94,9 +94,10 @@ glyph-block Letter-Latin-Upper-Q : begin
@@ -75,7 +75,7 @@ index 6666ea2..9eb695c 100644
  	define [QCrossingCurlyTail df top sw] : union
  		VBar.m df.middle HalfStroke [mix Descender HalfStroke 1.75] sw
 diff --git a/packages/font-glyphs/src/meta/aesthetics.ptl b/packages/font-glyphs/src/meta/aesthetics.ptl
-index b546cf3..9bfae89 100644
+index b546cf30d..9bfae89b0 100644
 --- a/packages/font-glyphs/src/meta/aesthetics.ptl
 +++ b/packages/font-glyphs/src/meta/aesthetics.ptl
 @@ -383,7 +383,8 @@ export : define DesignParameters : object
@@ -98,7 +98,7 @@ index b546cf3..9bfae89 100644
  	fBarPosToXH                0.875
  	gBarPos                    0.42
 diff --git a/packages/font-glyphs/src/number/0.ptl b/packages/font-glyphs/src/number/0.ptl
-index b7218ad..b52a4ca 100644
+index b7218ad6a..b52a4ca47 100644
 --- a/packages/font-glyphs/src/number/0.ptl
 +++ b/packages/font-glyphs/src/number/0.ptl
 @@ -151,7 +151,8 @@ glyph-block Digits-Zero : begin
@@ -139,7 +139,7 @@ index b7218ad..b52a4ca 100644
  		return : OvalShapeT spiro-outline
  			top / 2 + halfDotHeight - O
 diff --git a/packages/font-glyphs/src/number/6.ptl b/packages/font-glyphs/src/number/6.ptl
-index 6f6947c..1da2588 100644
+index 6f6947cbb..1da258803 100644
 --- a/packages/font-glyphs/src/number/6.ptl
 +++ b/packages/font-glyphs/src/number/6.ptl
 @@ -11,7 +11,8 @@ glyph-block Digits-Six : begin
@@ -163,7 +163,7 @@ index 6f6947c..1da2588 100644
  		local coFine : Math.max (sw * CThin) (sw - fine / 2)
  
 diff --git a/packages/font-glyphs/src/symbol/arrow.ptl b/packages/font-glyphs/src/symbol/arrow.ptl
-index 557cd7c..b6cf5f2 100644
+index 557cd7cd8..b6cf5f29c 100644
 --- a/packages/font-glyphs/src/symbol/arrow.ptl
 +++ b/packages/font-glyphs/src/symbol/arrow.ptl
 @@ -8,35 +8,55 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
@@ -351,7 +351,7 @@ index 557cd7c..b6cf5f2 100644
  	do "Head-and-Tail Arrows"
  		MkArrow htArrowShape [MangleName 'htArrowLeft'] [MangleUnicode 0x21A2] arrowRSB SymbolMid arrowSB SymbolMid
 diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
-index 5406718..d51d979 100644
+index 54067188f..d51d97965 100644
 --- a/packages/font-glyphs/src/symbol/ligation.ptl
 +++ b/packages/font-glyphs/src/symbol/ligation.ptl
 @@ -22,17 +22,30 @@ glyph-block Symbol-Ligation : begin
@@ -725,7 +725,7 @@ index 5406718..d51d979 100644
 +			Joining.set currentGlyph Joining.Classes.Right
 +			include : LogicAndOrShape LogicWid 0 0 XH
 diff --git a/packages/font-glyphs/src/symbol/math/arith.ptl b/packages/font-glyphs/src/symbol/math/arith.ptl
-index e5ca318..9bf5d21 100644
+index e5ca31804..9bf5d219f 100644
 --- a/packages/font-glyphs/src/symbol/math/arith.ptl
 +++ b/packages/font-glyphs/src/symbol/math/arith.ptl
 @@ -80,7 +80,9 @@ glyph-block Symbol-Math-Arith : begin
@@ -751,7 +751,7 @@ index e5ca318..9bf5d21 100644
  
  		create-glyph 'multiplyInMulDiv' : glyph-proc
 diff --git a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl b/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
-index 9ece5e7..059a66e 100644
+index 9ece5e7c9..059a66e95 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
 +++ b/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
 @@ -21,7 +21,10 @@ glyph-block Symbol-Punctuation-Ascii-Marks : begin
@@ -767,7 +767,7 @@ index 9ece5e7..059a66e 100644
  	create-glyph 'asciiCaret.medium' : composite-proc
  		refer-glyph 'asciiCaret.high'
 diff --git a/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl b/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
-index e5545b5..ea7f203 100644
+index e5545b53b..ea7f203a8 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
 +++ b/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
 @@ -41,13 +41,14 @@ glyph-block Symbol-Punctuation-Slashes-And-Number-Sign : begin
@@ -817,7 +817,7 @@ index e5545b5..ea7f203 100644
  	do "number sign"
  		define fine : AdviceStroke 2.75
 diff --git a/packages/font-glyphs/src/symbol/shared.ptl b/packages/font-glyphs/src/symbol/shared.ptl
-index b46689f..2a6aa62 100644
+index b46689fda..2a6aa628f 100644
 --- a/packages/font-glyphs/src/symbol/shared.ptl
 +++ b/packages/font-glyphs/src/symbol/shared.ptl
 @@ -14,11 +14,16 @@ glyph-block Shared-Symbol-Shapes : begin
@@ -849,7 +849,7 @@ index b46689f..2a6aa62 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5..ddcfa92 100644
+index f3301b5d5..ddcfa9222 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -1249,7 +1249,7 @@ index f3301b5..ddcfa92 100644
  				chain-rule
  					{[sfx "jf"]} ~> {[sfx "jc"]}
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1..c743563 100644
+index f5286c1bd..c74356315 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
 @@ -9,7 +9,8 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
@@ -1263,7 +1263,7 @@ index f5286c1..c743563 100644
  	define look-around null
  
 diff --git a/packages/font-otl/src/index.ptl b/packages/font-otl/src/index.ptl
-index bb5e890..e609274 100644
+index bb5e89048..e609274e5 100644
 --- a/packages/font-otl/src/index.ptl
 +++ b/packages/font-otl/src/index.ptl
 @@ -53,7 +53,7 @@ define [buildGSUB para glyphStore markGlyphs] : begin
@@ -1275,8 +1275,21 @@ index bb5e890..e609274 100644
  
  	# frac
  	buildFrac gsub glyphStore
+diff --git a/packages/param/src/metric-override.mjs b/packages/param/src/metric-override.mjs
+index 99f7bc134..1a84f0c38 100644
+--- a/packages/param/src/metric-override.mjs
++++ b/packages/param/src/metric-override.mjs
+@@ -4,7 +4,7 @@ export function applyMetricOverride(para, mo, argv) {
+ 	const bindings = initBindings(para, argv);
+ 	for (const [field, expr] of Object.entries(mo)) {
+ 		if (!validMetricOverrideFields.has(field)) {
+-			console.error(`Field ${field} cannot be get overridden.`);
++			console.error(`Field ${field} cannot be get overridden.`, expr);
+ 			continue;
+ 		}
+ 		if (typeof expr === "number") {
 diff --git a/params/ligation-set.toml b/params/ligation-set.toml
-index 77834a1..77091e2 100644
+index 77834a1d9..77091e208 100644
 --- a/params/ligation-set.toml
 +++ b/params/ligation-set.toml
 @@ -253,6 +253,22 @@ desc = 'Make 2 or more contiguous hash signs (number signs) (like `##`, `###` an
@@ -1303,7 +1316,7 @@ index 77834a1..77091e2 100644
  
  # Non-tagged composites, used for inheritance
 diff --git a/params/parameters.toml b/params/parameters.toml
-index e06f019..808c754 100644
+index e06f0199e..808c754d7 100644
 --- a/params/parameters.toml
 +++ b/params/parameters.toml
 @@ -35,9 +35,9 @@ accentWidth = 200       # Width of accent marks.
@@ -1319,16 +1332,3 @@ index e06f019..808c754 100644
  
  refJut = 85
  
-diff --git a/params/shape-weight.toml b/params/shape-weight.toml
-index 622031b..de47ac3 100644
---- a/params/shape-weight.toml
-+++ b/params/shape-weight.toml
-@@ -3,7 +3,7 @@ canonicalStrokeWidthMin = 18  # sync with 100 entry below
- canonicalStrokeWidthMax = 108 # sync with 900 entry below
- 
- [shapeWeight.blend.400]
--stroke = 70        # Primary stroke width
-+stroke = 64        # Primary stroke width
- contrast = 1.11    # Stroke width contrast
- sb = 64            # Primary sidebearings
- essRatio = 1.12    # Proportion of widen of center of "S"

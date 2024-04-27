@@ -11,13 +11,38 @@
 [buildPlans.Lode]
 family = "Lode"
 spacing = "normal"
-serifs = "sans"
+# serifs = "sans"
 exportGlyphNames = true
 buildTextureFeature = true
 
+[buildPlans.LodeDark]
+family = "Lode Dark"
+spacing = "normal"
+# serifs = "sans"
+exportGlyphNames = true
+buildTextureFeature = true
+# inherits = "buildPlans.Lode"
+# weights.inherits = "buildPlans.Lode"
+widths.inherits = "buildPlans.Lode"
+slopes.inherits = "buildPlans.Lode"
+variants.inherits = "buildPlans.Lode"
+# ligations.inherits = "buildPlans.Lode"
+
 [buildPlans.Lode.metricOverride]
-# leading = 1200    # default is 1250
-leading = 1350
+leading = 1350   # leading = 1200    # default is 1250
+ascender = 800   # height of b - default is 735
+cap = 725        # height of H - default is 735
+symbolMid = 350  # default 340
+xHeight = 570    # height of x - default is 520
+parenSize = 1000 # default 966
+
+# __stroke = 'blend(weight, [100, 18], [400, 1064], [700, 90], [900, 114])'
+# __stroke = 'blend(weight, [100, 18], [400, 1070], [700, 96], [900, 114])'
+# __dotSize = 'blend(weight, [100, 50], [400, 112], [900, 162])'
+# __periodSize = 'blend(weight, [100, 55], [400, 128], [900, 180])'
+
+[buildPlans.LodeDark.metricOverride]
+leading = 1350   # leading = 1200    # default is 1250
 ascender = 800   # height of b - default is 735
 cap = 725        # height of H - default is 735
 symbolMid = 350  # default 340
@@ -96,7 +121,7 @@ v = "straight-serifless"
 # w = "straight-serifless"
 w = "straight-flat-top-serifless"
 
-long-s = "flat-hook-middle-serifed-xh"
+long-s = "flat-hook-serifless"
 eszet = "sulzbacher-serifless"
 lower-eth = "straight-bar"
 lower-delta = "rounded"
@@ -128,7 +153,7 @@ x = "semi-chancery-straight"
 y = "cursive-flat-hook-serifless"
 z = "curly-serifless"
 
-long-s = "flat-hook-tailed-middle-serifed-xh"
+long-s = "flat-hook-tailed"
 eszet = "longs-s-lig-tailed-serifless"
 lower-eth = "straight-bar"
 lower-delta = "rounded"
@@ -194,13 +219,63 @@ enables = [
     "escape-seq",
 ]
 
+# Note: copied from above
+[buildPlans.LodeDark.ligations]
+enables = [
+    "center-ops",
+    "center-op-trigger-plus-minus-l",
+    "center-op-trigger-plus-minus-r",
+    "center-op-trigger-equal-l",
+    "center-op-trigger-equal-r",
+    "center-op-trigger-bar-l",
+    "center-op-trigger-bar-r",
+    "center-op-trigger-angle-inside",
+    "center-op-trigger-angle-outside",
+    "center-op-influence-dot",
+    "center-op-influence-colon",
+    "arrow-l",
+    "arrow-r",
+    "arrow-lr",
+    "counter-arrow-l",
+    "counter-arrow-r",
+    "trig",
+    "eqeq",
+    "lteq-separate",
+    "gteq-separate",
+    "ltgt-diamond-tag",
+    "ltgt-slash-tag",
+    "brst",
+    "slash-asterisk",
+    "kern-dotty",
+    "kern-bars",
+    "logic",
+    "llgg",
+    "llggeq",
+    "html-comment",
+    # "colon-greater-as-colon-arrow",
+    "brace-bar",
+    "brack-bar",
+    "tilde-tilde-tilde",
+    "tilde-tilde",
+    "minus-minus-minus",
+    "plus-plus-plus",
+    "underscore-underscore-underscore",
+    "hash-hash-hash",
+    "hash-hash",
+
+    # Custom additions
+    "x-multiply",
+    "numeric-literals",
+    "zig-zag",
+    "escape-seq",
+]
+
 #######################
 ## Widths
 #######################
 
 [buildPlans.Lode.widths.Normal]
 shape = 548
-# shape = 600
 menu = 5
 css = "normal"
 
@@ -216,15 +291,35 @@ css = "normal"
 # menu = 7
 # css = "expanded"
 
-[buildPlans.Lode.weights.Regular]
-shape = 400
+# [buildPlans.Lode.weights.Book]
+# shape = 300
+# menu = 300
+# css = 300
+
+[buildPlans.LodeDark.weights.Regular]
+shape = 260
 menu = 400
 css = 400
 
-# [buildPlans.Lode.weights.Bold]
-# shape = 700
-# menu = 700
-# css = 700
+[buildPlans.Lode.weights.Regular]
+shape = 360
+menu = 400
+css = 400
+
+# [buildPlans.Lode.weights.SemiBold]
+# shape = 600
+# menu = 600
+# css = 600
+
+[buildPlans.LodeDark.weights.Bold]
+shape = 520
+menu = 700
+css = 700
+
+[buildPlans.Lode.weights.Bold]
+shape = 640
+menu = 700
+css = 700
 
 [buildPlans.Lode.slopes.Upright]
 angle = 0         # Angle in degrees. Valid range [0, 15]
@@ -232,11 +327,11 @@ shape = "upright" # Slope grade used for shape selection.  `upright` | `oblique`
 menu = "upright"  # Slope grade used for naming.           `upright` | `oblique` | `italic`
 css = "normal"    # Slope grade used for webfont CSS.      `normal`  | `oblique` | `italic`
 
-[buildPlans.Lode.slopes.Italic]
-angle = 15       # 9.4
-shape = "italic"
-menu = "italic"
-css = "italic"
+# [buildPlans.Lode.slopes.Italic]
+# angle = 15       # 9.4
+# shape = "italic"
+# menu = "italic"
+# css = "italic"
 
 [collectPlans.Lode]
 release = true

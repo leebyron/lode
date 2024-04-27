@@ -17,6 +17,8 @@ await serve(
     div {
       padding: 20px;
       font-size: max(10px, inherit);
+      white-space: break-spaces;
+      tab-size: 4;
     }
     textarea {
       padding: 20px;
@@ -48,6 +50,8 @@ await serve(
         /*font-weight: bold;*/
         background: #1e2025;
         color: white;
+        /*background: #e1dfda;*/
+        /*color: #222;*/
       \`.split('\\n').map(l => l.trim()).filter(Boolean).join('\\n')
       resize()
     }
@@ -96,7 +100,7 @@ function text2html(text) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;')
-    .replace(/\n/g, '<br>')
+  // .replace(/\n/g, '<br>')
 }
 
 async function file(name) {
