@@ -215,7 +215,8 @@ enables = [
     # Custom additions
     "x-multiply",
     "numeric-literals",
-    "zig-zag",
+    "zig-zag-caret",
+    "zig-zag-slash",
     "escape-seq",
 ]
 
@@ -266,7 +267,8 @@ enables = [
     # Custom additions
     "x-multiply",
     "numeric-literals",
-    "zig-zag",
+    "zig-zag-caret",
+    "zig-zag-slash",
     "escape-seq",
 ]
 
