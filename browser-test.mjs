@@ -48,11 +48,15 @@ await serve(
         /*line-height: 1.25;*/
         /*font-style: italic;*/
         /*font-weight: bold;*/
+
+        font-family: "Lode Dark";
         background: #1e2025;
         color: white;
+
+        /*font-family: "Lode";*/
         /*background: #e1dfda;*/
         /*color: #222;*/
-      \`.split('\\n').map(l => l.trim()).filter(Boolean).join('\\n')
+      \`.trim().split('\\n').map(l => l.trim()).join('\\n')
       resize()
     }
     function setStyle() {

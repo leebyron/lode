@@ -113,7 +113,7 @@ index 6666ea2c9..9eb695cee 100644
  	define [QCrossingCurlyTail df top sw] : union
  		VBar.m df.middle HalfStroke [mix Descender HalfStroke 1.75] sw
 diff --git a/packages/font-glyphs/src/meta/aesthetics.ptl b/packages/font-glyphs/src/meta/aesthetics.ptl
-index b546cf30d..9bfae89b0 100644
+index b546cf30d..856a4a9c3 100644
 --- a/packages/font-glyphs/src/meta/aesthetics.ptl
 +++ b/packages/font-glyphs/src/meta/aesthetics.ptl
 @@ -383,7 +383,8 @@ export : define DesignParameters : object
@@ -126,15 +126,6 @@ index b546cf30d..9bfae89b0 100644
  	# ()
  	parenOutside               0.2
  	parenOutsideSwAdj          0.2
-@@ -406,7 +407,7 @@ export : define DesignParameters : object
- 	# Bar position
- 	hBarPos                    0.525
- 	eBarPos                    0.5
--	fiveBarPos                 0.64
-+	fiveBarPos                 0.65
- 	overlayPos                 0.52
- 	fBarPosToXH                0.875
- 	gBarPos                    0.42
 diff --git a/packages/font-glyphs/src/number/0.ptl b/packages/font-glyphs/src/number/0.ptl
 index b7218ad6a..b52a4ca47 100644
 --- a/packages/font-glyphs/src/number/0.ptl
@@ -177,7 +168,7 @@ index b7218ad6a..b52a4ca47 100644
  		return : OvalShapeT spiro-outline
  			top / 2 + halfDotHeight - O
 diff --git a/packages/font-glyphs/src/number/6.ptl b/packages/font-glyphs/src/number/6.ptl
-index 6f6947cbb..1da258803 100644
+index 6f6947cbb..36773a69e 100644
 --- a/packages/font-glyphs/src/number/6.ptl
 +++ b/packages/font-glyphs/src/number/6.ptl
 @@ -11,7 +11,8 @@ glyph-block Digits-Six : begin
@@ -186,7 +177,7 @@ index 6f6947cbb..1da258803 100644
  	define [OpenContourSixShape charTop] : glyph-proc
 -		local oTop : charTop * 0.55 + Stroke / 2
 +		# Exagerate o in 6 and 9 to be closer to XH
-+		local oTop : charTop * 0.6074 + Stroke / 2
++		local oTop : charTop * 0.6 + Stroke / 2
  		local fine   : Stroke * CThinB
  		local coFine : Math.max [AdviceStroke 3.5] (Stroke - fine / 2)
  		include : dispiro
