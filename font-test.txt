@@ -86,10 +86,18 @@ a /\ s \/ _|_ |\|- False -> |> <-\|->
 <<<<<<<<<<<<<<<<<<<<<
 >>>>>>>>>>>>>>>>>>>>> >>>=
 
+<!-- -->
+<!--- --->
 
+iWi
+iwi
+xiw
+wix
+xwi
+iwx
 iMi
 xMx
-imi
+imin
 xmx
 imx
 mim."m" 'm'(m)
@@ -242,3 +250,19 @@ This word is spelled inccroectly
 
 underline
 _________^^^^^^^ ^^
+
+window.onload = () => {
+    const images = document.querySelectorAll('img');
+    const minWidth = Math.min(...images.map(img => img.width))
+    for (const image of images) {
+        const aspectRatio = image.height / image.width
+        image.width = minWidth
+        image.height = minWidth * aspectRatio
+    }
+}
+
+ d...d
+x.‌.‌.x
+x...x
+x  .x
+x..x

@@ -16,13 +16,14 @@ await serve(
     }
     div {
       padding: 20px;
-      font-size: max(10px, inherit);
       white-space: break-spaces;
       tab-size: 4;
     }
     textarea {
+      position: fixed;
+      right: 0;
+      width: max(33%, 50ch);
       padding: 20px;
-      width: 100%;
       box-sizing: border-box;
       overflow-y: hidden;
       background: #88888833;
@@ -31,6 +32,7 @@ await serve(
       font-family: inherit;
       font-size: max(10px, inherit);
       color: inherit;
+      z-index: 10;
     }
   </style>
   <script>
@@ -48,6 +50,8 @@ await serve(
         /*line-height: 1.25;*/
         /*font-style: italic;*/
         /*font-weight: bold;*/
+
+        /*font-feature-settings: "kern" 0;*/
 
         font-family: "Lode Dark";
         background: #1e2025;

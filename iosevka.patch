@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72f..df91ac4a8 100644
+index 39e7da72f..fc68f3269 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -40,23 +40,22 @@ index 39e7da72f..df91ac4a8 100644
  						include glyphT AS_BASE ALSO_METRICS
  						set-width Width
  						if extL : begin
-@@ -731,6 +739,15 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -731,6 +739,14 @@ glyph-block Autobuild-Transformed-Texture : begin
  		# link-relations relSets
  
  	define ranges : list
 +		# Adds more of ascii, allowing letters to expand into space and punctation
-+		list 0x20 0x21
++		list 0x20 0x22
 +		list 0x27 0x29
-+		list 0x2C 0x2C
-+		list 0x2E 0x2E
-+		list 0x2E 0x2E
-+		list 0x5B 0x5D
++		list 0x2C 0x2F
++		list 0x3A 0x3B
++		list 0x5B 0x5F
 +		list 0x60 0x60
-+		list 0x6B 0x6D
++		list 0x7B 0x7E
  		list 0x41 0x5A
  		list 0x61 0x7A
  		list 0xC0 0xFF
-@@ -747,14 +764,16 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -747,14 +763,18 @@ glyph-block Autobuild-Transformed-Texture : begin
  				if source : results.push { null source }
  		return results
  
@@ -69,15 +68,17 @@ index 39e7da72f..df91ac4a8 100644
 -	createTextureDerivatives Texture.ShrR  0         SHRINK    [jobs 0xF400]
 -	createTextureDerivatives Texture.ShrLR SHRINK    SHRINK    [jobs 0xF500]
 +	# More dramatic effect to texture extension and shrink
-+	define EXTENSION :  5 / 32
-+	define SHRINK    : -5 / 32
++	define EXTENSION     :  8 / 32
++	define DBL_EXTENSION :  4 / 32
++	define SHRINK        : -6 / 32
++	define DBL_SHRINK    : -4 / 32
 +	# Adds joining classes to avoid clipping
-+	createTextureDerivatives Texture.ExtL  Joining.Classes.Left  EXTENSION 0         [jobs 0xF000]
-+	createTextureDerivatives Texture.ExtR  Joining.Classes.Right 0         EXTENSION [jobs 0xF100]
-+	createTextureDerivatives Texture.ExtLR Joining.Classes.Mid   EXTENSION EXTENSION [jobs 0xF200]
-+	createTextureDerivatives Texture.ShrL  Joining.Classes.Left  SHRINK    0         [jobs 0xF300]
-+	createTextureDerivatives Texture.ShrR  Joining.Classes.Right 0         SHRINK    [jobs 0xF400]
-+	createTextureDerivatives Texture.ShrLR Joining.Classes.Mid   SHRINK    SHRINK    [jobs 0xF500]
++	createTextureDerivatives Texture.ExtL  Joining.Classes.Left  EXTENSION     0             [jobs 0xF000]
++	createTextureDerivatives Texture.ExtR  Joining.Classes.Right 0             EXTENSION     [jobs 0xF100]
++	createTextureDerivatives Texture.ExtLR Joining.Classes.Mid   DBL_EXTENSION DBL_EXTENSION [jobs 0xF200]
++	createTextureDerivatives Texture.ShrL  Joining.Classes.Left  SHRINK        0             [jobs 0xF300]
++	createTextureDerivatives Texture.ShrR  Joining.Classes.Right 0             SHRINK        [jobs 0xF400]
++	createTextureDerivatives Texture.ShrLR Joining.Classes.Mid   DBL_SHRINK    DBL_SHRINK    [jobs 0xF500]
  
  glyph-block Autobuild-Transformed-Mathematical : begin
  	glyph-block-import CommonShapes
@@ -192,10 +193,10 @@ index 6f6947cbb..36773a69e 100644
  		local coFine : Math.max (sw * CThin) (sw - fine / 2)
  
 diff --git a/packages/font-glyphs/src/symbol/arrow.ptl b/packages/font-glyphs/src/symbol/arrow.ptl
-index 557cd7cd8..b6cf5f29c 100644
+index 557cd7cd8..765429fdb 100644
 --- a/packages/font-glyphs/src/symbol/arrow.ptl
 +++ b/packages/font-glyphs/src/symbol/arrow.ptl
-@@ -8,35 +8,55 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -8,35 +8,56 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  	glyph-block-import CommonShapes
  	glyph-block-import Common-Derivatives
  	glyph-block-import Symbol-Geometric-Shared : UnicodeWeightGrade
@@ -205,8 +206,8 @@ index 557cd7cd8..b6cf5f29c 100644
 -	define arrowWidth  : Math.min (MosaicWidth - SB / 2) arrowHeight
 -	define arrowTop : [mix OperBot OperTop (1 / 2)] + arrowHeight / 2
 -	define arrowBot : [mix OperBot OperTop (1 / 2)] - arrowHeight / 2
-+	# Arrow width as the width of two operators
-+	define arrowWidth : MosaicWidth - SB * 4
++	# Arrow width as the width of two operators, marginless in fixed width
++	define arrowWidth : MosaicWidth - SB * 4 * (MosaicWidthScalar - 1)
 +	define arrowHeight : Width * 2 - SB * 4
 +
 +	# Arrow vertically baseline aligned
@@ -220,7 +221,8 @@ index 557cd7cd8..b6cf5f29c 100644
 -	define arrowHeadSize : (Width - SB) * DesignParameters.arrow_size * [Math.pow (arrowWidth / Width) 0.5] - [AdviceStroke 5] / 4
  	define arrowSw       OperatorStroke
 +	# Arrow head relative to symbol midline and baseline
-+	define arrowHeadSize : (SymbolMid - arrowSw * 0.5 * Math.SQRT1_2) * [Math.pow (MosaicWidth / 2 / Width) 0.5]
++	define arrowHeadSize : (SymbolMid - arrowSw * 0.5 * Math.SQRT1_2) * [Math.pow (MosaicWidthScalar / 2) 0.5]
++	define vertArrowHeadSize : Math.min arrowWidth (SymbolMid - arrowSw * 0.5 * Math.SQRT1_2)
  	define halfArrowSw : arrowSw / 2
  	define bendArrowHeadSize : mix arrowSw arrowHeadSize 0.75
  	define fine : AdviceStroke 3.5
@@ -259,7 +261,7 @@ index 557cd7cd8..b6cf5f29c 100644
  	define [ArrowBar x1 y1 x2 y2 halfSw w _offset] : begin
  		return : PointingTo x1 y1 x2 y2 : lambda [mag] : begin
  			local p : (mag - [fallback _offset : o + halfSw * [fallback w 1.1]]) / mag
-@@ -90,23 +110,32 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -90,23 +111,32 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  				flat (mag - [Math.abs s] / 2) 0 [widths.center (halfSw * 2)]
  				curl [mix mag 0 p] 0
  
@@ -299,7 +301,50 @@ index 557cd7cd8..b6cf5f29c 100644
  
  	define [SsArrowHead x1 y1 x2 y2 _size] : union
  		LHSHalfSsArrowHead x1 y1 x2 y2 0 _size
-@@ -731,7 +760,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -524,24 +554,24 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+ 
+ 	do "Straight Arrow"
+ 		MkArrow ArrowShape [MangleName 'arrowLeft']       [MangleUnicode 0x2190] arrowRSB SymbolMid arrowSB SymbolMid
+-		MkArrow ArrowShape [MangleName 'arrowUp']         [MangleUnicode 0x2191] arrowMidX arrowBot arrowMidX arrowTop
++		MkArrow ArrowShape [MangleName 'arrowUp']         [MangleUnicode 0x2191] arrowMidX arrowBot arrowMidX arrowTop nothing vertArrowHeadSize
+ 		MkArrow ArrowShape [MangleName 'arrowRight']      [MangleUnicode 0x2192] arrowSB SymbolMid arrowRSB SymbolMid
+-		MkArrow ArrowShape [MangleName 'arrowDown']       [MangleUnicode 0x2193] arrowMidX arrowTop arrowMidX arrowBot
++		MkArrow ArrowShape [MangleName 'arrowDown']       [MangleUnicode 0x2193] arrowMidX arrowTop arrowMidX arrowBot nothing vertArrowHeadSize
+ 		MkArrow ArrowShape [MangleName 'arrowUpLeft']     [MangleUnicode 0x2196] arrowDiagRSB arrowDiagBot arrowDiagSB arrowDiagTop
+ 		MkArrow ArrowShape [MangleName 'arrowUpRight']    [MangleUnicode 0x2197] arrowDiagSB arrowDiagBot arrowDiagRSB arrowDiagTop
+ 		MkArrow ArrowShape [MangleName 'arrowDownRight']  [MangleUnicode 0x2198] arrowDiagSB arrowDiagTop arrowDiagRSB arrowDiagBot
+ 		MkArrow ArrowShape [MangleName 'arrowDownLeft']   [MangleUnicode 0x2199] arrowDiagRSB arrowDiagTop arrowDiagSB arrowDiagBot
+ 
+ 		MkArrow ThinArrowShape [MangleName 'thinArrowLeft']  null arrowRSB SymbolMid arrowSB SymbolMid
+-		MkArrow ThinArrowShape [MangleName 'thinArrowUp']    null arrowMidX arrowBot arrowMidX arrowTop
++		MkArrow ThinArrowShape [MangleName 'thinArrowUp']    null arrowMidX arrowBot arrowMidX arrowTop nothing vertArrowHeadSize
+ 		MkArrow ThinArrowShape [MangleName 'thinArrowRight'] null arrowSB SymbolMid arrowRSB SymbolMid
+-		MkArrow ThinArrowShape [MangleName 'thinArrowDown']  null arrowMidX arrowTop arrowMidX arrowBot
++		MkArrow ThinArrowShape [MangleName 'thinArrowDown']  null arrowMidX arrowTop arrowMidX arrowBot nothing vertArrowHeadSize
+ 
+ 		MkArrow TrigArrowShape [MangleName 'uni279D']             [MangleUnicode 0x279D] arrowSB SymbolMid arrowRSB SymbolMid
+ 		MkArrow TrigArrowShape [MangleName 'trigArrowLeft']       [MangleUnicode 0x2B60] arrowRSB SymbolMid arrowSB SymbolMid
+-		MkArrow TrigArrowShape [MangleName 'trigArrowUp']         [MangleUnicode 0x2B61] arrowMidX arrowBot arrowMidX arrowTop
++		MkArrow TrigArrowShape [MangleName 'trigArrowUp']         [MangleUnicode 0x2B61] arrowMidX arrowBot arrowMidX arrowTop nothing vertArrowHeadSize
+ 		MkArrow TrigArrowShape [MangleName 'trigArrowRight']      [MangleUnicode 0x2B62] arrowSB SymbolMid arrowRSB SymbolMid
+-		MkArrow TrigArrowShape [MangleName 'trigArrowDown']       [MangleUnicode 0x2B63] arrowMidX arrowTop arrowMidX arrowBot
++		MkArrow TrigArrowShape [MangleName 'trigArrowDown']       [MangleUnicode 0x2B63] arrowMidX arrowTop arrowMidX arrowBot nothing vertArrowHeadSize
+ 		MkArrow TrigArrowShape [MangleName 'trigArrowUpLeft']     [MangleUnicode 0x2B66] arrowDiagRSB arrowDiagBot arrowDiagSB arrowDiagTop
+ 		MkArrow TrigArrowShape [MangleName 'trigArrowUpRight']    [MangleUnicode 0x2B67] arrowDiagSB arrowDiagBot arrowDiagRSB arrowDiagTop
+ 		MkArrow TrigArrowShape [MangleName 'trigArrowDownRight']  [MangleUnicode 0x2B68] arrowDiagSB arrowDiagTop arrowDiagRSB arrowDiagBot
+@@ -567,9 +597,9 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+ 
+ 	do "Dash Straight Arrow"
+ 		MkArrow DashArrowShape [MangleName 'dashArrowLeft']  [MangleUnicode 0x21E0] arrowRSB SymbolMid arrowSB SymbolMid
+-		MkArrow DashArrowShape [MangleName 'dashArrowUp']    [MangleUnicode 0x21E1] arrowMidX arrowBot arrowMidX arrowTop
++		MkArrow DashArrowShape [MangleName 'dashArrowUp']    [MangleUnicode 0x21E1] arrowMidX arrowBot arrowMidX arrowTop nothing vertArrowHeadSize
+ 		MkArrow DashArrowShape [MangleName 'dashArrowRight'] [MangleUnicode 0x21E2] arrowSB SymbolMid arrowRSB SymbolMid
+-		MkArrow DashArrowShape [MangleName 'dashArrowDown']  [MangleUnicode 0x21E3] arrowMidX arrowTop arrowMidX arrowBot
++		MkArrow DashArrowShape [MangleName 'dashArrowDown']  [MangleUnicode 0x21E3] arrowMidX arrowTop arrowMidX arrowBot nothing vertArrowHeadSize
+ 
+ 		MkArrow TrigDashArrowShape [MangleName 'trigDashArrowLeft']  [MangleUnicode 0x2B6A] arrowRSB SymbolMid arrowSB SymbolMid
+ 		MkArrow TrigDashArrowShape [MangleName 'trigDashArrowUp']    [MangleUnicode 0x2B6B] arrowMidX arrowBot arrowMidX arrowTop
+@@ -731,7 +761,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  		DoubleArrow2 [HalfArrowShape LHSHalfArrowHead] [HalfArrowShape RHSHalfArrowHead] [MangleName 'arrowUpHLDownHR']    [MangleUnicode 0x2951] arrowMidX arrowTop arrowMidX arrowBot
  
  
@@ -309,7 +354,7 @@ index 557cd7cd8..b6cf5f29c 100644
  	do "Wave arrows"
  		glyph-block-import Shared-Symbol-Shapes : CreateWaveShape
  		define WaveSw : AdviceStroke (5.5 - MosaicWidthScalar)
-@@ -931,14 +961,14 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -931,14 +962,14 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  			MkArrow [DoubleArrowShape dasw] 'longDblArrowRight' 0x27F9 l SymbolMid r SymbolMid
  
  	do "Triple-line Arrows"
@@ -326,7 +371,7 @@ index 557cd7cd8..b6cf5f29c 100644
  		MkArrow [QuadrupleArrowShape dasw] [MangleName 'quadrupleArrowUp']      [MangleUnicode 0x27F0] arrowMidX arrowBot arrowMidX arrowTop
  		MkArrow [QuadrupleArrowShape dasw] [MangleName 'quadrupleArrowDown']    [MangleUnicode 0x27F1] arrowMidX arrowTop arrowMidX arrowBot
  		MkArrow [QuadrupleArrowShape dasw] [MangleName 'quadrupleArrowLeft']    [MangleUnicode 0x2B45] arrowRSB SymbolMid arrowSB SymbolMid
-@@ -1098,17 +1128,17 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1098,17 +1129,17 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  				VBar.m l (SymbolMid - arrowHeadSize) (SymbolMid + arrowHeadSize) fine
  
  	do "Double-headed Arrows"
@@ -353,7 +398,7 @@ index 557cd7cd8..b6cf5f29c 100644
  
  		create-glyph [MangleName 'arrowUpDownBar'] [MangleUnicode 0x21A8] : composite-proc
  			refer-glyph : MangleName 'arrowUpDown.bottomSpaceLeft'
-@@ -1121,8 +1151,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1121,8 +1152,8 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  
  	do "Double-line Double-headed Arrows"
  		define dasw doubleArrowStemWidth
@@ -364,7 +409,7 @@ index 557cd7cd8..b6cf5f29c 100644
  
  		if (MosaicWidthScalar > 1 && !para.forceMonospace) : do
  			define l : mix 0 arrowSB kLongArrowSB
-@@ -1130,10 +1160,10 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
+@@ -1130,10 +1161,10 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
  			DoubleArrow [DoubleArrowShape dasw] 'longDblArrowLeftRight' 0x27FA l SymbolMid r SymbolMid
  
  	do "Same-side Double-headed Arrows"
@@ -814,6 +859,29 @@ index 9ece5e7c9..059a66e95 100644
  		MarkSet.plus
  	create-glyph 'asciiCaret.medium' : composite-proc
  		refer-glyph 'asciiCaret.high'
+diff --git a/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl b/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
+index 6672eb49a..9e1c477ea 100644
+--- a/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
++++ b/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
+@@ -26,6 +26,8 @@ glyph-block Symbol-Punctuation-Ligation-Variants : begin
+ 		* "question"
+ 
+ 	define deltas : object
++		# Used in spread op
++		"dRight2"      2.0
+ 		"dRight"       1.0
+ 		"dRightHalf"   0.5
+ 		"dMid"         0
+@@ -33,7 +35,8 @@ glyph-block Symbol-Punctuation-Ligation-Variants : begin
+ 		"dLeft"      (-1.0)
+ 
+ 	define [LigD baseName suffix pDelta] : if [glyph-is-needed baseName] : begin
+-		local delta : Math.max 0 : Width / 2 - (XH - PeriodSize) / 2
++		# More aggressive dot kerning
++		local delta PeriodSize # : Math.max 0 : Width / 2 - (XH - PeriodSize) / 2
+ 		derive-glyphs (baseName + '.lig.' + suffix) null baseName : function [src gr]
+ 			composite-proc
+ 				refer-glyph src
 diff --git a/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl b/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
 index e5545b53b..ea7f203a8 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
@@ -897,7 +965,7 @@ index b46689fda..2a6aa628f 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5d5..2702d822c 100644
+index f3301b5d5..bda0faade 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -1053,7 +1121,32 @@ index f3301b5d5..2702d822c 100644
  			chain-rule C C skipL skipL triggerL         # **##+
  			chain-rule C C skipL triggerL               # **#+
  			chain-rule C C triggerL                     # **+
-@@ -350,9 +446,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -225,6 +321,24 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				{'asterisk/sMid/ligComment'} ~> look-around
+ 				{'asterisk' 'asterisk/slashBot'}  ~> [just 'asterisk/sMid/ligComment']
+ 
++	# Adds spread operator ligation ...xyz
++	LigGroup "Spread" : if [hasLG 'spread-op'] : begin
++		CreateLigationLookup : list
++			chain-rule
++				period ~> look-around
++				period ~> advance
++				period ~> advance
++				period ~> advance
++			chain-rule
++				period ~> advance
++				period ~> advance
++				period ~> advance
++				period ~> look-around
++			chain-rule
++				period ~> [lsx 'dRight2']
++				period ~> [lsx 'dRight']
++				period ~> [lsx 'dMid']
++
+ 	LigGroup "Kern Dotty" : if [hasLG 'kern-dotty'] : begin
+ 		define dottyPunctuationSets : list
+ 			list { "period" "period/mid" } { "colon" "colon/mid" "question" "exclam" }
+@@ -350,9 +464,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # <<<=
@@ -1065,7 +1158,7 @@ index f3301b5d5..2702d822c 100644
  				equal      ~> look-around
  			chain-rule # =>>>=
  				equal      ~> look-around
-@@ -367,9 +463,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -367,9 +481,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # >>>=
@@ -1077,7 +1170,7 @@ index f3301b5d5..2702d822c 100644
  				equal      ~> look-around
  			chain-rule # =<<=
  				equal      ~> look-around
-@@ -382,8 +478,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -382,8 +496,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # <<=
@@ -1088,7 +1181,7 @@ index f3301b5d5..2702d822c 100644
  				equal      ~> look-around
  			chain-rule # =>>=
  				equal      ~> look-around
-@@ -396,8 +492,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -396,11 +510,12 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # >>=
@@ -1099,10 +1192,30 @@ index f3301b5d5..2702d822c 100644
  				equal      ~> look-around
  
  	LigGroup "HTML Comment" : if [hasLG 'html-comment'] : begin
-@@ -414,6 +510,18 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
++		local notBefore : hyphen.concat greater
+ 		CreateLigationLookup : list
+ 			chain-rule # <!---
+ 				less   ~> look-around
+@@ -413,6 +528,33 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				exclam ~> [lsx 'htmlcommentstart']
  				hyphen ~> [lsx 'lxc']
  				hyphen ~> [lsx 'cf']
- 
++			# Add HTML comment ends
++			chain-rule # normal arrow for ---> and <-->
++				notBefore ~> look-around
++				hyphen    ~> advance
++				hyphen    ~> advance
++				greater   ~> advance
++			chain-rule # normal arrow for -->>
++				hyphen  ~> advance
++				hyphen  ~> advance
++				greater ~> advance
++				greater ~> look-around
++			chain-rule # -->
++				hyphen  ~> [lsx 'fc']
++				hyphen  ~> [lsx 'cr']
++				greater ~> look-around
++
 +	LigGroup "Escape Sequence" : if [hasLG 'escape-seq'] : begin
 +		define escape    : [lsx 'escape'] backslash
 +		define escapable : alpha.concat digit backslash
@@ -1114,11 +1227,10 @@ index f3301b5d5..2702d822c 100644
 +			chain-rule
 +				backslash ~> escape
 +				escapable ~> look-around
-+
+ 
  	LigGroup "Arrows" : begin
  		define singular : hyphen.concat anyWave
- 		define [CBarSingular k] : begin
-@@ -465,16 +573,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -465,16 +607,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  
@@ -1140,7 +1252,7 @@ index f3301b5d5..2702d822c 100644
  			define [LMiddleHead]            : if [hasLG 'counter-arrow-l']                  [CJoinHeadMid] : if [hasLG 'arrow-l'] [LJoinHeadForce] advance
  			define [LAntiHeadForce]         : if [hasLG 'counter-arrow-l']                  [CAntiHeadForce]        advance
  			define [LAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-l']                  [CAntiHeadForceShiftN1] advance
-@@ -482,7 +591,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -482,7 +625,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  			define [RJoinHeadForce]         : if [hasLG 'arrow-r']                          [CJoinHeadForce]        advance
  			define [RJoinHeadForceLR]       : if ([hasLG 'arrow-r'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
  			define [RJoinHeadForceShift1]   : if [hasLG 'arrow-r']                          [CJoinHeadForceShift1]  advance
@@ -1149,7 +1261,7 @@ index f3301b5d5..2702d822c 100644
  			define [RMiddleHead]            : if [hasLG 'counter-arrow-r']                  [CJoinHeadMid] : if [hasLG 'arrow-r'] [RJoinHeadForce] advance
  			define [RAntiHeadForce]         : if [hasLG 'counter-arrow-r']                  [CAntiHeadForce]        advance
  			define [RAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-r']                  [CAntiHeadForceShiftN1] advance
-@@ -538,13 +647,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -538,13 +681,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  
  			begin "Dual / Spaceship"
  				heads.push : chain-rule # < < = > >
@@ -1166,7 +1278,7 @@ index f3301b5d5..2702d822c 100644
  					less    ~> [LJoinHeadForceShift1LR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceLR]
-@@ -552,7 +661,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -552,7 +695,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1LR]
@@ -1176,7 +1288,7 @@ index f3301b5d5..2702d822c 100644
  				heads.push : chain-rule # < = >
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
-@@ -562,17 +672,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -562,17 +706,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				heads.push : chain-rule # = > >
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1]
@@ -1198,7 +1310,7 @@ index f3301b5d5..2702d822c 100644
  					less    ~> [LJoinHeadForceShift1]
  					rodCls  ~> look-around
  				heads.push : chain-rule # = = >
-@@ -695,9 +805,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -695,9 +839,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				chain-rule
  					rodTermLeft          ~> look-around
  					[[CRod 'zf'] rodCls] ~> [[CRod 'zm'] rodCls]
@@ -1212,7 +1324,7 @@ index f3301b5d5..2702d822c 100644
  					[[CRod 'fz'] rodCls] ~> [[CRod 'mz'] rodCls]
  					rodTermRight         ~> look-around
  
-@@ -729,13 +841,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -729,13 +875,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  			chain-rule # <<<
@@ -1230,7 +1342,7 @@ index f3301b5d5..2702d822c 100644
  			chain-rule # <<
  				less       ~> [lsx 'shiftN0h']
  				less       ~> [lsx 'shift0h']
-@@ -744,10 +856,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -744,10 +890,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				greater    ~> [lsx 'shiftN0h']
  
  		# Cancel alternates of < and > shapes if there are more after them
@@ -1245,7 +1357,7 @@ index f3301b5d5..2702d822c 100644
  		local lgAll  : lAll.concat  gAll
  		local lgNeut : lNeut.concat gNeut
  		CreateLigationLookup : list
-@@ -780,8 +892,43 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -780,8 +926,43 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				lAll ~> lNeut
  				lAll ~> lNeut
  
@@ -1289,7 +1401,7 @@ index f3301b5d5..2702d822c 100644
  		CreateLigationLookup : list
  			chain-rule
  				slash          ~> [csx 'left']
-@@ -790,11 +937,22 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -790,11 +971,22 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				backslash      ~> [csx 'left']
  				slash          ~> [csx 'right']
  			chain-rule
@@ -1298,14 +1410,14 @@ index f3301b5d5..2702d822c 100644
 +				anyRodOrBar    ~> look-around
 +				anyRodOrBar    ~> advance
 +				anyRodOrBar    ~> advance
-+			chain-rule
+ 			chain-rule
+-				anyStraightRod ~> [lsx 'fm']
+-				bar            ~> [lsx "dMid"]
 +				anyRodOrBar    ~> advance
 +				anyRodOrBar    ~> advance
 +				anyRodOrBar    ~> look-around
 +			# |-
- 			chain-rule
--				anyStraightRod ~> [lsx 'fm']
--				bar            ~> [lsx "dMid"]
++			chain-rule
 +				bar            ~> [lsx "bottomMid"]
 +				anyStraightRod ~> [lsx 'mf.withoutNotch']
 +			# -|
@@ -1316,7 +1428,7 @@ index f3301b5d5..2702d822c 100644
  			chain-rule
  				underscore     ~> [lsx 'fm']
  				bar            ~> [lsx 'bottomMid']
-@@ -1018,12 +1176,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -1018,12 +1210,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3
@@ -1376,10 +1488,21 @@ index 99f7bc134..1a84f0c38 100644
  		}
  		if (typeof expr === "number") {
 diff --git a/params/ligation-set.toml b/params/ligation-set.toml
-index 77834a1d9..c71cfa82c 100644
+index 77834a1d9..c217b06c8 100644
 --- a/params/ligation-set.toml
 +++ b/params/ligation-set.toml
-@@ -253,6 +253,26 @@ desc = 'Make 2 or more contiguous hash signs (number signs) (like `##`, `###` an
+@@ -191,8 +191,8 @@ sampleRank = 2
+ desc = 'Enable ligation for `<<=`, `>>=` as shift operator'
+ 
+ [simple.html-comment]
+-samples = ["<!--", "<!---"]
+-desc = 'Enable ligation for `<!--` and `<!---`'
++samples = ["<!--", "<!---", "-->"]
++desc = 'Enable ligation for `<!--`, `<!---`, `-->` and `--->`'
+ 
+ [simple.colon-greater-as-colon-arrow]
+ samples = [":>"]
+@@ -253,6 +253,30 @@ desc = 'Make 2 or more contiguous hash signs (number signs) (like `##`, `###` an
  samples = ["###", "####"]
  desc = 'Make 3 or more contiguous hash signs (number signs) (like `##` and `###`) connected'
  
@@ -1396,12 +1519,16 @@ index 77834a1d9..c71cfa82c 100644
 +desc = 'Make 3 or more contiguous caret (like `^^^`) a connected zig-zag pattern'
 +
 +[simple.zig-zag-slash]
-+samples = ["/\\/", "\\/\\", "/\\/\\/\\/"]
++samples = ["/\\/\\/", "\\/\\/\\/\\"]
 +desc = 'Shows alternating slash and backslash in a continuous zig-zag pattern'
 +
 +[simple.escape-seq]
 +samples = ["\\\\\\\\", "\\0", "line end\\n"]
 +desc = 'Kerns escape sequence backslash to the character being escaped'
++
++[simple.spread-op]
++samples = ["...xyz"]
++desc = 'Kerns three dots right as a spread operator'
 +
  ###################################################################################################
  

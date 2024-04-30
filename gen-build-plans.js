@@ -197,6 +197,7 @@ const Lode = {
       'zig-zag-caret',
       'zig-zag-slash',
       'escape-seq',
+      'spread-op',
     ],
   },
 
@@ -218,19 +219,6 @@ const Lode = {
     // },
   },
 
-  weights: {
-    Regular: {
-      shape: 360,
-      menu: 400,
-      css: 400,
-    },
-    Bold: {
-      shape: 640,
-      menu: 700,
-      css: 700,
-    },
-  },
-
   slopes: {
     Upright: {
       angle: 0,
@@ -238,12 +226,25 @@ const Lode = {
       menu: 'upright',
       css: 'normal',
     },
-    // Italic: {
-    //   angle: 15, // 9.4
-    //   shape: 'italic',
-    //   menu: 'italic',
-    //   css: 'italic'
-    // },
+    Italic: {
+      angle: 15, // 9.4
+      shape: 'italic',
+      menu: 'italic',
+      css: 'italic',
+    },
+  },
+
+  weights: {
+    Regular: {
+      shape: 390,
+      menu: 400,
+      css: 400,
+    },
+    Bold: {
+      shape: 660,
+      menu: 700,
+      css: 700,
+    },
   },
 }
 
@@ -251,7 +252,7 @@ const LodeDark = Object.assign({}, Lode, {
   family: 'Lode Dark',
   weights: {
     Regular: {
-      shape: 260,
+      shape: 280,
       menu: 400,
       css: 400,
     },
@@ -283,13 +284,22 @@ const config = {
   collectPlans: {
     Lode: {
       release: true,
-      from: ['Lode'], // , 'LodeTerm'],
+      from: ['Lode', 'LodeTerm'],
     },
     LodeDark: {
       release: true,
-      from: ['LodeDark'], // , 'LodeDarkTerm'],
+      from: ['LodeDark', 'LodeDarkTerm'],
     },
   },
+}
+
+// comment out for terms
+// config.collectPlans.Lode.from = ['Lode']
+// config.collectPlans.LodeDark.from = ['LodeDark']
+// comment out for all weights
+for (let plan of Object.values(config.buildPlans)) {
+  delete plan.slopes.Italic
+  delete plan.weights.Bold
 }
 
 // ----------------------------------------------------------------------
