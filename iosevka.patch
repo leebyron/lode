@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72f..fc68f3269 100644
+index 39e7da72f..ddc98e9cc 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -68,10 +68,10 @@ index 39e7da72f..fc68f3269 100644
 -	createTextureDerivatives Texture.ShrR  0         SHRINK    [jobs 0xF400]
 -	createTextureDerivatives Texture.ShrLR SHRINK    SHRINK    [jobs 0xF500]
 +	# More dramatic effect to texture extension and shrink
-+	define EXTENSION     :  8 / 32
-+	define DBL_EXTENSION :  4 / 32
-+	define SHRINK        : -6 / 32
-+	define DBL_SHRINK    : -4 / 32
++	define EXTENSION     :  4 / 16
++	define DBL_EXTENSION :  2 / 16
++	define SHRINK        : -3 / 16
++	define DBL_SHRINK    : -2 / 16
 +	# Adds joining classes to avoid clipping
 +	createTextureDerivatives Texture.ExtL  Joining.Classes.Left  EXTENSION     0             [jobs 0xF000]
 +	createTextureDerivatives Texture.ExtR  Joining.Classes.Right 0             EXTENSION     [jobs 0xF100]
@@ -128,7 +128,7 @@ index b546cf30d..856a4a9c3 100644
  	parenOutside               0.2
  	parenOutsideSwAdj          0.2
 diff --git a/packages/font-glyphs/src/number/0.ptl b/packages/font-glyphs/src/number/0.ptl
-index b7218ad6a..b52a4ca47 100644
+index b7218ad6a..047af7740 100644
 --- a/packages/font-glyphs/src/number/0.ptl
 +++ b/packages/font-glyphs/src/number/0.ptl
 @@ -151,7 +151,8 @@ glyph-block Digits-Zero : begin
@@ -137,7 +137,7 @@ index b7218ad6a..b52a4ca47 100644
  	define [ZeroDotShape top] : begin
 -		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 4)
 +		# Dot to fill 1/3 of inner width
-+		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 6)
++		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 5)
  		return : OShapeOutline.NoOvershoot
  			top / 2 + DotRadius
  			top / 2 - DotRadius
@@ -146,7 +146,7 @@ index b7218ad6a..b52a4ca47 100644
  
  	define [ZeroLongDotShape top] : begin
 -		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 4)
-+		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 6)
++		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 5)
  		local halfDotHeight : Math.max DotRadius : Math.min ((top - Stroke * 2) / 4) ((top - Stroke * 2 - (CircleInnerWidth - halfDotWidth * 2)) / 2)
  		return : OShapeOutline.NoOvershoot
  			top / 2 + halfDotHeight
@@ -155,7 +155,7 @@ index b7218ad6a..b52a4ca47 100644
  
  	define [ZeroOvalDotShape top] : begin
 -		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 4)
-+		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 6)
++		local halfDotWidth : Math.min DotRadius (CircleInnerWidth / 5)
  		return : OvalShapeT spiro-outline
  			top / 2 + DotRadius - O
  			top / 2 - DotRadius + O
@@ -164,7 +164,7 @@ index b7218ad6a..b52a4ca47 100644
  
  	define [ZeroOvalLongDotShape top] : begin
 -		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 4)
-+		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 6)
++		local halfDotWidth : Math.min HalfStroke (CircleInnerWidth / 5)
  		local halfDotHeight : Math.max DotRadius : Math.min ((top - Stroke * 2) / 4) ((top - Stroke * 2 - (CircleInnerWidth - halfDotWidth * 2)) / 2)
  		return : OvalShapeT spiro-outline
  			top / 2 + halfDotHeight - O
@@ -193,7 +193,7 @@ index 6f6947cbb..36773a69e 100644
  		local coFine : Math.max (sw * CThin) (sw - fine / 2)
  
 diff --git a/packages/font-glyphs/src/symbol/arrow.ptl b/packages/font-glyphs/src/symbol/arrow.ptl
-index 557cd7cd8..765429fdb 100644
+index 557cd7cd8..f57bb5752 100644
 --- a/packages/font-glyphs/src/symbol/arrow.ptl
 +++ b/packages/font-glyphs/src/symbol/arrow.ptl
 @@ -8,35 +8,56 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
@@ -207,7 +207,7 @@ index 557cd7cd8..765429fdb 100644
 -	define arrowTop : [mix OperBot OperTop (1 / 2)] + arrowHeight / 2
 -	define arrowBot : [mix OperBot OperTop (1 / 2)] - arrowHeight / 2
 +	# Arrow width as the width of two operators, marginless in fixed width
-+	define arrowWidth : MosaicWidth - SB * 4 * (MosaicWidthScalar - 1)
++	define arrowWidth : MosaicWidth - 4 * [mix O SB (MosaicWidthScalar - 1)]
 +	define arrowHeight : Width * 2 - SB * 4
 +
 +	# Arrow vertically baseline aligned
@@ -222,7 +222,7 @@ index 557cd7cd8..765429fdb 100644
  	define arrowSw       OperatorStroke
 +	# Arrow head relative to symbol midline and baseline
 +	define arrowHeadSize : (SymbolMid - arrowSw * 0.5 * Math.SQRT1_2) * [Math.pow (MosaicWidthScalar / 2) 0.5]
-+	define vertArrowHeadSize : Math.min arrowWidth (SymbolMid - arrowSw * 0.5 * Math.SQRT1_2)
++	define vertArrowHeadSize : Math.min (arrowWidth / 2) (SymbolMid - arrowSw * 0.5 * Math.SQRT1_2)
  	define halfArrowSw : arrowSw / 2
  	define bendArrowHeadSize : mix arrowSw arrowHeadSize 0.75
  	define fine : AdviceStroke 3.5
@@ -965,7 +965,7 @@ index b46689fda..2a6aa628f 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5d5..bda0faade 100644
+index f3301b5d5..1975b97f3 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -1181,7 +1181,7 @@ index f3301b5d5..bda0faade 100644
  				equal      ~> look-around
  			chain-rule # =>>=
  				equal      ~> look-around
-@@ -396,11 +510,12 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -396,11 +510,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # >>=
@@ -1192,29 +1192,30 @@ index f3301b5d5..bda0faade 100644
  				equal      ~> look-around
  
  	LigGroup "HTML Comment" : if [hasLG 'html-comment'] : begin
-+		local notBefore : hyphen.concat greater
++		local notBefore : hyphen.concat less greater
++		local notAfter : hyphen.concat greater
  		CreateLigationLookup : list
  			chain-rule # <!---
  				less   ~> look-around
-@@ -413,6 +528,33 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
- 				exclam ~> [lsx 'htmlcommentstart']
+@@ -414,6 +530,34 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				hyphen ~> [lsx 'lxc']
  				hyphen ~> [lsx 'cf']
+ 
 +			# Add HTML comment ends
-+			chain-rule # normal arrow for ---> and <-->
++			chain-rule # normal arrow for ---> and <--> and >-->
 +				notBefore ~> look-around
 +				hyphen    ~> advance
 +				hyphen    ~> advance
 +				greater   ~> advance
-+			chain-rule # normal arrow for -->>
-+				hyphen  ~> advance
-+				hyphen  ~> advance
-+				greater ~> advance
-+				greater ~> look-around
++			chain-rule # normal arrow for -->> and -->-
++				hyphen    ~> advance
++				hyphen    ~> advance
++				greater   ~> advance
++				notAfter  ~> look-around
 +			chain-rule # -->
-+				hyphen  ~> [lsx 'fc']
-+				hyphen  ~> [lsx 'cr']
-+				greater ~> look-around
++				hyphen    ~> [lsx 'fc']
++				hyphen    ~> [lsx 'cr']
++				greater   ~> look-around
 +
 +	LigGroup "Escape Sequence" : if [hasLG 'escape-seq'] : begin
 +		define escape    : [lsx 'escape'] backslash
@@ -1227,10 +1228,11 @@ index f3301b5d5..bda0faade 100644
 +			chain-rule
 +				backslash ~> escape
 +				escapable ~> look-around
- 
++
  	LigGroup "Arrows" : begin
  		define singular : hyphen.concat anyWave
-@@ -465,16 +607,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 		define [CBarSingular k] : begin
+@@ -465,16 +609,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  
@@ -1252,7 +1254,7 @@ index f3301b5d5..bda0faade 100644
  			define [LMiddleHead]            : if [hasLG 'counter-arrow-l']                  [CJoinHeadMid] : if [hasLG 'arrow-l'] [LJoinHeadForce] advance
  			define [LAntiHeadForce]         : if [hasLG 'counter-arrow-l']                  [CAntiHeadForce]        advance
  			define [LAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-l']                  [CAntiHeadForceShiftN1] advance
-@@ -482,7 +625,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -482,7 +627,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  			define [RJoinHeadForce]         : if [hasLG 'arrow-r']                          [CJoinHeadForce]        advance
  			define [RJoinHeadForceLR]       : if ([hasLG 'arrow-r'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
  			define [RJoinHeadForceShift1]   : if [hasLG 'arrow-r']                          [CJoinHeadForceShift1]  advance
@@ -1261,7 +1263,7 @@ index f3301b5d5..bda0faade 100644
  			define [RMiddleHead]            : if [hasLG 'counter-arrow-r']                  [CJoinHeadMid] : if [hasLG 'arrow-r'] [RJoinHeadForce] advance
  			define [RAntiHeadForce]         : if [hasLG 'counter-arrow-r']                  [CAntiHeadForce]        advance
  			define [RAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-r']                  [CAntiHeadForceShiftN1] advance
-@@ -538,13 +681,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -538,13 +683,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  
  			begin "Dual / Spaceship"
  				heads.push : chain-rule # < < = > >
@@ -1278,7 +1280,7 @@ index f3301b5d5..bda0faade 100644
  					less    ~> [LJoinHeadForceShift1LR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceLR]
-@@ -552,7 +695,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -552,7 +697,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1LR]
@@ -1288,7 +1290,7 @@ index f3301b5d5..bda0faade 100644
  				heads.push : chain-rule # < = >
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
-@@ -562,17 +706,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -562,17 +708,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				heads.push : chain-rule # = > >
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1]
@@ -1310,7 +1312,7 @@ index f3301b5d5..bda0faade 100644
  					less    ~> [LJoinHeadForceShift1]
  					rodCls  ~> look-around
  				heads.push : chain-rule # = = >
-@@ -695,9 +839,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -695,9 +841,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				chain-rule
  					rodTermLeft          ~> look-around
  					[[CRod 'zf'] rodCls] ~> [[CRod 'zm'] rodCls]
@@ -1324,7 +1326,7 @@ index f3301b5d5..bda0faade 100644
  					[[CRod 'fz'] rodCls] ~> [[CRod 'mz'] rodCls]
  					rodTermRight         ~> look-around
  
-@@ -729,13 +875,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -729,13 +877,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  			chain-rule # <<<
@@ -1342,7 +1344,7 @@ index f3301b5d5..bda0faade 100644
  			chain-rule # <<
  				less       ~> [lsx 'shiftN0h']
  				less       ~> [lsx 'shift0h']
-@@ -744,10 +890,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -744,10 +892,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				greater    ~> [lsx 'shiftN0h']
  
  		# Cancel alternates of < and > shapes if there are more after them
@@ -1357,7 +1359,7 @@ index f3301b5d5..bda0faade 100644
  		local lgAll  : lAll.concat  gAll
  		local lgNeut : lNeut.concat gNeut
  		CreateLigationLookup : list
-@@ -780,8 +926,43 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -780,8 +928,43 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				lAll ~> lNeut
  				lAll ~> lNeut
  
@@ -1401,7 +1403,7 @@ index f3301b5d5..bda0faade 100644
  		CreateLigationLookup : list
  			chain-rule
  				slash          ~> [csx 'left']
-@@ -790,11 +971,22 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -790,11 +973,22 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				backslash      ~> [csx 'left']
  				slash          ~> [csx 'right']
  			chain-rule
@@ -1428,7 +1430,7 @@ index f3301b5d5..bda0faade 100644
  			chain-rule
  				underscore     ~> [lsx 'fm']
  				bar            ~> [lsx 'bottomMid']
-@@ -1018,12 +1210,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -1018,12 +1212,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3

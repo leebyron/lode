@@ -297,10 +297,10 @@ const config = {
 // config.collectPlans.Lode.from = ['Lode']
 // config.collectPlans.LodeDark.from = ['LodeDark']
 // comment out for all weights
-for (let plan of Object.values(config.buildPlans)) {
-  delete plan.slopes.Italic
-  delete plan.weights.Bold
-}
+// for (let plan of Object.values(config.buildPlans)) {
+//   delete plan.slopes.Italic
+//   delete plan.weights.Bold
+// }
 
 // ----------------------------------------------------------------------
 
