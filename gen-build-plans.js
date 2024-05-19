@@ -17,13 +17,24 @@ const Lode = {
   buildTextureFeature: true,
 
   metricOverride: {
-    leading: 1350, //# leading = 1200    //# default is 1250
-    ascender: 800, //# height of b - default is 735
-    cap: 725, //# height of H - default is 735
-    symbolMid: 350, //# default 340
-    xHeight: 570, //# height of x - default is 520
-    parenSize: 1000, //# default 966
+    leading: 1250, //# leading = 1200    //# default is 1250
+    ascender: 740, //# height of b - default is 735
+    cap: 670, //# height of H - default is 735
+    symbolMid: 325, //# default 340
+    xHeight: 530, //# height of x - default is 520
+    parenSize: 1020, //# default 966
+    archDepth: 205, //   # Vertical arc size in capital letters. default 195
+    smallArchDepth: 205, //  # Vertical arc size in lowercase letters. default 200
   },
+
+  // metricOverride: {
+  //   leading: 1350, //# leading = 1200    //# default is 1250
+  //   ascender: 800, //# height of b - default is 735
+  //   cap: 725, //# height of H - default is 735
+  //   symbolMid: 350, //# default 340
+  //   xHeight: 570, //# height of x - default is 520
+  //   parenSize: 1000, //# default 966
+  // },
 
   variants: {
     design: {
@@ -33,12 +44,12 @@ const Lode = {
       three: 'two-arcs',
       four: 'closed-serifless',
       five: 'oblique-arched-serifless',
-      six: 'open-contour',
-      //# six: "straight-bar",
+      // six: 'open-contour',
+      six: 'straight-bar',
       seven: 'straight-serifless',
       eight: 'two-circles',
-      nine: 'open-contour',
-      //# nine: "straight-bar",
+      // nine: 'open-contour',
+      nine: 'straight-bar',
       tilde: 'low',
       asterisk: 'hex-low',
       underscore: 'high', //# "above-baseline",
@@ -159,7 +170,7 @@ const Lode = {
       'center-op-trigger-bar-r',
       'center-op-trigger-angle-inside',
       'center-op-trigger-angle-outside',
-      'center-op-influence-dot',
+      // 'center-op-influence-dot',
       'center-op-influence-colon',
       'arrow-l',
       'arrow-r',
@@ -203,7 +214,7 @@ const Lode = {
 
   widths: {
     Normal: {
-      shape: 548,
+      shape: 550,
       menu: 5,
       css: 'normal',
     },
@@ -236,12 +247,12 @@ const Lode = {
 
   weights: {
     Regular: {
-      shape: 390,
+      shape: 375,
       menu: 400,
       css: 400,
     },
     Bold: {
-      shape: 660,
+      shape: 685,
       menu: 700,
       css: 700,
     },
@@ -252,12 +263,12 @@ const LodeDark = Object.assign({}, Lode, {
   family: 'Lode Dark',
   weights: {
     Regular: {
-      shape: 280,
+      shape: 270,
       menu: 400,
       css: 400,
     },
     Bold: {
-      shape: 520,
+      shape: 540,
       menu: 700,
       css: 700,
     },
@@ -294,8 +305,8 @@ const config = {
 }
 
 // comment out for terms
-// config.collectPlans.Lode.from = ['Lode']
-// config.collectPlans.LodeDark.from = ['LodeDark']
+config.collectPlans.Lode.from = ['Lode']
+config.collectPlans.LodeDark.from = ['LodeDark']
 // comment out for all weights
 // for (let plan of Object.values(config.buildPlans)) {
 //   delete plan.slopes.Italic
