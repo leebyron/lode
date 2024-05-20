@@ -247,7 +247,7 @@ const Lode = {
 
   weights: {
     Regular: {
-      shape: 375,
+      shape: 345,
       menu: 400,
       css: 400,
     },
@@ -263,7 +263,7 @@ const LodeDark = Object.assign({}, Lode, {
   family: 'Lode Dark',
   weights: {
     Regular: {
-      shape: 270,
+      shape: 250,
       menu: 400,
       css: 400,
     },
@@ -308,10 +308,10 @@ const config = {
 config.collectPlans.Lode.from = ['Lode']
 config.collectPlans.LodeDark.from = ['LodeDark']
 // comment out for all weights
-// for (let plan of Object.values(config.buildPlans)) {
-//   delete plan.slopes.Italic
-//   delete plan.weights.Bold
-// }
+for (let plan of Object.values(config.buildPlans)) {
+  delete plan.slopes.Italic
+  delete plan.weights.Bold
+}
 
 // ----------------------------------------------------------------------
 

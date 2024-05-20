@@ -278,3 +278,10 @@ Alt names:
 .dev
 .de
 .se
+
+www.
+.www
+.w w.
+.www.
+xwww.
+immutable programming
