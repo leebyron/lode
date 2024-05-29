@@ -41,7 +41,8 @@ const Lode = {
       zero: 'oval-dotted', //# "dotted"                   //# "slashed-split",
       one: 'no-base',
       two: 'straight-neck-serifless',
-      three: 'two-arcs',
+      // three: 'two-arcs',
+      three: 'flat-top-serifless',
       four: 'closed-serifless',
       five: 'oblique-arched-serifless',
       // six: 'open-contour',
@@ -310,7 +311,7 @@ config.collectPlans.LodeDark.from = ['LodeDark']
 // comment out for all weights
 for (let plan of Object.values(config.buildPlans)) {
   delete plan.slopes.Italic
-  delete plan.weights.Bold
+  // delete plan.weights.Bold
 }
 
 // ----------------------------------------------------------------------

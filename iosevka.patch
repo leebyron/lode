@@ -96,6 +96,20 @@ index 39e7da72f..11d1ea70b 100644
  
  glyph-block Autobuild-Transformed-Mathematical : begin
  	glyph-block-import CommonShapes
+diff --git a/packages/font-glyphs/src/letter/latin-ext/ezh.ptl b/packages/font-glyphs/src/letter/latin-ext/ezh.ptl
+index f147a7e91..af50150d8 100644
+--- a/packages/font-glyphs/src/letter/latin-ext/ezh.ptl
++++ b/packages/font-glyphs/src/letter/latin-ext/ezh.ptl
+@@ -99,7 +99,8 @@ glyph-block Letter-Latin-Ezh : begin
+ 	define EzhConfig : object
+ 		straightSerifless  { false false }
+ 		straightTopSerifed { false true  }
+-		cursive            { true  false }
++		# Super lazy forced cursive for all ezh glyphs
++		cursive            { true  true }
+ 
+ 	foreach { suffix { isCursive isSerifed } } [pairs-of EzhConfig] : do
+ 		create-glyph "Ezh.\(suffix)" : glyph-proc
 diff --git a/packages/font-glyphs/src/letter/latin/upper-a.ptl b/packages/font-glyphs/src/letter/latin/upper-a.ptl
 index 50a29c90a..aafb3eb12 100644
 --- a/packages/font-glyphs/src/letter/latin/upper-a.ptl
