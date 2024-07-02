@@ -1,5 +1,4 @@
 #!/bin/bash
 
-pushd iosevka
-git apply --check ../iosevka.patch 2>/dev/null && git apply ../iosevka.patch
-git diff HEAD > ../iosevka.patch
+git -C iosevka apply --check iosevka.patch 2>/dev/null && git -C iosevka apply iosevka.patch
+git -C iosevka diff HEAD > iosevka.patch

@@ -4,55 +4,64 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1" />
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <link
       rel="preload"
       href="woff/Lode-Regular.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <link
       rel="preload"
       href="woff/Lode-Italic.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <link
       rel="preload"
       href="woff/Lode-Bold.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <link
       rel="preload"
       href="woff/Lode-BoldItalic.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <link
       rel="preload"
       href="woff/LodeDark-Regular.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <link
       rel="preload"
       href="woff/LodeDark-Italic.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <link
       rel="preload"
       href="woff/LodeDark-Bold.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <link
       rel="preload"
       href="woff/LodeDark-BoldItalic.woff2"
       as="font"
       type="font/woff2"
-      crossorigin />
+      crossorigin
+    />
     <style>
       @font-face {
         font-family: 'Lode Web';
@@ -135,8 +144,8 @@
         --dark-background: #1e2025;
         --highlight: color(display-p3 0 1 0.65);
         --highlight-thin: color(display-p3 0 1 0.65 / 0.35);
-        --lite-link: color(display-p3 0 0.65 0.42);
-        --dark-link: color(display-p3 0 1 0.65);
+        --lite-link: color(display-p3 0 0.3 0.8 / 1);
+        --dark-link: color(display-p3 0.22 1 0 / 1);
 
         --lite-ckw: maroon;
         --dark-ckw: pink;
@@ -150,7 +159,8 @@
       }
 
       * {
-        font-size: 14px;
+        font-size: 16px;
+        line-height: 25px;
         text-size-adjust: none;
         -webkit-text-size-adjust: none;
         caret-color: var(--highlight);
@@ -328,6 +338,26 @@
       ckw {
         color: var(--ckw);
       }
+
+      :root {
+        --solarized-red: #dc322f;
+        --solarized-orange: #cb4b16;
+        --solarized-yellow: #b58900;
+        --solarized-green: #859900;
+        --solarized-cyan: #2aa198;
+        --solarized-blue: #268bd2;
+        --solarized-violet: #6c71c4;
+        --solarized-magenta: #d33682;
+      }
+
+      sr { color: var(--solarized-red); }
+      so { color: var(--solarized-orange); }
+      sy { color: var(--solarized-yellow); }
+      sg { color: var(--solarized-green); }
+      sc { color: var(--solarized-cyan); }
+      sb { color: var(--solarized-blue); }
+      sv { color: var(--solarized-violet); }
+      sm { color: var(--solarized-magenta); }
     </style>
     <script>
       {
@@ -350,7 +380,7 @@
         const themeSheet = document.createElement('style')
         themeSheet.textContent = `:root {${darkRule}}\n@media (prefers-color-scheme: light) { :root {${liteRule}} }`
         defineSheet.after(themeSheet)
-        defineSheet.textContent += `\n.lite {${liteRule}}\n.dark {${darkRule}}`
+        defineSheet.textContent += `\n:root.lite, .lite {${liteRule}}\n:root.dark, .dark {${darkRule}}`
         globalThis.toggleColor = liteOrDark => {
           themeSheet.textContent = `:root {${liteOrDark == 'dark' ? darkRule : liteRule}}`
         }
@@ -455,11 +485,13 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
               z-index: 2;
               background-color: transparent;
               color: transparent;
-            ">
-When life gives you lambdas, make lazy loops.
-When life gives you lambdas, make lazy loops.
-When life gives you lambdas, make lazy loops.
-When life gives you lambdas, make lazy loops.</pre
+            "
+          >
+(<sr>defn</sr> <sv>lazy-loop</sv> [n]
+  (<sv>lazy-seq</sv>
+    (<sv>when</sv> (</sv>pos?</sv> n)
+      (<sv>cons</sv> "When life gives you lambdas, make lazy loops."
+            (<sv>lazy-loop</sv> (<sv>dec</sv> n))))))</pre
           >
           <div
             class="dark theme"
@@ -471,7 +503,8 @@ When life gives you lambdas, make lazy loops.</pre
               right: 0;
               bottom: 0;
               margin: 0;
-            ">
+            "
+          >
             <pre />
           </div>
           <div
@@ -485,14 +518,16 @@ When life gives you lambdas, make lazy loops.</pre
               right: 0;
               bottom: 0;
               margin: 0;
-            ">
+            "
+          >
             <pre />
           </div>
           <svg
             width="0"
             height="0"
             viewBox="0 0 740 600"
-            style="position: absolute">
+            style="position: absolute"
+          >
             <defs>
               <clipPath id="lite-mask">
                 <rect
@@ -500,7 +535,8 @@ When life gives you lambdas, make lazy loops.</pre
                   y="0"
                   width="250"
                   height="600"
-                  style="transition: none" />
+                  style="transition: none"
+                />
               </clipPath>
             </defs>
           </svg>
@@ -546,7 +582,8 @@ When life gives you lambdas, make lazy loops.</pre
                 timeout = setTimeout(schedule, 1000)
               }
               function updateText() {
-                darkPre.textContent = litePre.textContent = pre.textContent
+                darkPre.replaceChildren(...pre.cloneNode(true).childNodes)
+                litePre.replaceChildren(...pre.cloneNode(true).childNodes)
               }
               function onMouseMove(event) {
                 setX(event.clientX)
@@ -675,62 +712,12 @@ x++ y-- z**n a&lt;&lt;n b>>n a>>>b a&&b a||b
 
         <pre class="specimen">
 Immutable data-sturctures
-          ^^^^^^^^^^^^^^^ &lt;- did you mean "data-structures"?
+          <sy>^^^^^^^^^^^^^^^</sy> &lt;- did you mean "data-structures"?
 
 for (const x of const y) {}
-                <cr>^^^^^</cr>
+                <sr>^^^^^</sr>
                 Unexpected token 'const'
-    </pre
-        >
-        <!--
-    'center-ops',
-    'center-op-trigger-plus-minus-l',
-    'center-op-trigger-plus-minus-r',
-    'center-op-trigger-equal-l',
-    'center-op-trigger-equal-r',
-    'center-op-trigger-bar-l',
-    'center-op-trigger-bar-r',
-    'center-op-trigger-angle-inside',
-    'center-op-trigger-angle-outside',
-    'center-op-influence-dot',
-    'center-op-influence-colon',
-    'arrow-l',
-    'arrow-r',
-    'arrow-lr',
-    'counter-arrow-l',
-    'counter-arrow-r',
-    'trig',
-    'eqeq',
-    'lteq-separate',
-    'gteq-separate',
-    'ltgt-diamond-tag',
-    'ltgt-slash-tag',
-    'brst',
-    'slash-asterisk',
-    'kern-dotty',
-    'kern-bars',
-    'logic',
-    'llgg',
-    'llggeq',
-    'html-comment',
-    //# "colon-greater-as-colon-arrow",
-    'brace-bar',
-    'brack-bar',
-    'tilde-tilde-tilde',
-    'tilde-tilde',
-    'minus-minus-minus',
-    'plus-plus-plus',
-    'underscore-underscore-underscore',
-    'hash-hash-hash',
-    'hash-hash',
-
-    //# Custom additions
-    'x-multiply',
-    'numeric-literals',
-    'zig-zag-caret',
-    'zig-zag-slash',
-    'escape-seq',
-    'spread-op' -->
+    </pre>
 
         <h3>Waves, lines, and rules</h3>
 

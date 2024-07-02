@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72f..11d1ea70b 100644
+index 39e7da72..11d1ea70 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -97,7 +97,7 @@ index 39e7da72f..11d1ea70b 100644
  glyph-block Autobuild-Transformed-Mathematical : begin
  	glyph-block-import CommonShapes
 diff --git a/packages/font-glyphs/src/letter/latin-ext/ezh.ptl b/packages/font-glyphs/src/letter/latin-ext/ezh.ptl
-index f147a7e91..af50150d8 100644
+index f147a7e9..af50150d 100644
 --- a/packages/font-glyphs/src/letter/latin-ext/ezh.ptl
 +++ b/packages/font-glyphs/src/letter/latin-ext/ezh.ptl
 @@ -99,7 +99,8 @@ glyph-block Letter-Latin-Ezh : begin
@@ -111,7 +111,7 @@ index f147a7e91..af50150d8 100644
  	foreach { suffix { isCursive isSerifed } } [pairs-of EzhConfig] : do
  		create-glyph "Ezh.\(suffix)" : glyph-proc
 diff --git a/packages/font-glyphs/src/letter/latin/upper-a.ptl b/packages/font-glyphs/src/letter/latin/upper-a.ptl
-index 50a29c90a..aafb3eb12 100644
+index 50a29c90..aafb3eb1 100644
 --- a/packages/font-glyphs/src/letter/latin/upper-a.ptl
 +++ b/packages/font-glyphs/src/letter/latin/upper-a.ptl
 @@ -28,7 +28,8 @@ glyph-block Letter-Latin-Upper-A : begin
@@ -125,7 +125,7 @@ index 50a29c90a..aafb3eb12 100644
  	glyph-block-export AConfig
  	define AConfig : SuffixCfg.weave
 diff --git a/packages/font-glyphs/src/letter/latin/upper-m.ptl b/packages/font-glyphs/src/letter/latin/upper-m.ptl
-index 84e127a8f..306d280d5 100644
+index 84e127a8..306d280d 100644
 --- a/packages/font-glyphs/src/letter/latin/upper-m.ptl
 +++ b/packages/font-glyphs/src/letter/latin/upper-m.ptl
 @@ -51,7 +51,7 @@ glyph-block Letter-Latin-Upper-M : begin
@@ -138,7 +138,7 @@ index 84e127a8f..306d280d5 100644
  		local kMidShift : match form
  			[Just FORM-FLAT] 0.75
 diff --git a/packages/font-glyphs/src/letter/latin/upper-q.ptl b/packages/font-glyphs/src/letter/latin/upper-q.ptl
-index 6666ea2c9..9eb695cee 100644
+index 6666ea2c..9eb695ce 100644
 --- a/packages/font-glyphs/src/letter/latin/upper-q.ptl
 +++ b/packages/font-glyphs/src/letter/latin/upper-q.ptl
 @@ -94,9 +94,10 @@ glyph-block Letter-Latin-Upper-Q : begin
@@ -155,7 +155,7 @@ index 6666ea2c9..9eb695cee 100644
  	define [QCrossingCurlyTail df top sw] : union
  		VBar.m df.middle HalfStroke [mix Descender HalfStroke 1.75] sw
 diff --git a/packages/font-glyphs/src/letter/latin/w.ptl b/packages/font-glyphs/src/letter/latin/w.ptl
-index 8dbaf6522..66120140b 100644
+index 8dbaf652..66120140 100644
 --- a/packages/font-glyphs/src/letter/latin/w.ptl
 +++ b/packages/font-glyphs/src/letter/latin/w.ptl
 @@ -96,7 +96,7 @@ glyph-block Letter-Latin-W : begin
@@ -168,7 +168,7 @@ index 8dbaf6522..66120140b 100644
  			[Just FORM-DOUBLE-V]     top
  			[Just FORM-ASYMMETRIC]   top
 diff --git a/packages/font-glyphs/src/meta/aesthetics.ptl b/packages/font-glyphs/src/meta/aesthetics.ptl
-index b546cf30d..856a4a9c3 100644
+index b546cf30..856a4a9c 100644
 --- a/packages/font-glyphs/src/meta/aesthetics.ptl
 +++ b/packages/font-glyphs/src/meta/aesthetics.ptl
 @@ -383,7 +383,8 @@ export : define DesignParameters : object
@@ -182,7 +182,7 @@ index b546cf30d..856a4a9c3 100644
  	parenOutside               0.2
  	parenOutsideSwAdj          0.2
 diff --git a/packages/font-glyphs/src/number/0.ptl b/packages/font-glyphs/src/number/0.ptl
-index b7218ad6a..047af7740 100644
+index b7218ad6..047af774 100644
 --- a/packages/font-glyphs/src/number/0.ptl
 +++ b/packages/font-glyphs/src/number/0.ptl
 @@ -151,7 +151,8 @@ glyph-block Digits-Zero : begin
@@ -223,7 +223,7 @@ index b7218ad6a..047af7740 100644
  		return : OvalShapeT spiro-outline
  			top / 2 + halfDotHeight - O
 diff --git a/packages/font-glyphs/src/number/6.ptl b/packages/font-glyphs/src/number/6.ptl
-index 6f6947cbb..3ad3d0eb5 100644
+index 6f6947cb..3ad3d0eb 100644
 --- a/packages/font-glyphs/src/number/6.ptl
 +++ b/packages/font-glyphs/src/number/6.ptl
 @@ -11,7 +11,8 @@ glyph-block Digits-Six : begin
@@ -247,7 +247,7 @@ index 6f6947cbb..3ad3d0eb5 100644
  		local coFine : Math.max (sw * CThin) (sw - fine / 2)
  
 diff --git a/packages/font-glyphs/src/symbol/arrow.ptl b/packages/font-glyphs/src/symbol/arrow.ptl
-index 557cd7cd8..63d752367 100644
+index 557cd7cd..63d75236 100644
 --- a/packages/font-glyphs/src/symbol/arrow.ptl
 +++ b/packages/font-glyphs/src/symbol/arrow.ptl
 @@ -8,35 +8,56 @@ glyph-block Symbol-Arrow : for-width-kinds WideWidth1
@@ -479,7 +479,7 @@ index 557cd7cd8..63d752367 100644
  	do "Head-and-Tail Arrows"
  		MkArrow htArrowShape [MangleName 'htArrowLeft'] [MangleUnicode 0x21A2] arrowRSB SymbolMid arrowSB SymbolMid
 diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
-index 54067188f..09a148d4a 100644
+index 54067188..09a148d4 100644
 --- a/packages/font-glyphs/src/symbol/ligation.ptl
 +++ b/packages/font-glyphs/src/symbol/ligation.ptl
 @@ -10,6 +10,7 @@ glyph-module
@@ -872,7 +872,7 @@ index 54067188f..09a148d4a 100644
 +			Joining.set currentGlyph Joining.Classes.Right
 +			include : LogicAndOrShape LogicWid 0 0 XH
 diff --git a/packages/font-glyphs/src/symbol/math/arith.ptl b/packages/font-glyphs/src/symbol/math/arith.ptl
-index e5ca31804..9bf5d219f 100644
+index e5ca3180..9bf5d219 100644
 --- a/packages/font-glyphs/src/symbol/math/arith.ptl
 +++ b/packages/font-glyphs/src/symbol/math/arith.ptl
 @@ -80,7 +80,9 @@ glyph-block Symbol-Math-Arith : begin
@@ -898,7 +898,7 @@ index e5ca31804..9bf5d219f 100644
  
  		create-glyph 'multiplyInMulDiv' : glyph-proc
 diff --git a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl b/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
-index 9ece5e7c9..059a66e95 100644
+index 9ece5e7c..059a66e9 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
 +++ b/packages/font-glyphs/src/symbol/punctuation/ascii-marks.ptl
 @@ -21,7 +21,10 @@ glyph-block Symbol-Punctuation-Ascii-Marks : begin
@@ -914,7 +914,7 @@ index 9ece5e7c9..059a66e95 100644
  	create-glyph 'asciiCaret.medium' : composite-proc
  		refer-glyph 'asciiCaret.high'
 diff --git a/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl b/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
-index 6672eb49a..9e1c477ea 100644
+index 6672eb49..9e1c477e 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
 +++ b/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
 @@ -26,6 +26,8 @@ glyph-block Symbol-Punctuation-Ligation-Variants : begin
@@ -937,7 +937,7 @@ index 6672eb49a..9e1c477ea 100644
  			composite-proc
  				refer-glyph src
 diff --git a/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl b/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
-index e5545b53b..ea7f203a8 100644
+index e5545b53..ea7f203a 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
 +++ b/packages/font-glyphs/src/symbol/punctuation/slashes-and-number-sign.ptl
 @@ -41,13 +41,14 @@ glyph-block Symbol-Punctuation-Slashes-And-Number-Sign : begin
@@ -987,7 +987,7 @@ index e5545b53b..ea7f203a8 100644
  	do "number sign"
  		define fine : AdviceStroke 2.75
 diff --git a/packages/font-glyphs/src/symbol/shared.ptl b/packages/font-glyphs/src/symbol/shared.ptl
-index b46689fda..2a6aa628f 100644
+index b46689fd..2a6aa628 100644
 --- a/packages/font-glyphs/src/symbol/shared.ptl
 +++ b/packages/font-glyphs/src/symbol/shared.ptl
 @@ -14,11 +14,16 @@ glyph-block Shared-Symbol-Shapes : begin
@@ -1019,7 +1019,7 @@ index b46689fda..2a6aa628f 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5d5..1975b97f3 100644
+index f3301b5d..d704fd35 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -1175,7 +1175,26 @@ index f3301b5d5..1975b97f3 100644
  			chain-rule C C skipL skipL triggerL         # **##+
  			chain-rule C C skipL triggerL               # **#+
  			chain-rule C C triggerL                     # **+
-@@ -225,6 +321,24 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -204,6 +300,18 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 
+ 	LigGroup "slash-asterisk" : if [hasLG 'slash-asterisk'] : begin
+ 		CreateLigationLookup : list
++			chain-rule # X/*
++				{'slash', 'asterisk'}        ~> look-around
++				{'slash'}                    ~> look-around
++				{'asterisk'}                 ~> [just 'asterisk/sMid/ligComment']
++			chain-rule # */X
++				{'asterisk'}                 ~> [just 'asterisk/sMid/ligComment']
++				{'slash'}                    ~> look-around
++				{'slash', 'asterisk'}        ~> look-around
++			chain-rule # /*/
++				{'slash'}                    ~> look-around
++				{'asterisk'}                 ~> [just 'asterisk/sMid/ligComment']
++				{'slash'}                    ~> look-around
+ 			chain-rule # /*
+ 				{'slash'}                    ~> look-around
+ 				{'asterisk'}                 ~> [just 'asterisk/slashTop']
+@@ -225,6 +333,24 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				{'asterisk/sMid/ligComment'} ~> look-around
  				{'asterisk' 'asterisk/slashBot'}  ~> [just 'asterisk/sMid/ligComment']
  
@@ -1200,7 +1219,7 @@ index f3301b5d5..1975b97f3 100644
  	LigGroup "Kern Dotty" : if [hasLG 'kern-dotty'] : begin
  		define dottyPunctuationSets : list
  			list { "period" "period/mid" } { "colon" "colon/mid" "question" "exclam" }
-@@ -350,9 +464,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -350,9 +476,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # <<<=
@@ -1212,7 +1231,7 @@ index f3301b5d5..1975b97f3 100644
  				equal      ~> look-around
  			chain-rule # =>>>=
  				equal      ~> look-around
-@@ -367,9 +481,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -367,9 +493,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # >>>=
@@ -1224,7 +1243,7 @@ index f3301b5d5..1975b97f3 100644
  				equal      ~> look-around
  			chain-rule # =<<=
  				equal      ~> look-around
-@@ -382,8 +496,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -382,8 +508,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # <<=
@@ -1235,7 +1254,7 @@ index f3301b5d5..1975b97f3 100644
  				equal      ~> look-around
  			chain-rule # =>>=
  				equal      ~> look-around
-@@ -396,11 +510,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -396,11 +522,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				equal      ~> look-around
  				equal      ~> look-around
  			chain-rule # >>=
@@ -1251,7 +1270,7 @@ index f3301b5d5..1975b97f3 100644
  		CreateLigationLookup : list
  			chain-rule # <!---
  				less   ~> look-around
-@@ -414,6 +530,34 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -414,6 +542,34 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				hyphen ~> [lsx 'lxc']
  				hyphen ~> [lsx 'cf']
  
@@ -1286,7 +1305,7 @@ index f3301b5d5..1975b97f3 100644
  	LigGroup "Arrows" : begin
  		define singular : hyphen.concat anyWave
  		define [CBarSingular k] : begin
-@@ -465,16 +609,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -465,16 +621,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  
@@ -1308,7 +1327,7 @@ index f3301b5d5..1975b97f3 100644
  			define [LMiddleHead]            : if [hasLG 'counter-arrow-l']                  [CJoinHeadMid] : if [hasLG 'arrow-l'] [LJoinHeadForce] advance
  			define [LAntiHeadForce]         : if [hasLG 'counter-arrow-l']                  [CAntiHeadForce]        advance
  			define [LAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-l']                  [CAntiHeadForceShiftN1] advance
-@@ -482,7 +627,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -482,7 +639,7 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  			define [RJoinHeadForce]         : if [hasLG 'arrow-r']                          [CJoinHeadForce]        advance
  			define [RJoinHeadForceLR]       : if ([hasLG 'arrow-r'] || [hasLG 'arrow-lr'])  [CJoinHeadForce]        advance
  			define [RJoinHeadForceShift1]   : if [hasLG 'arrow-r']                          [CJoinHeadForceShift1]  advance
@@ -1317,7 +1336,7 @@ index f3301b5d5..1975b97f3 100644
  			define [RMiddleHead]            : if [hasLG 'counter-arrow-r']                  [CJoinHeadMid] : if [hasLG 'arrow-r'] [RJoinHeadForce] advance
  			define [RAntiHeadForce]         : if [hasLG 'counter-arrow-r']                  [CAntiHeadForce]        advance
  			define [RAntiHeadForceShiftN1]  : if [hasLG 'counter-arrow-r']                  [CAntiHeadForceShiftN1] advance
-@@ -538,13 +683,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -538,13 +695,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  
  			begin "Dual / Spaceship"
  				heads.push : chain-rule # < < = > >
@@ -1334,7 +1353,7 @@ index f3301b5d5..1975b97f3 100644
  					less    ~> [LJoinHeadForceShift1LR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceLR]
-@@ -552,7 +697,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -552,7 +709,8 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1LR]
@@ -1344,7 +1363,7 @@ index f3301b5d5..1975b97f3 100644
  				heads.push : chain-rule # < = >
  					less    ~> [LJoinHeadForceLR]
  					rodCls  ~> look-around
-@@ -562,17 +708,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -562,17 +720,17 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				heads.push : chain-rule # = > >
  					rodCls  ~> look-around
  					greater ~> [RJoinHeadForceShift1]
@@ -1366,7 +1385,7 @@ index f3301b5d5..1975b97f3 100644
  					less    ~> [LJoinHeadForceShift1]
  					rodCls  ~> look-around
  				heads.push : chain-rule # = = >
-@@ -695,9 +841,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -695,9 +853,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				chain-rule
  					rodTermLeft          ~> look-around
  					[[CRod 'zf'] rodCls] ~> [[CRod 'zm'] rodCls]
@@ -1380,7 +1399,7 @@ index f3301b5d5..1975b97f3 100644
  					[[CRod 'fz'] rodCls] ~> [[CRod 'mz'] rodCls]
  					rodTermRight         ~> look-around
  
-@@ -729,13 +877,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -729,13 +889,13 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				regexLookAround ~> advance
  				regexLookAround ~> advance
  			chain-rule # <<<
@@ -1398,7 +1417,7 @@ index f3301b5d5..1975b97f3 100644
  			chain-rule # <<
  				less       ~> [lsx 'shiftN0h']
  				less       ~> [lsx 'shift0h']
-@@ -744,10 +892,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -744,10 +904,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				greater    ~> [lsx 'shiftN0h']
  
  		# Cancel alternates of < and > shapes if there are more after them
@@ -1413,7 +1432,7 @@ index f3301b5d5..1975b97f3 100644
  		local lgAll  : lAll.concat  gAll
  		local lgNeut : lNeut.concat gNeut
  		CreateLigationLookup : list
-@@ -780,8 +928,43 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -780,8 +940,47 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				lAll ~> lNeut
  				lAll ~> lNeut
  
@@ -1439,7 +1458,11 @@ index f3301b5d5..1975b97f3 100644
 +				slash     ~> zig
 +				backslash ~> zag
 +				slash     ~> zig
++				backslash ~> zag
++				slash     ~> zig
 +			chain-rule
++				backslash ~> zag
++				slash     ~> zig
 +				backslash ~> zag
 +				slash     ~> zig
 +				backslash ~> zag
@@ -1457,7 +1480,7 @@ index f3301b5d5..1975b97f3 100644
  		CreateLigationLookup : list
  			chain-rule
  				slash          ~> [csx 'left']
-@@ -790,11 +973,22 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -790,11 +989,22 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  				backslash      ~> [csx 'left']
  				slash          ~> [csx 'right']
  			chain-rule
@@ -1484,7 +1507,7 @@ index f3301b5d5..1975b97f3 100644
  			chain-rule
  				underscore     ~> [lsx 'fm']
  				bar            ~> [lsx 'bottomMid']
-@@ -1018,12 +1212,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -1018,12 +1228,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3
@@ -1504,7 +1527,7 @@ index f3301b5d5..1975b97f3 100644
  				chain-rule
  					{[sfx "jf"]} ~> {[sfx "jc"]}
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1bd..cf7babed3 100644
+index f5286c1b..cf7babed 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
 @@ -3,16 +3,40 @@ $$include './meta/macros.ptl'
@@ -1707,7 +1730,7 @@ index f5286c1bd..cf7babed3 100644
  
  	gsub.endBlock rec
 diff --git a/packages/font-otl/src/index.ptl b/packages/font-otl/src/index.ptl
-index bb5e89048..e609274e5 100644
+index bb5e8904..e609274e 100644
 --- a/packages/font-otl/src/index.ptl
 +++ b/packages/font-otl/src/index.ptl
 @@ -53,7 +53,7 @@ define [buildGSUB para glyphStore markGlyphs] : begin
@@ -1720,7 +1743,7 @@ index bb5e89048..e609274e5 100644
  	# frac
  	buildFrac gsub glyphStore
 diff --git a/packages/font/src/ttfa-controls/index.mjs b/packages/font/src/ttfa-controls/index.mjs
-index b9fb2fee0..fe86faa7c 100644
+index b9fb2fee..fe86faa7 100644
 --- a/packages/font/src/ttfa-controls/index.mjs
 +++ b/packages/font/src/ttfa-controls/index.mjs
 @@ -69,6 +69,10 @@ class Alignment {
@@ -1735,7 +1758,7 @@ index b9fb2fee0..fe86faa7c 100644
  				for (const gr of cvs) {
  					const gnLinked = gr.get(go);
 diff --git a/packages/glyph/src/relation.mjs b/packages/glyph/src/relation.mjs
-index 3187e31b7..567c7f574 100644
+index 3187e31b..567c7f57 100644
 --- a/packages/glyph/src/relation.mjs
 +++ b/packages/glyph/src/relation.mjs
 @@ -39,6 +39,10 @@ export const Texture = {
@@ -1750,7 +1773,7 @@ index 3187e31b7..567c7f574 100644
  
  function LinkedGlyphProp(key) {
 diff --git a/packages/param/src/metric-override.mjs b/packages/param/src/metric-override.mjs
-index 99f7bc134..1a84f0c38 100644
+index 99f7bc13..1a84f0c3 100644
 --- a/packages/param/src/metric-override.mjs
 +++ b/packages/param/src/metric-override.mjs
 @@ -4,7 +4,7 @@ export function applyMetricOverride(para, mo, argv) {
@@ -1763,7 +1786,7 @@ index 99f7bc134..1a84f0c38 100644
  		}
  		if (typeof expr === "number") {
 diff --git a/params/ligation-set.toml b/params/ligation-set.toml
-index 77834a1d9..c217b06c8 100644
+index 77834a1d..c217b06c 100644
 --- a/params/ligation-set.toml
 +++ b/params/ligation-set.toml
 @@ -191,8 +191,8 @@ sampleRank = 2
@@ -1809,7 +1832,7 @@ index 77834a1d9..c217b06c8 100644
  
  # Non-tagged composites, used for inheritance
 diff --git a/params/parameters.toml b/params/parameters.toml
-index e06f0199e..808c754d7 100644
+index e06f0199..808c754d 100644
 --- a/params/parameters.toml
 +++ b/params/parameters.toml
 @@ -35,9 +35,9 @@ accentWidth = 200       # Width of accent marks.
