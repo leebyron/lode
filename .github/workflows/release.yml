@@ -1,0 +1,26 @@
+name: Release
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up node
+        uses: actions/setup-node@v2
+
+      - name: Run build script
+        run: ./build.sh
+
+      - name: Create and upload release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: iosevka/dist/*
+          generate_release_notes: true

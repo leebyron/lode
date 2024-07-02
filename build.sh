@@ -27,8 +27,13 @@ npm --prefix iosevka ci --silent --prefer-offline
 echo "Running build..."
 npm --prefix iosevka run build -- super-ttc::Lode super-ttc::LodeDark webfont::Lode webfont::LodeDark
 
-echo "Preparing output directories..."
-mkdir -p docs/woff
-cp iosevka/dist/{Lode,LodeDark}/WOFF2/* docs/woff
+echo "Preparing dist..."
+mkdir -p dist
+cp iosevka/dist/.super-ttc/* dist
+cp iosevka/dist/*/*.css dist
+cp iosevka/dist/*/WOFF2/* dist
 
-echo "Build and setup completed successfully."
+mkdir -p docs/woff
+cp dist/*.woff2 docs/woff
+
+echo "Build completed."
