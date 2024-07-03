@@ -159,13 +159,13 @@
       }
 
       * {
-        font-size: 16px;
-        line-height: 25px;
+        font-size: max(16px, 2vmin);
+        line-height: 1.55;
         text-size-adjust: none;
         -webkit-text-size-adjust: none;
         caret-color: var(--highlight);
         caret-shape: block;
-        transition: all 200ms linear;
+        transition: color 200ms linear, background-color 200ms linear;
       }
 
       ::selection {
@@ -396,6 +396,8 @@
     <div>
       <h1>Lode: a typeface for code</h1>
 
+      <blockquote> This is a work in progress! If you're here, awesome. There will be bugs.</blockquote>
+
       <p>
         Lode is a monospace sans-serif typeface for reading and writing code in
         IDEs, text editors, and terminals. It is a modified variant of the
@@ -487,11 +489,11 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
               color: transparent;
             "
           >
-(<sr>defn</sr> <sv>lazy-loop</sv> [n]
-  (<sv>lazy-seq</sv>
-    (<sv>when</sv> (</sv>pos?</sv> n)
-      (<sv>cons</sv> "When life gives you lambdas, make lazy loops."
-            (<sv>lazy-loop</sv> (<sv>dec</sv> n))))))</pre
+(<sr>defn</sr> <sb>lazy-loop</sb> [n]
+  (<sb>lazy-seq</sb>
+    (<sb>when</sb> (</sb>pos?</sb> n)
+      (<sb>cons</sb> <sy>"When life gives you lambdas, make lazy loops."</sy>
+            (<sb>lazy-loop</sb> (<sb>dec</sb> n))))))</pre
           >
           <div
             class="dark theme"
@@ -659,10 +661,15 @@ window.onload = () => {
     image.height = minWidth * aspectRatio
   }
 }
+
+xmx imx xmi imi immi xix mix xim mim miim im im.
+xmx &zwnj;i&zwnj;m&zwnj;x x&zwnj;m&zwnj;i&zwnj; &zwnj;i&zwnj;mi&zwnj; &zwnj;i&zwnj;m&zwnj;m&zwnj;i&zwnj; x&zwnj;i&zwnj;x &zwnj;m&zwnj;i&zwnj;x xi&zwnj;m&zwnj; &zwnj;m&zwnj;i&zwnj;m&zwnj; &zwnj;m&zwnj;i&zwnj;i&zwnj;m&zwnj; &zwnj;i&zwnj;m&zwnj; &zwnj;i&zwnj;m&zwnj;.
+xwx jwx xwj jwj jwwj xjx wjx xjw wjw wjjw jw jw.
+xwx &zwnj;j&zwnj;w&zwnj;x x&zwnj;w&zwnj;j&zwnj; &zwnj;j&zwnj;wj&zwnj; &zwnj;j&zwnj;w&zwnj;w&zwnj;j&zwnj; x&zwnj;j&zwnj;x &zwnj;w&zwnj;j&zwnj;x xj&zwnj;w&zwnj; &zwnj;w&zwnj;j&zwnj;w&zwnj; &zwnj;w&zwnj;j&zwnj;j&zwnj;w&zwnj; &zwnj;j&zwnj;w&zwnj; &zwnj;j&zwnj;w&zwnj;.
 </pre
         >
       </section>
-
+<!--
       <section>
         <h2>Powerline</h2>
 
@@ -670,7 +677,7 @@ window.onload = () => {
           Lode comes out of the box ready to support Powerline and other "nerd
           font" features.
         </p>
-      </section>
+      </section> -->
 
       <section>
         <h2>Operator and markup ligatures</h2>
@@ -687,7 +694,7 @@ window.onload = () => {
 
         <pre class="specimen" contenteditable>
 &lt;html> &lt;/html> &lt;> &lt;/> &lt;!-- --&gt;
-== !== === !=== <= >= += -= *= **= /= <<= >>= >>>= &= ^= |= ||= &&= ??=
+== != === !== <= >= += -= *= **= /= <<= >>= >>>= &= ^= |= ||= &&= ??=
 x++ y-- z**n a&lt;&lt;n b>>n a>>>b a&&b a||b
 (x, ...y) => [a, ...b]
 {| |} [| |] <> /\ \/ _|_ -| |-

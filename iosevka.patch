@@ -479,7 +479,7 @@ index 557cd7cd..63d75236 100644
  	do "Head-and-Tail Arrows"
  		MkArrow htArrowShape [MangleName 'htArrowLeft'] [MangleUnicode 0x21A2] arrowRSB SymbolMid arrowSB SymbolMid
 diff --git a/packages/font-glyphs/src/symbol/ligation.ptl b/packages/font-glyphs/src/symbol/ligation.ptl
-index 54067188..09a148d4 100644
+index 54067188..94e1cdc9 100644
 --- a/packages/font-glyphs/src/symbol/ligation.ptl
 +++ b/packages/font-glyphs/src/symbol/ligation.ptl
 @@ -10,6 +10,7 @@ glyph-module
@@ -796,7 +796,19 @@ index 54067188..09a148d4 100644
  
  		select-variant "underscore.lig.zf" (follow -- 'underscore')
  		select-variant "underscore.lig.fm" (follow -- 'underscore')
-@@ -446,3 +484,74 @@ glyph-block Symbol-Ligation : begin
+@@ -273,6 +311,11 @@ glyph-block Symbol-Ligation : begin
+ 		select-variant "bar.lig.bottomMid" (follow -- 'underscore')
+ 
+ 	do "Inequality"
++		derive-glyphs 'exclam.lig.neq' null 'exclam' : function [src gr] : glyph-proc
++			Joining.set currentGlyph Joining.Classes.Right
++			include : with-transform [Translate (SB*2/3) 0]
++				refer-glyph src
++
+ 		define Neq : namespace
+ 			export : define Sw   OperatorStroke
+ 			export : define Dr : Sw / Stroke * DotRadius
+@@ -446,3 +489,74 @@ glyph-block Symbol-Ligation : begin
  		create-glyph 'greaterArrow' : composite-proc
  			refer-glyph 'hyphen.lig.jp'
  			refer-glyph 'greater'
@@ -1019,7 +1031,7 @@ index b46689fd..2a6aa628 100644
  
  	glyph-block-export TriangleShape
 diff --git a/packages/font-otl/src/gsub-ligation.ptl b/packages/font-otl/src/gsub-ligation.ptl
-index f3301b5d..d704fd35 100644
+index f3301b5d..7bcd4041 100644
 --- a/packages/font-otl/src/gsub-ligation.ptl
 +++ b/packages/font-otl/src/gsub-ligation.ptl
 @@ -11,14 +11,14 @@ define look-around null
@@ -1489,14 +1501,14 @@ index f3301b5d..d704fd35 100644
 +				anyRodOrBar    ~> look-around
 +				anyRodOrBar    ~> advance
 +				anyRodOrBar    ~> advance
- 			chain-rule
--				anyStraightRod ~> [lsx 'fm']
--				bar            ~> [lsx "dMid"]
++			chain-rule
 +				anyRodOrBar    ~> advance
 +				anyRodOrBar    ~> advance
 +				anyRodOrBar    ~> look-around
 +			# |-
-+			chain-rule
+ 			chain-rule
+-				anyStraightRod ~> [lsx 'fm']
+-				bar            ~> [lsx "dMid"]
 +				bar            ~> [lsx "bottomMid"]
 +				anyStraightRod ~> [lsx 'mf.withoutNotch']
 +			# -|
@@ -1507,7 +1519,40 @@ index f3301b5d..d704fd35 100644
  			chain-rule
  				underscore     ~> [lsx 'fm']
  				bar            ~> [lsx 'bottomMid']
-@@ -1018,12 +1228,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+@@ -832,6 +1042,11 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 					equal       ~> [lsx 'xc']
+ 					equal       ~> [lsx 'cc']
+ 					equal       ~> [lsx 'cf']
++				[hasLG 'negeq'] : chain-rule
++					exclam      ~> [lsx 'neq']
++					equal       ~> [lsx 'mc.withoutNotch']
++					equal       ~> [lsx 'cc']
++					equal       ~> [lsx 'cf']
+ 			piecewise
+ 				[hasLG 'eqeq'] : chain-rule
+ 					equal       ~> [lsx 'fc']
+@@ -847,6 +1062,10 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 					exclam      ~> {'neq.allow-dot.3l'}
+ 					equal       ~> [lsx 'xc']
+ 					equal       ~> [lsx 'cf']
++				[hasLG 'negeq'] : chain-rule
++					exclam      ~> [lsx 'neq']
++					equal       ~> [lsx 'mc.withoutNotch']
++					equal       ~> [lsx 'cf']
+ 			piecewise
+ 				[hasLG 'eqslasheq'] : chain-rule
+ 					equal       ~> [just 'ident.lig.fc']
+@@ -877,6 +1096,9 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
+ 				[hasLG 'exeq'] : chain-rule
+ 					exclam      ~> {'neq.allow-dot.2l'}
+ 					equal       ~> [lsx 'xf']
++				[hasLG 'negeq'] : chain-rule
++					exclam      ~> [lsx 'neq']
++					equal       ~> [lsx 'mf.withoutNotch']
+ 			piecewise
+ 				[hasLG 'eqeq'] : chain-rule
+ 					equal       ~> [lsx 'fc']
+@@ -1018,12 +1240,14 @@ define [buildLigationsImpl gsub para $LigGroup$] : begin
  					[src] ~> [sfx "cc"]
  					[src] ~> [sfx "cf"]
  				chain-rule # Start 3

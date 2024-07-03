@@ -180,6 +180,7 @@ const Lode = {
       'counter-arrow-r',
       'trig',
       'eqeq',
+      'negeq',
       'lteq-separate',
       'gteq-separate',
       'ltgt-diamond-tag',
@@ -312,7 +313,7 @@ config.collectPlans.LodeDark.from = ['LodeDark']
 // comment out for all weights
 for (let plan of Object.values(config.buildPlans)) {
   delete plan.slopes.Italic
-  // delete plan.weights.Bold
+  delete plan.weights.Bold
 }
 
 // ----------------------------------------------------------------------
