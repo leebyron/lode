@@ -298,3 +298,8 @@ immutable programming
 //* *//
 
 **/*test
+
+
+x!=y
+5<=2
+2>=3
