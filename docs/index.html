@@ -149,6 +149,31 @@
 
         --lite-ckw: maroon;
         --dark-ckw: pink;
+
+        --solarized-red: #dc322f;
+        --solarized-orange: #cb4b16;
+        --solarized-yellow: #b58900;
+        --solarized-green: #859900;
+        --solarized-cyan: #2aa198;
+        --solarized-blue: #268bd2;
+        --solarized-violet: #6c71c4;
+        --solarized-magenta: #d33682;
+        --solarized-neutral: #7f7f7f;
+      }
+
+      sr { color: var(--solarized-red); }
+      so { color: var(--solarized-orange); }
+      sy { color: var(--solarized-yellow); }
+      sg { color: var(--solarized-green); }
+      sc { color: var(--solarized-cyan); }
+      sb { color: var(--solarized-blue); }
+      sv { color: var(--solarized-violet); }
+      sm { color: var(--solarized-magenta); }
+      sn { color: var(--solarized-neutral); }
+
+      .trans, .trans * {
+        background-color: transparent;
+        color: transparent;
       }
 
       :root,
@@ -339,25 +364,7 @@
         color: var(--ckw);
       }
 
-      :root {
-        --solarized-red: #dc322f;
-        --solarized-orange: #cb4b16;
-        --solarized-yellow: #b58900;
-        --solarized-green: #859900;
-        --solarized-cyan: #2aa198;
-        --solarized-blue: #268bd2;
-        --solarized-violet: #6c71c4;
-        --solarized-magenta: #d33682;
-      }
 
-      sr { color: var(--solarized-red); }
-      so { color: var(--solarized-orange); }
-      sy { color: var(--solarized-yellow); }
-      sg { color: var(--solarized-green); }
-      sc { color: var(--solarized-cyan); }
-      sb { color: var(--solarized-blue); }
-      sv { color: var(--solarized-violet); }
-      sm { color: var(--solarized-magenta); }
     </style>
     <script>
       {
@@ -416,19 +423,19 @@
       </p>
 
       <pre class="specimen nofeat" contenteditable>
- !"#$%&'()*+,-./  0123456789:;<=>?  <cg>U+0020-U+003F</cg>
-@ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <cg>U+0040-U+005F</cg>
-`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <cg>U+0060-U+007F</cg>
+ !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
+ @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
+ `abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn>
 
-<b><cg># Bold</cg>
- !"#$%&'()*+,-./  0123456789:;<=>?  <cg>U+0020-U+003F</cg>
-@ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <cg>U+0040-U+005F</cg>
-`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <cg>U+0060-U+007F</cg></b>
+ <b><sn># Bold</sn>
+   !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
+   @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
+   `abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></b>
 
-<i><cg># Italic</cg>
- !"#$%&'()*+,-./  0123456789:;<=>?  <cg>U+0020-U+003F</cg>
-@ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <cg>U+0040-U+005F</cg>
-`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <cg>U+0060-U+007F</cg></i>
+ <i><sn># Italic</sn>
+   !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
+   @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
+   `abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></i>
 </pre>
 
       <section>
@@ -482,18 +489,14 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
         <div style="position: relative; width: fit-content">
           <pre
             contenteditable
-            style="
-              position: relative;
-              z-index: 2;
-              background-color: transparent;
-              color: transparent;
-            "
+            class="trans"
+            style="position: relative; z-index: 2;"
           >
-(<sr>defn</sr> <sb>lazy-loop</sb> [n]
+(<sr>defn</sr> <sb>lazy-loop</sb> [<sv>n</sv>]
   (<sb>lazy-seq</sb>
-    (<sb>when</sb> (</sb>pos?</sb> n)
+    (<sb>when</sb> (</sb>pos?</sb> <sv>n</sv>)
       (<sb>cons</sb> <sy>"When life gives you lambdas, make lazy loops."</sy>
-            (<sb>lazy-loop</sb> (<sb>dec</sb> n))))))</pre
+            (<sb>lazy-loop</sb> (<sb>dec</sb> <sv>n</sv>))))))</pre
           >
           <div
             class="dark theme"
@@ -648,17 +651,17 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
         </p>
 
         <pre contenteditable>
-// Immutable programming for the www
-let myNext = {...myPrev, width: minWidth }
+<sn>// Immutable programming for the www</sn>
+<sr>let</sr> myNext = {...myPrev, <sv>width</sv>: minWidth }
 
-// Min max window widths
-window.onload = () => {
-  const images = document.querySelectorAll('img');
-  const minWidth = Math.min(...images.map(img => img.width))
-  for (const image of images) {
-    const aspectRatio = image.height / image.width
-    image.width = minWidth
-    image.height = minWidth * aspectRatio
+<sn>// Min max window widths</sn>
+window.<sb>onload</sb> <so>=</so> () <so>=></so> {
+  <sr>const</sr> images <so>=</so> document.<sb>querySelectorAll</sb>(<sy>'img'</sy>);
+  <sr>const</sr> minWidth <so>=</so> Math.<sb>min</sb>(...images.<sb>map</sb>(img <so>=></so> img.<sv>width</sv>))
+  <sr>for</sr> (<sr>const</sr> image <sr>of</sr> images) {
+    <sr>const</sr> aspectRatio <so>=</so> image.<sv>height</sv> <so>/</so> image.<sv>width</sv>
+    image.<sv>width</sv> <so>=</so> minWidth
+    image.<sv>height</sv> <so>=</so> minWidth <so>*</so> aspectRatio
   }
 }
 

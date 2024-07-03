@@ -11,11 +11,14 @@ if ! git -C iosevka diff --quiet; then
   if [[ "$choice" == "1" ]]; then
     echo "Restoring and applying patch..."
     git -C iosevka restore .
-    git -C iosevka apply iosevka.patch
+    git -C iosevka apply ../iosevka.patch
   elif [[ "$choice" == "2" ]]; then
     echo "Creating and applying new patch..."
     source get-patch.sh
   fi # Note: any other option ignores.
+else
+  echo "Applying patch..."
+  git -C iosevka apply ../iosevka.patch
 fi
 
 echo "Generating build plans..."
