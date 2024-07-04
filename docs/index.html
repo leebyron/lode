@@ -6,62 +6,18 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
-    <link
-      rel="preload"
-      href="woff/Lode-Regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="woff/Lode-Italic.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="woff/Lode-Bold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="woff/Lode-BoldItalic.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="woff/LodeDark-Regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="woff/LodeDark-Italic.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="woff/LodeDark-Bold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="woff/LodeDark-BoldItalic.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="preload" href="woff/Lode-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff/Lode-Italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff/Lode-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff/Lode-BoldItalic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff/LodeDark-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff/LodeDark-Italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff/LodeDark-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff/LodeDark-BoldItalic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
       @font-face {
         font-family: 'Lode Web';
@@ -139,16 +95,15 @@
         --lite-font: 'Lode Web', monospace;
         --lite-primary: #222222;
         --lite-background: #e1dfda;
+        --lite-columnbg: #d1cec7;
         --dark-font: 'Lode Dark Web', monospace;
         --dark-primary: #ffffff;
         --dark-background: #1e2025;
+        --dark-columnbg: #2e3138;
         --highlight: color(display-p3 0 1 0.65);
         --highlight-thin: color(display-p3 0 1 0.65 / 0.35);
         --lite-link: color(display-p3 0 0.3 0.8 / 1);
         --dark-link: color(display-p3 0.22 1 0 / 1);
-
-        --lite-ckw: maroon;
-        --dark-ckw: pink;
 
         --solarized-red: #dc322f;
         --solarized-orange: #cb4b16;
@@ -161,6 +116,13 @@
         --solarized-neutral: #7f7f7f;
       }
 
+      :root,
+      .theme {
+        font-family: var(--font);
+        color: var(--primary);
+        background-color: var(--background);
+      }
+
       sr { color: var(--solarized-red); }
       so { color: var(--solarized-orange); }
       sy { color: var(--solarized-yellow); }
@@ -171,20 +133,8 @@
       sm { color: var(--solarized-magenta); }
       sn { color: var(--solarized-neutral); }
 
-      .trans, .trans * {
-        background-color: transparent;
-        color: transparent;
-      }
-
-      :root,
-      .theme {
-        font-family: var(--font);
-        color: var(--primary);
-        background-color: var(--background);
-      }
-
       * {
-        font-size: max(16px, 2vmin);
+        font-size: max(14px, 1.8vmin);
         line-height: 1.55;
         text-size-adjust: none;
         -webkit-text-size-adjust: none;
@@ -271,9 +221,7 @@
       }
 
       .nofeat {
-        font-feature-settings:
-          'kern' 0,
-          'calt' 0;
+        font-feature-settings: 'calt' 0;
       }
 
       pre {
@@ -289,7 +237,7 @@
       }
 
       pre:focus {
-        background-color: #88888822;
+        background-color: #7f7f7f28;
         outline: none;
       }
 
@@ -333,17 +281,17 @@
           width: 1rem;
         }
 
-        &:has(input:checked) {
-          /* background: var(--highlight-thin); */
-
-          &::after {
-            left: calc(2rch);
-          }
+        &:has(input:checked)::after {
+          left: calc(2rch);
         }
       }
 
       section {
         position: relative;
+      }
+
+      .showcols {
+        background: repeating-linear-gradient(to right, var(--columnbg), var(--columnbg) 1ch, var(--background) 1ch, var(--background) 2ch);
       }
 
       .rightCB {
@@ -352,22 +300,25 @@
         top: 0;
       }
 
-      cr {
-        color: red;
+      .darkscroll {
+        position: relative;
+        width: fit-content;
+        min-width: min(100vw - 2ch, 70ch);
+        max-width: min(100vw - 2ch, 100%);
+        overflow-x: scroll;
+        pre {
+          overflow: visible;
+        }
+        > pre:first-child, > pre:first-child {
+          background-color: transparent;
+          color: transparent;
+        }
       }
-
-      cg {
-        color: gray;
-      }
-
-      ckw {
-        color: var(--ckw);
-      }
-
 
     </style>
     <script>
       {
+        // Defines lite/dark vars
         const defineSheet = document.currentScript.previousElementSibling
         const cssVars = [...defineSheet.sheet.cssRules]
           .filter(
@@ -424,18 +375,18 @@
 
       <pre class="specimen nofeat" contenteditable>
  !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
- @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
- `abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn>
+@ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
+`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn>
 
  <b><sn># Bold</sn>
-   !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
-   @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
-   `abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></b>
+ !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
+@ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
+`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></b>
 
  <i><sn># Italic</sn>
-   !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
-   @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
-   `abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></i>
+ !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
+@ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
+`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></i>
 </pre>
 
       <section>
@@ -447,6 +398,12 @@
           a true condensed. This offers a balance of aiding legibility while
           keeping more columns on your screen.
         </p>
+
+        <pre
+          class="showcols"
+          contenteditable
+        >Can I get a hamburger and a side of fonstiv, Lode?
+<div class="showcols" style="font-family: Roboto Mono;">Can I get a hamburger and a side of fonstiv, Roboto Mono?</div><div class="showcols" style="font-family: Inconsolata;">Can I get a hamburger and a side of fonstiv, Inconsolata?</div></pre>
       </section>
 
       <section>
@@ -486,10 +443,9 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
           thinner stroke weight to compensate for this and increase clarity.
         </p>
 
-        <div style="position: relative; width: fit-content">
+        <div class="darkscroll">
           <pre
             contenteditable
-            class="trans"
             style="position: relative; z-index: 2;"
           >
 (<sr>defn</sr> <sb>lazy-loop</sb> [<sv>n</sv>]
@@ -628,7 +584,7 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
               const checkbox =
                 document.currentScript.parentElement.firstElementChild
               checkbox.onchange = () =>
-                setFeature(checkbox.checked ? '' : '"kern" 0, "calt" 0')
+                setFeature(checkbox.checked ? '' : '"calt" 0')
             }
           </script>
         </label>
@@ -636,9 +592,9 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
         <p>
           Monospace fonts face a forced tradeoff: characters of typically very
           different widths must each fill the same space. Narrow characters like
-          <ckw>i</ckw>, <ckw>j</ckw>, and <ckw>l</ckw> use serifs and hooks to
-          visually fill the space, however wide characters like <ckw>w</ckw> and
-          <ckw>m</ckw> must be compressed, reducing their clarity. This is most
+          <sm>i</sm>, <sm>j</sm>, and <sm>l</sm> use serifs and hooks to
+          visually fill the space, however wide characters like <sm>w</sm> and
+          <sm>m</sm> must be compressed, reducing their clarity. This is most
           apparent when pairs of narrow and wide characters are next to each
           other.
         </p>
@@ -647,7 +603,7 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
           that they still add up to full column widths, leading to more
           consistent visual density and improved clarity. Lode enables this by
           default under the
-          <em>"kern"</em> font feature.
+          <em>"calt"</em> font feature.
         </p>
 
         <pre contenteditable>
@@ -712,39 +668,36 @@ x++ y-- z**n a&lt;&lt;n b>>n a>>>b a&&b a||b
 </pre
         >
 
-        <h3>Underlines</h3>
-
-        <p>
-          Many compilers and REPLs highlight errors with strings of "^". Lode
-          replaces three or more as a continuous squiggly underline.
-        </p>
-        <p></p>
-
-        <pre class="specimen">
-Immutable data-sturctures
-          <sy>^^^^^^^^^^^^^^^</sy> &lt;- did you mean "data-structures"?
-
-for (const x of const y) {}
-                <sr>^^^^^</sr>
-                Unexpected token 'const'
-    </pre>
-
-        <h3>Waves, lines, and rules</h3>
+        <h3>Continuous lines</h3>
 
         <p>
           Three or more of some characters produce continuous lines for use as
-          rules or page boundaries.
+          rules, underlines, or page boundaries.
         </p>
 
         <pre class="specimen">
-~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _ ____________________________
 - ----------------------------
 + ++++++++++++++++++++++++++++
 ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# ############################
-    </pre
-        >
+~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ############################</pre>
+
+        <p>
+          Many compilers and REPLs highlight errors with strings of <cm>^</cm> or <cm>^</cm>. Lode
+          replaces three or more as continuous squiggly underlines.
+        </p>
+
+        <pre class="specimen">
+Immutable data-sturctures
+          <sy>^^^^^^^^^^^^^^^
+          Did you mean "data-structures"?</sy>
+
+for (const x of const y) {}
+                <sr>~~~~~
+                Unexpected token 'const'</sr>
+    </pre>
+
       </section>
     </div>
   </body>

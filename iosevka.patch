@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72..11d1ea70 100644
+index 39e7da72..f7257b2c 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -40,17 +40,7 @@ index 39e7da72..11d1ea70 100644
  						include glyphT AS_BASE ALSO_METRICS
  						set-width Width
  						if extL : begin
-@@ -731,15 +739,15 @@ glyph-block Autobuild-Transformed-Texture : begin
- 		# link-relations relSets
- 
- 	define ranges : list
--		list 0x41 0x5A
--		list 0x61 0x7A
-+		# Adds more of ascii, allowing letters to expand into punctation
-+		list 0x21 0x7E
- 		list 0xC0 0xFF
- 		list 0x100 0x2AF
- 		list 0x370 0x3FF
+@@ -739,7 +747,7 @@ glyph-block Autobuild-Transformed-Texture : begin
  		list 0x400 0x4FF
  		list 0x500 0x52F
  
@@ -59,7 +49,7 @@ index 39e7da72..11d1ea70 100644
  		local results {}
  		foreach {low high} [items-of ranges] : begin
  			foreach lch [range low till high] : begin
-@@ -747,14 +755,28 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -747,14 +755,43 @@ glyph-block Autobuild-Transformed-Texture : begin
  				if source : results.push { null source }
  		return results
  
@@ -84,6 +74,21 @@ index 39e7da72..11d1ea70 100644
 +	createTextureDerivatives Texture.ShrL  Joining.Classes.Left  SHRINK      0           [jobs ranges]
 +	createTextureDerivatives Texture.ShrR  Joining.Classes.Right 0           SHRINK      [jobs ranges]
 +	createTextureDerivatives Texture.ShrLR Joining.Classes.Mid   HALF_SHRINK HALF_SHRINK [jobs ranges]
++
++	# Adds more of ascii, allowing letters to expand into punctation
++	define punctRanges : list
++		list 0x20 0x2F
++		list 0x3A 0x40
++		list 0x5B 0x60
++		list 0x7B 0x7E
++		list 0xA0 0xA0
++		list 0xA1 0xA1
++		list 0xB0 0xB3
++		list 0xB7 0xB7
++
++	createTextureDerivatives Texture.ShrPunctL  Joining.Classes.Left  SHRINK      0           [jobs punctRanges]
++	createTextureDerivatives Texture.ShrPunctR  Joining.Classes.Right 0           SHRINK      [jobs punctRanges]
++	createTextureDerivatives Texture.ShrPunctLR Joining.Classes.Mid   HALF_SHRINK HALF_SHRINK [jobs punctRanges]
 +
 +	define extHalfRanges : list
 +		list 0x4D 0x4D # m
@@ -1572,23 +1577,15 @@ index f3301b5d..7bcd4041 100644
  				chain-rule
  					{[sfx "jf"]} ~> {[sfx "jc"]}
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1b..cf7babed 100644
+index f5286c1b..37c945f1 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
-@@ -3,16 +3,40 @@ $$include './meta/macros.ptl'
- extern Set
- 
- import [Texture CvDecompose] from "@iosevka/glyph/relation"
-+import [inspect] from "util"
-+import [writeFileSync] from "fs"
- 
- # Name-driven feature pairs
- export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -9,10 +9,32 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  	local anyMark : Array.from markGlyphs.all
  	local rec : gsub.beginBlock
  
 -	define txtr : gsub.addCommonFeature : gsub.createFeature 'TXTR'
-+	# Renames TXTR to kern to enable by default in most environments
++	# Renames TXTR to CALT to enable by default in most environments
 +	define txtr : gsub.addCommonFeature : gsub.createFeature 'calt'
  	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
  	define look-around null
@@ -1598,9 +1595,9 @@ index f5286c1b..cf7babed 100644
 +
 +	define [AddLookup lookup] : begin
 +		txtr.addLookup lookup
++		if (!firstLookup) : set firstLookup lookup
 +		if lastLookup : gsub.setDependency lastLookup lookup
 +		set lastLookup lookup
-+		if (!firstLookup) : set firstLookup lookup
 +
 +	define [CreateTextureLookup _rules] : begin
 +		AddLookup : gsub.createLookup
@@ -1617,10 +1614,17 @@ index f5286c1b..cf7babed 100644
  	local extLFrom  { }
  	local extRFrom  { }
  	local extLRFrom { }
-@@ -27,6 +51,21 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -27,6 +49,28 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  	local shrRTo    { }
  	local shrLRTo   { }
  
++	local shrPunctLFrom  { }
++	local shrPunctRFrom  { }
++	local shrPunctLRFrom { }
++	local shrPunctLTo    { }
++	local shrPunctRTo    { }
++	local shrPunctLRTo   { }
++
 +	local extHalfLFrom  { }
 +	local extHalfLLFrom { }
 +	local extHalfRFrom  { }
@@ -1639,10 +1643,13 @@ index f5286c1b..cf7babed 100644
  	local anyInfluence : new Set
  
  	foreach { gid g } [glyphStore.namedEntries] : if (gid.(0) !== ".") : begin
-@@ -36,6 +75,10 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -36,6 +80,13 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  		local shrL : Texture.ShrL.get g
  		local shrR : Texture.ShrR.get g
  		local shrLR : Texture.ShrLR.get g
++		local shrPunctL : Texture.ShrPunctL.get g
++		local shrPunctR : Texture.ShrPunctR.get g
++		local shrPunctLR : Texture.ShrPunctLR.get g
 +		local extHalfL  : Texture.ExtHalfL.get g
 +		local extHalfLL : Texture.ExtHalfLL.get g
 +		local extHalfR  : Texture.ExtHalfR.get g
@@ -1650,10 +1657,14 @@ index f5286c1b..cf7babed 100644
  
  		if extL : begin [extLFrom.push gid] [extLTo.push extL]
  		if extR : begin [extRFrom.push gid] [extRTo.push extR]
-@@ -46,34 +89,85 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -46,34 +97,101 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  		if shrR : begin [shrRFrom.push gid] [shrRTo.push shrR]
  		if shrLR : begin [shrLRFrom.push gid] [shrLRTo.push shrLR]
  
++		if shrPunctL : begin [shrPunctLFrom.push gid] [shrPunctLTo.push shrPunctL]
++		if shrPunctR : begin [shrPunctRFrom.push gid] [shrPunctRTo.push shrPunctR]
++		if shrPunctLR : begin [shrPunctLRFrom.push gid] [shrPunctLRTo.push shrPunctLR]
++
 +		if (extHalfLL && extL) : begin [extHalfLLFrom.push extL] [extHalfLLTo.push extHalfLL]
 +		if (extHalfL && extL) : begin [extHalfLFrom.push gid] [extHalfLTo.push extHalfL]
 +		if (extHalfR && extR) : begin [extHalfRFrom.push gid] [extHalfRTo.push extHalfR]
@@ -1705,24 +1716,35 @@ index f5286c1b..cf7babed 100644
  			chain-rule # Shrink to the right
 -				shrRFrom                       ~> shrRTo
 -				[{}.concat extLFrom extLRFrom] ~> look-around
--
--	txtr.addLookup sub
 +				shrRFrom      ~> shrRTo
 +				extAhead      ~> look-around
 +
-+	# Expand into whitespace if not already expanded
-+	define whitespace    { 'space' 'nbsp' }
++	define shrPunctBehind   : {}.concat shrPunctRTo shrPunctLRTo
++	define shrPunctAhead    : {}.concat shrPunctLFrom shrPunctLRFrom
+ 
+-	txtr.addLookup sub
++	# Expand into whitespace/punctuation if not already expanded
 +	CreateTextureLookup : list
-+		chain-rule
-+			whitespace    ~> look-around
-+			extLRFrom     ~> extLRTo
-+			whitespace    ~> look-around
-+		chain-rule
-+			whitespace    ~> look-around
-+			extLFrom      ~> extLTo
-+		chain-rule
-+			extRFrom      ~> extRTo
-+			whitespace    ~> look-around
++			chain-rule # Extension to both sides
++				shrPunctBehind  ~> look-around
++				extLRFrom       ~> extLRTo
++				shrPunctAhead   ~> look-around
++			chain-rule # Shrink to both sides
++				extBehind       ~> look-around
++				shrPunctLRFrom  ~> shrPunctLRTo
++				extAhead        ~> look-around
++			chain-rule # Extension to the left
++				shrPunctBehind  ~> look-around
++				extLFrom        ~> extLTo
++			chain-rule # Shrink to the left
++				extBehind       ~> look-around
++				shrPunctLFrom   ~> shrPunctLTo
++			chain-rule # Extension to the right
++				extRFrom        ~> extRTo
++				shrPunctAhead   ~> look-around
++			chain-rule # Shrink to the right
++				shrPunctRFrom   ~> shrPunctRTo
++				extAhead        ~> look-around
 +
 +	# Expand a triple
 +	CreateTextureLookup : list
@@ -1756,7 +1778,7 @@ index f5286c1b..cf7babed 100644
  
  	# Decompose everything if we enable TXTR
  	if cvs
-@@ -82,7 +176,8 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -82,7 +200,8 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  		foreach cv [cvs.values] : begin
  			if cv.decompositionLookup : begin
  				txtr.addLookup cv.decompositionLookup
@@ -1766,7 +1788,7 @@ index f5286c1b..cf7babed 100644
  	: else : begin
  		# Built it from scratch
  		local decompose : gsub.createLookup
-@@ -97,6 +192,6 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -97,6 +216,6 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  				if influenced : set decompose.substitutions.(gn) parts
  
  		txtr.addLookup decompose
@@ -1788,13 +1810,16 @@ index bb5e8904..e609274e 100644
  	# frac
  	buildFrac gsub glyphStore
 diff --git a/packages/font/src/ttfa-controls/index.mjs b/packages/font/src/ttfa-controls/index.mjs
-index b9fb2fee..fe86faa7 100644
+index b9fb2fee..77fa48f5 100644
 --- a/packages/font/src/ttfa-controls/index.mjs
 +++ b/packages/font/src/ttfa-controls/index.mjs
-@@ -69,6 +69,10 @@ class Alignment {
+@@ -69,6 +69,13 @@ class Alignment {
  					Gr.Texture.ShrL,
  					Gr.Texture.ShrR,
  					Gr.Texture.ShrLR,
++					Gr.Texture.ShrPunctL,
++					Gr.Texture.ShrPunctR,
++					Gr.Texture.ShrPunctLR,
 +					Gr.Texture.ExtHalfL,
 +					Gr.Texture.ExtHalfLL,
 +					Gr.Texture.ExtHalfR,
@@ -1803,13 +1828,16 @@ index b9fb2fee..fe86faa7 100644
  				for (const gr of cvs) {
  					const gnLinked = gr.get(go);
 diff --git a/packages/glyph/src/relation.mjs b/packages/glyph/src/relation.mjs
-index 3187e31b..567c7f57 100644
+index 3187e31b..82cb9e8d 100644
 --- a/packages/glyph/src/relation.mjs
 +++ b/packages/glyph/src/relation.mjs
-@@ -39,6 +39,10 @@ export const Texture = {
+@@ -39,6 +39,13 @@ export const Texture = {
  	ShrL: LinkedGlyphProp("TextureShrL"),
  	ShrR: LinkedGlyphProp("TextureShrR"),
  	ShrLR: LinkedGlyphProp("TextureShrLR"),
++	ShrPunctL: LinkedGlyphProp("TextureShrPunctL"),
++	ShrPunctR: LinkedGlyphProp("TextureShrPunctR"),
++	ShrPunctLR: LinkedGlyphProp("TextureShrPunctLR"),
 +	ExtHalfL: LinkedGlyphProp("TextureExtHalfL"),
 +	ExtHalfLL: LinkedGlyphProp("TextureExtHalfLL"),
 +	ExtHalfR: LinkedGlyphProp("TextureExtHalfR"),
