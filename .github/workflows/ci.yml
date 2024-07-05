@@ -2,55 +2,17 @@ name: CI
 
 on:
   push:
-    branches: ['main']
-    tags: ['v*']
+    branches:
+      - main
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref_type }}
-  cancel-in-progress: true
-
 jobs:
   build:
-    concurrency:
-      group: ${{ github.sha }}
-      cancel-in-progress: ${{ github.ref_type == 'tag' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-      - uses: actions/setup-node@v4
-      - name: Install dependencies
-        run: sudo apt-get install -y ttfautohint zip
-      - name: Build
-        run: ./build.sh
-
-  artifacts:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: Lode-*.zip
-          retention-days: 1
-
-  release:
-    if: github.ref_type == 'tag'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publish release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: Lode-*.zip
-          generate_release_notes: true
-
+    uses: .github/workflows/build.yml
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -58,12 +20,13 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Setup pages
-        uses: actions/configure-pages@v5
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          path: 'docs/'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          pattern: *.woff2
+          path: docs/woff
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - uses: actions/deploy-pages@v4
