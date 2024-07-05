@@ -31,8 +31,8 @@ echo "Running build..."
 npm --prefix iosevka run build -- super-ttc::Lode super-ttc::LodeDark webfont::Lode webfont::LodeDark
 
 echo "Preparing dist..."
+rm -rf dist
 mkdir -p dist
-rm dist/*
 cp iosevka/dist/.super-ttc/* dist
 cp iosevka/dist/*/WOFF2/* dist
 zip -j -X -9 "Lode-$(git describe --tags --always --abbrev=7)" dist/*
