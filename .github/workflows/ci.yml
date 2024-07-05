@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    uses: .github/workflows/build.yml
+    uses: ./.github/workflows/build.yml
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          pattern: *.woff2
+          pattern: '*.woff2'
           path: docs/woff
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
