@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: ['main']
+    tags: ['v*']
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: sudo apt-get install -y ttfautohint zip
+      - name: Build
+        run: ./build.sh
+
+  artifacts:
+    if: github.ref_type != 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: Lode-*.zip
+          retention-days: 1
+
+  release:
+    if: github.ref_type == 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: Lode-*.zip
+          generate_release_notes: true
+
+  publish:
+    if: github.ref_type != 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup pages
+        uses: actions/configure-pages@v5
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
