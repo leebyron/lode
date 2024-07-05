@@ -1,4 +1,4 @@
-# Lode: a typeface for code
+# Lode — a typeface for code
 
 > This is a work in progress! If you're here, awesome. There will be bugs.
 
