@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72..f7257b2c 100644
+index 39e7da72..98b0590a 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -62,7 +62,7 @@ index 39e7da72..f7257b2c 100644
 -	createTextureDerivatives Texture.ShrR  0         SHRINK    [jobs 0xF400]
 -	createTextureDerivatives Texture.ShrLR SHRINK    SHRINK    [jobs 0xF500]
 +	# More dramatic effect to texture extension and shrink
-+	define WIDE_LETTER : 19 / 16
++	define WIDE_LETTER : 20 / 16
 +	define EXTEND      : WIDE_LETTER - 1
 +	define HALF_EXTEND : EXTEND / 2
 +	define SHRINK      : 1 - WIDE_LETTER
@@ -1577,7 +1577,7 @@ index f3301b5d..7bcd4041 100644
  				chain-rule
  					{[sfx "jf"]} ~> {[sfx "jc"]}
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1b..37c945f1 100644
+index f5286c1b..011dd7a8 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
 @@ -9,10 +9,32 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
@@ -1716,35 +1716,36 @@ index f5286c1b..37c945f1 100644
  			chain-rule # Shrink to the right
 -				shrRFrom                       ~> shrRTo
 -				[{}.concat extLFrom extLRFrom] ~> look-around
+-
+-	txtr.addLookup sub
 +				shrRFrom      ~> shrRTo
 +				extAhead      ~> look-around
 +
 +	define shrPunctBehind   : {}.concat shrPunctRTo shrPunctLRTo
 +	define shrPunctAhead    : {}.concat shrPunctLFrom shrPunctLRFrom
- 
--	txtr.addLookup sub
++
 +	# Expand into whitespace/punctuation if not already expanded
 +	CreateTextureLookup : list
-+			chain-rule # Extension to both sides
-+				shrPunctBehind  ~> look-around
-+				extLRFrom       ~> extLRTo
-+				shrPunctAhead   ~> look-around
-+			chain-rule # Shrink to both sides
-+				extBehind       ~> look-around
-+				shrPunctLRFrom  ~> shrPunctLRTo
-+				extAhead        ~> look-around
-+			chain-rule # Extension to the left
-+				shrPunctBehind  ~> look-around
-+				extLFrom        ~> extLTo
-+			chain-rule # Shrink to the left
-+				extBehind       ~> look-around
-+				shrPunctLFrom   ~> shrPunctLTo
-+			chain-rule # Extension to the right
-+				extRFrom        ~> extRTo
-+				shrPunctAhead   ~> look-around
-+			chain-rule # Shrink to the right
-+				shrPunctRFrom   ~> shrPunctRTo
-+				extAhead        ~> look-around
++		chain-rule # Extension to both sides
++			shrPunctBehind  ~> look-around
++			extLRFrom       ~> extLRTo
++			shrPunctAhead   ~> look-around
++		chain-rule # Shrink to both sides
++			extBehind       ~> look-around
++			shrPunctLRFrom  ~> shrPunctLRTo
++			extAhead        ~> look-around
++		chain-rule # Extension to the left
++			shrPunctBehind  ~> look-around
++			extLFrom        ~> extLTo
++		chain-rule # Shrink to the left
++			extBehind       ~> look-around
++			shrPunctLFrom   ~> shrPunctLTo
++		chain-rule # Extension to the right
++			extRFrom        ~> extRTo
++			shrPunctAhead   ~> look-around
++		chain-rule # Shrink to the right
++			shrPunctRFrom   ~> shrPunctRTo
++			extAhead        ~> look-around
 +
 +	# Expand a triple
 +	CreateTextureLookup : list

@@ -1,12 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
     <link rel="preload" href="woff/Lode-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff/Lode-Italic.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff/Lode-Bold.woff2" as="font" type="font/woff2" crossorigin />
@@ -15,95 +12,28 @@
     <link rel="preload" href="woff/LodeDark-Italic.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff/LodeDark-Bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff/LodeDark-BoldItalic.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
+    <link href="./block.css" rel="stylesheet" />
     <style>
-      @font-face {
-        font-family: 'Lode Web';
-        font-display: block;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        src: url('woff/Lode-Regular.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Lode Web';
-        font-display: block;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: italic;
-        src: url('woff/Lode-Italic.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Lode Web';
-        font-display: block;
-        font-weight: 700;
-        font-stretch: normal;
-        font-style: normal;
-        src: url('woff/Lode-Bold.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Lode Web';
-        font-display: block;
-        font-weight: 700;
-        font-stretch: normal;
-        font-style: italic;
-        src: url('woff/Lode-BoldItalic.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Lode Dark Web';
-        font-display: block;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: normal;
-        src: url('woff/LodeDark-Regular.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Lode Dark Web';
-        font-display: block;
-        font-weight: 400;
-        font-stretch: normal;
-        font-style: italic;
-        src: url('woff/LodeDark-Italic.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Lode Dark Web';
-        font-display: block;
-        font-weight: 700;
-        font-stretch: normal;
-        font-style: normal;
-        src: url('woff/LodeDark-Bold.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Lode Dark Web', monospace;
-        font-display: block;
-        font-weight: 700;
-        font-stretch: normal;
-        font-style: italic;
-        src: url('woff/LodeDark-BoldItalic.woff2') format('woff2');
-      }
-
       :root {
         --lite-font: 'Lode Web', monospace;
-        --lite-primary: #222222;
-        --lite-background: #e1dfda;
-        --lite-columnbg: #d1cec7;
         --dark-font: 'Lode Dark Web', monospace;
-        --dark-primary: #ffffff;
+
+        --dark-primary: #e0e0e0;
         --dark-background: #1e2025;
-        --dark-columnbg: #2e3138;
-        --highlight: color(display-p3 0 1 0.65);
-        --highlight-thin: color(display-p3 0 1 0.65 / 0.35);
-        --lite-link: color(display-p3 0 0.3 0.8 / 1);
-        --dark-link: color(display-p3 0.22 1 0 / 1);
+        --dark-background2: #26282d;
+        --dark-background3: #2f3136;
+        --dark-highlight: color(display-p3 0.22 1 0 / 1);
+        --dark-highlight-thin: color(display-p3 0.22 1 0 / 0.35);
+
+        --lite-primary: lab(from var(--dark-primary) calc(100 - L) a b);
+        --lite-background: lab(from var(--dark-background) calc(100 - L) a b);
+        --lite-background2: lab(from var(--dark-background2) calc(100 - L) a b);
+        --lite-background3: lab(from var(--dark-background3) calc(100 - L) a b);
+        --lite-highlight: color(display-p3 0 0.3 0.8 / 1);
+        --lite-highlight-thin: color(display-p3 0 0.3 0.8 / 0.35);
 
         --solarized-red: #dc322f;
         --solarized-orange: #cb4b16;
@@ -114,15 +44,24 @@
         --solarized-violet: #6c71c4;
         --solarized-magenta: #d33682;
         --solarized-neutral: #7f7f7f;
+
+        -webkit-text-size-adjust: none;
+        caret-color: var(--highlight);
+        caret-shape: block;
+        font-size: max(16px, 2vmin);
+        line-height: 1.55;
+        text-size-adjust: none;
+        background-position: center;
       }
 
       :root,
       .theme {
-        font-family: var(--font);
-        color: var(--primary);
         background-color: var(--background);
+        color: var(--primary);
+        font-family: var(--font);
       }
 
+      sr, so, sy, sg, sc, sb, sv, sm, sn { background: none; }
       sr { color: var(--solarized-red); }
       so { color: var(--solarized-orange); }
       sy { color: var(--solarized-yellow); }
@@ -133,37 +72,32 @@
       sm { color: var(--solarized-magenta); }
       sn { color: var(--solarized-neutral); }
 
-      * {
-        font-size: max(14px, 1.8vmin);
-        line-height: 1.55;
-        text-size-adjust: none;
-        -webkit-text-size-adjust: none;
-        caret-color: var(--highlight);
-        caret-shape: block;
-        transition: color 200ms linear, background-color 200ms linear;
-      }
-
       ::selection {
         background-color: var(--highlight-thin);
       }
 
       body {
-        margin: 0;
+        padding: 0 2rch 50vh;
+        margin: 0 auto;
+        max-width: 70ch;
+        background-position: left;
       }
 
-      body > div {
-        padding: 0 2ch 0;
-        margin: 25vh auto 50vh;
-        max-width: 70ch;
+      * {
+        background: inherit;
+      }
+
+      input, button {
+        font: inherit;
+        color: inherit;
       }
 
       a {
+        color: var(--highlight);
         text-decoration: none;
-        color: var(--link);
-      }
-      a:hover,
-      a:focus {
-        text-decoration: underline;
+        &:hover, &:focus {
+          text-decoration: underline;
+        }
       }
 
       p {
@@ -171,52 +105,141 @@
       }
 
       pre {
+        background-color: var(--background2);
+        box-sizing: border-box;
+        font-family: inherit;
+        font-size: inherit;
         margin: 0;
+        max-width: min(100vw - 2ch, 100%);
+        min-width: min(100vw - 2ch, 70ch);
+        overflow-x: scroll;
+        padding: 1rem 2ch;
+        width: fit-content;
+      }
+
+      pre:focus {
+        background-color: var(--background3);
+        outline: none;
       }
 
       h1 {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: normal;
-        margin-bottom: 2rem;
+        width: fit-content;
+      }
+      h2, h3 {
+        font-size: 1rem;
+        font-weight: bold;
+        width: fit-content;
       }
 
-      h1,
-      h2,
-      h3 {
-        position: relative;
-      }
-
-      h2 {
-        margin: 3rem 0 1rem;
-      }
-
-      h3 {
-        margin: 2rem 0 1rem;
-      }
-
-      h1::before,
-      h2::before,
-      h3::before {
-        opacity: 0.5;
-        font-weight: normal;
-        content: '# ';
-      }
-      h2::before {
-        content: '## ';
-      }
-      h3::before {
-        content: '### ';
-      }
+      h1 { margin: 25vh 0 2rem; }
+      h2 { margin: 6rem 0 1rem; }
+      h3 { margin: 4rem 0 1rem; }
 
       @media screen and (min-width: 100ch) {
         h1 {
           font-size: 2rem;
         }
-        h1::before,
-        h2::before,
-        h3::before {
+        h1, h2, h3 {
+          position: relative;
+        }
+        h1::before, h2::before, h3::before {
+          font-weight: normal;
+          opacity: 0.5;
           position: absolute;
           right: calc(100% + 1ch);
+        }
+        h1::before {
+          content: '# ';
+        }
+        h2::before {
+          content: '## ';
+        }
+        h3::before {
+          content: '### ';
+        }
+      }
+
+      ol {
+        margin: 1rem 0;
+        padding-inline-start: 3ch;
+        li {
+          background: none;
+        }
+      }
+
+      em, strong, i, b {
+        background: none;
+      }
+
+      .controls {
+        background-color: var(--background3);
+        display: flex;
+        flex-direction: column;
+        line-height: 2;
+        margin-left: auto;
+        padding: 0.25ch 1ch;
+        position: sticky;
+        user-select: none;
+        top: 1ch;
+        width: fit-content;
+        z-index: 10;
+
+        input {
+          appearance: none;
+          background-color: var(--background);
+          border-radius: 1.375rch;
+          clip-path: content-box;
+          cursor: pointer;
+          height: 2.75rch;
+          line-height: 1.5;
+          margin: -0.725rch 0;
+          outline-offset: -0.12rch;
+          outline: solid 0.12rch var(--primary);
+          padding: 0;
+          position: relative;
+          width: 5rch;
+
+          &::after {
+            background-color: var(--background);
+            border-radius: 1.375rch;
+            content: ' ';
+            display: block;
+            height: 1.5rch;
+            margin: 0.625ch 0.75ch;
+            outline: solid 0.12rch var(--primary);
+            outline-offset: -0.12rch;
+            position: absolute;
+            width: 1.5rch;
+          }
+
+          &::before {
+            color: var(--solarized-neutral);
+            content: '1   0';
+            margin-left: -1ch;
+            position: absolute;
+            white-space: pre;
+          }
+
+          &,
+          &::after,
+          &::before {
+            left: 0;
+            transition: left 0.25s ease-out;
+          }
+
+          &:checked::after {
+            background-color: var(--highlight);
+            outline-color: transparent;
+          }
+
+          &:checked {
+            &::after,
+            &::before {
+              left: calc(2rch);
+            }
+          }
         }
       }
 
@@ -224,80 +247,31 @@
         font-feature-settings: 'calt' 0;
       }
 
-      pre {
-        font-family: inherit;
-        font-size: inherit;
-        background-color: #88888811;
-        padding: 1rem 2ch;
-        box-sizing: border-box;
-        width: fit-content;
-        min-width: min(100vw - 2ch, 70ch);
-        max-width: min(100vw - 2ch, 100%);
-        overflow-x: scroll;
-      }
-
-      pre:focus {
-        background-color: #7f7f7f28;
-        outline: none;
-      }
-
-      .switch {
-        background: var(--background);
-        border-radius: 0.75rem;
-        cursor: pointer;
-        display: block;
-        height: 1.5rem;
-        margin: -0.25rem -0.5rem;
-        outline: solid 1px var(--primary);
-        position: relative;
-        width: calc(3rch + 1rem);
-
-        & > input {
-          opacity: 0;
-          pointer-events: none;
-          position: absolute;
-        }
-
-        &::before {
-          content: '1 0';
-          left: 0.5rem;
-          opacity: 0.5;
-          position: absolute;
-          line-height: 1.5rem;
-        }
-
-        &::after {
-          background-color: var(--background);
-          border-radius: 0.5rem;
-          content: '';
-          display: block;
-          height: 1em;
-          left: 0;
-          margin: 0.25rem;
-          outline: solid 1px var(--primary);
-          position: absolute;
-          top: 0;
-          transition: left 0.25s ease-out;
-          width: 1rem;
-        }
-
-        &:has(input:checked)::after {
-          left: calc(2rch);
-        }
-      }
-
-      section {
-        position: relative;
-      }
-
       .showcols {
-        background: repeating-linear-gradient(to right, var(--columnbg), var(--columnbg) 1ch, var(--background) 1ch, var(--background) 2ch);
+        background-attachment: local;
+        background-image: repeating-linear-gradient(
+          to right,
+          #00000010, #00000010 1ch,
+          hsl(0 100% 85% / 0.07) 1ch, hsl(0 100% 85% / 0.07) 2ch,
+          #00000010 2ch, #00000010 3ch,
+          hsl(90 100% 85% / 0.07) 3ch, hsl(90 100% 85% / 0.07) 4ch,
+          #00000010 4ch, #00000010 5ch,
+          hsl(180 100% 85% / 0.07) 5ch, hsl(180 100% 85% / 0.07) 6ch,
+          #00000010 6ch, #00000010 7ch,
+          hsl(270 100% 85% / 0.07) 7ch, hsl(270 100% 85% / 0.07) 8ch
+        );
       }
 
-      .rightCB {
-        position: absolute;
-        right: 1rch;
-        top: 0;
+      a.button {
+        border: solid 1px var(--solarized-neutral);
+        display: block;
+        margin: 1.5em 0;
+        padding: 0.5em 2ch;
+        width: fit-content;
+        &:hover, &:focus {
+          border-color: var(--link);
+          text-decoration: none;
+        }
       }
 
       .darkscroll {
@@ -314,299 +288,279 @@
           color: transparent;
         }
       }
-
     </style>
     <script>
       {
         // Defines lite/dark vars
         const defineSheet = document.currentScript.previousElementSibling
-        const cssVars = [...defineSheet.sheet.cssRules]
-          .filter(
-            rule =>
-              rule instanceof CSSStyleRule && rule.selectorText === ':root',
-          )
-          .flatMap(rule => [...rule.style])
-          .filter(style => style.startsWith('--'))
-        const liteRule = cssVars
+        const rootStyles = [...defineSheet.sheet.cssRules]
+          .flatMap(rule => rule instanceof CSSStyleRule && rule.selectorText === ':root' ? [...rule.style] : [])
+        const liteVars = rootStyles
           .filter(v => v.startsWith('--lite-'))
           .map(v => `--${v.slice(7)}: var(${v});`)
           .join('\n')
-        const darkRule = cssVars
+        const darkVars = rootStyles
           .filter(v => v.startsWith('--dark-'))
           .map(v => `--${v.slice(7)}: var(${v});`)
           .join('\n')
         const themeSheet = document.createElement('style')
-        themeSheet.textContent = `:root {${darkRule}}\n@media (prefers-color-scheme: light) { :root {${liteRule}} }`
-        defineSheet.after(themeSheet)
-        defineSheet.textContent += `\n:root.lite, .lite {${liteRule}}\n:root.dark, .dark {${darkRule}}`
-        globalThis.toggleColor = liteOrDark => {
-          themeSheet.textContent = `:root {${liteOrDark == 'dark' ? darkRule : liteRule}}`
-        }
-        const featureSheet = document.createElement('style')
-        defineSheet.after(featureSheet)
-        globalThis.setFeature = features => {
-          featureSheet.textContent = `:root { font-feature-settings: ${features}; }`
-        }
+        defineSheet.textContent += [
+          `:root, .lite {${liteVars}}`,
+          `.dark {${darkVars}}`,
+          `@media (prefers-color-scheme: dark) { :root:not(.lite) {${darkVars}} }`
+        ].join('\n');
       }
     </script>
   </head>
   <body spellcheck="false">
-    <div>
-      <h1>Lode: a typeface for code</h1>
+    <div class="controls">
+      <script>
+        function setClass(name, isEnable, target = document.documentElement) {
+          const classSet = new Set(target.className.split(' '))
+          isEnable ? classSet.add(name) : classSet.delete(name)
+          target.className = [...classSet].join(' ')
+        }
+      </script>
+      <label>
+        dark <input type="checkbox" onchange="setClass('dark', this.checked); setClass('lite', !this.checked);" />
+      </label>
+      <script>
+        document.currentScript.previousElementSibling.firstElementChild.checked = matchMedia('(prefers-color-scheme: dark)').matches
+      </script>
+      <label>
+        calt <input type="checkbox" checked onchange="setClass('nofeat', !this.checked);" />
+      </label>
+      <label>
+        cols <input type="checkbox" onchange="setClass('showcols', this.checked, document.body)" />
+      </label>
+    </div>
 
-      <blockquote> This is a work in progress! If you're here, awesome. There will be bugs.</blockquote>
+    <section>
+      <h1><strong>Lode</strong> — a typeface for code</h1>
 
       <p>
-        Lode is a monospace sans-serif typeface for reading and writing code in
-        IDEs, text editors, and terminals. It is a modified variant of the
-        excellent open-source typeface
-        <a href="https://typeof.net/Iosevka/" target="_blank">Iosevka</a>. Lode
-        is designed for clarity and efficiency at small sizes on high resolution
+        Lode is a monospace typeface for reading and writing code in editors and
+        terminals. Lode is designed for clarity at small sizes on high-resolution
         screens featuring a very high x-height, thin strokes, slender column
         widths, open aperatures, and neo-grotesque forms with disambiguating
         characters.
       </p>
 
+      <p>Lode is a modified variant of the excellent open-source
+      <a href="https://typeof.net/Iosevka/" target="_blank">Iosevka</a>.</p>
+
+      <a class="button" href="https://github.com/leebyron/lode-font/releases" target="_blank">Download</a>
+
       <p>
         Lode includes support for dark mode, terminal fixed width, texture
-        healing, powerline glyphs, and ligatures for common operators and
+        healing, <!--powerline glyphs, -->and ligatures for common operators and
         markup.
       </p>
 
       <pre class="specimen nofeat" contenteditable>
  !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
 @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
-`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn>
+`abcdefghijklmno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn>
 
- <b><sn># Bold</sn>
+<b><sn># Bold</sn>
  !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
 @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
-`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></b>
+`abcdefghijklmno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></b>
 
- <i><sn># Italic</sn>
+<i><sn># Italic</sn>
  !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
 @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
-`abcdefghijkl&zwnj;mno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></i>
+`abcdefghijklmno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></i>
 </pre>
+    </section>
+    <section>
+      <h2>Slender columns</h2>
+      <p>
+        Lode sets a column width grid where 1ch = 0.55em, which is narrower
+        than most monospaced fonts which set 1ch = 0.6em without being
+        a true condensed. This offers a balance of aiding legibility while
+        keeping more columns on your screen.
+      </p>
+      <pre
+        class="showcols"
+        style="padding: 0;"
+        contenteditable
+      ><div style="padding: 1em 2ch 0; display: flex; justify-content: space-between;"
+        >Hamburger and a side of fonstiv. <span style="background: none;">Lode</span></div
+        ><div style="font-family: 'Roboto Mono'; padding: 0 2ch 1em; display: flex; justify-content: space-between;"
+        >Hamburger and a side of fonstiv. <span style="background: none;">Roboto Mono</span></div></pre>
+    </section>
 
-      <section>
-        <h2>Slender columns</h2>
-
-        <p>
-          Lode sets a column width grid where 1ch = 0.55em, which is narrower
-          than most common monospaced fonts which set 1ch = 0.6em without being
-          a true condensed. This offers a balance of aiding legibility while
-          keeping more columns on your screen.
-        </p>
-
-        <pre
-          class="showcols"
-          contenteditable
-        >Can I get a hamburger and a side of fonstiv, Lode?
-<div class="showcols" style="font-family: Roboto Mono;">Can I get a hamburger and a side of fonstiv, Roboto Mono?</div><div class="showcols" style="font-family: Inconsolata;">Can I get a hamburger and a side of fonstiv, Inconsolata?</div></pre>
-      </section>
-
-      <section>
-        <h2>Disambiguation</h2>
-
-        <p>
-          Lode aids accuracy and legibility by providing otherwise similar
-          looking characters with unambiguous forms, differentiating tails, and
-          a dotted zero.
-        </p>
-
-        <pre class="specimen nofeat" contenteditable>
+    <section>
+      <h2>Disambiguation</h2>
+      <p>
+        Lode aids accuracy and legibility by providing otherwise similar
+        looking characters with unambiguous forms, differentiating tails, and
+        a dotted zero.
+      </p>
+      <pre class="specimen nofeat" contenteditable>
 !iIlL17|¦  0OQC8BßD¢co  CE3ƷʒЗзξ  uvwWMm
 fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
+      >
+    </section>
+
+    <section>
+      <h2>Dark mode</h2>
+      <p>
+        When light text appears on a dark background, it can be perceived as
+        being slightly bold. Lode has a variant "Lode Dark" with a slightly
+        thinner stroke weight to compensate for this and increase clarity.
+      </p>
+      <div class="darkscroll">
+        <pre
+          contenteditable
+          style="position: relative; z-index: 2;"
         >
-      </section>
-
-      <section>
-        <h2>Dark mode</h2>
-        <label class="switch rightCB">
-          <input type="checkbox" />
-          <script>
-            {
-              const checkbox =
-                document.currentScript.parentElement.firstElementChild
-              checkbox.checked = !matchMedia('(prefers-color-scheme: light)')
-                .matches
-              checkbox.onchange = () =>
-                toggleColor(checkbox.checked ? 'dark' : 'lite')
-            }
-          </script>
-        </label>
-
-        <p>
-          When light text appears on a dark background, it can be perceived as
-          being slightly bold. Lode has a variant "Lode Dark" with a slightly
-          thinner stroke weight to compensate for this and increase clarity.
-        </p>
-
-        <div class="darkscroll">
-          <pre
-            contenteditable
-            style="position: relative; z-index: 2;"
-          >
 (<sr>defn</sr> <sb>lazy-loop</sb> [<sv>n</sv>]
   (<sb>lazy-seq</sb>
     (<sb>when</sb> (</sb>pos?</sb> <sv>n</sv>)
       (<sb>cons</sb> <sy>"When life gives you lambdas, make lazy loops."</sy>
             (<sb>lazy-loop</sb> (<sb>dec</sb> <sv>n</sv>))))))</pre
-          >
-          <div
-            class="dark theme"
-            style="
-              pointer-events: none;
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              margin: 0;
-            "
-          >
-            <pre />
-          </div>
-          <div
-            class="lite theme"
-            style="
-              clip-path: url(#lite-mask);
-              pointer-events: none;
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              margin: 0;
-            "
-          >
-            <pre />
-          </div>
-          <svg
-            width="0"
-            height="0"
-            viewBox="0 0 740 600"
-            style="position: absolute"
-          >
-            <defs>
-              <clipPath id="lite-mask">
-                <rect
-                  x="0"
-                  y="0"
-                  width="250"
-                  height="600"
-                  style="transition: none"
-                />
-              </clipPath>
-            </defs>
-          </svg>
-          <script>
-            {
-              const parentDiv = document.currentScript.parentElement
-              const [pre, litePre, darkPre] = parentDiv.querySelectorAll('pre')
-              const [mask] = document.getElementById('lite-mask').children
-              let animating = true
-              let x = 0
-              let prevTs, timeout, frame
-              pre.addEventListener('mousemove', onMouseMove)
-              pre.addEventListener('touchstart', onTouchStart)
-              pre.addEventListener('input', updateText)
-              updateText()
-              schedule()
-              // ----
-              function schedule() {
-                frame = requestAnimationFrame(step)
-              }
-              function step(ts) {
-                const elapsed = ts - (prevTs ?? ts)
-                prevTs = ts
-                draw(x + elapsed / 20)
-                frame = requestAnimationFrame(step)
-              }
-              function draw(nextX) {
-                const width = litePre.offsetWidth
-                x = nextX % (width * 2)
-                mask.setAttribute('x', x - width)
-                mask.setAttribute('width', width)
-              }
-              function setX(globalX) {
-                const width = litePre.offsetWidth
-                draw(
-                  globalX -
-                    parentDiv.getBoundingClientRect().x +
-                    (x > width ? width : 0),
-                )
-                prevTs = null
-                cancelAnimationFrame(frame)
-                clearTimeout(timeout)
-                timeout = setTimeout(schedule, 1000)
-              }
-              function updateText() {
-                darkPre.replaceChildren(...pre.cloneNode(true).childNodes)
-                litePre.replaceChildren(...pre.cloneNode(true).childNodes)
-              }
-              function onMouseMove(event) {
-                setX(event.clientX)
-              }
-              function onTouchStart(event) {
-                setX(event.touches[0].clientX)
-                const onTouchMove = moveEvent =>
-                  setX(moveEvent.touches[0].clientX)
-                const onTouchEnd = () => {
-                  removeEventListener('touchmove', onTouchMove)
-                  removeEventListener('touchend', onTouchEnd)
-                }
-                addEventListener('touchmove', onTouchMove)
-                addEventListener('touchend', onTouchEnd)
-              }
-            }
-          </script>
+        >
+        <div
+          class="dark theme"
+          style="
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0;
+          "
+        >
+          <pre />
         </div>
-      </section>
-
-      <section>
-        <h2>Terminal fixed width</h2>
-
-        <p>
-          Terminals require fonts to render every character in exactly one
-          column width. Lode contains many two-column width characters, but has
-          a variant "Lode Term" with single-column variants.
-        </p>
-      </section>
-
-      <section>
-        <h2>Texture healing</h2>
-        <label class="switch rightCB">
-          <input type="checkbox" checked />
-          <script>
-            {
-              const checkbox =
-                document.currentScript.parentElement.firstElementChild
-              checkbox.onchange = () =>
-                setFeature(checkbox.checked ? '' : '"calt" 0')
+        <div
+          class="lite theme"
+          style="
+            clip-path: url(#lite-mask);
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0;
+          "
+        >
+          <pre />
+        </div>
+        <svg
+          width="0"
+          height="0"
+          viewBox="0 0 740 600"
+          style="position: absolute"
+        >
+          <defs>
+            <clipPath id="lite-mask">
+              <rect
+                x="0"
+                y="0"
+                width="250"
+                height="600"
+                style="transition: none"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+        <script>
+          {
+            const parentDiv = document.currentScript.parentElement
+            const [pre, litePre, darkPre] = parentDiv.querySelectorAll('pre')
+            const [mask] = document.getElementById('lite-mask').children
+            let animating = true
+            let x = 0
+            let prevTs, timeout, frame
+            pre.addEventListener('mousemove', onMouseMove)
+            pre.addEventListener('touchstart', onTouchStart)
+            pre.addEventListener('input', updateText)
+            updateText()
+            schedule()
+            // ----
+            function schedule() {
+              frame = requestAnimationFrame(step)
             }
-          </script>
-        </label>
+            function step(ts) {
+              const elapsed = ts - (prevTs ?? ts)
+              prevTs = ts
+              draw(x + elapsed / 20)
+              frame = requestAnimationFrame(step)
+            }
+            function draw(nextX) {
+              const width = litePre.offsetWidth
+              x = nextX % (width * 2)
+              mask.setAttribute('x', x - width)
+              mask.setAttribute('width', width)
+            }
+            function setX(globalX) {
+              const width = litePre.offsetWidth
+              draw(
+                globalX -
+                  parentDiv.getBoundingClientRect().x +
+                  (x > width ? width : 0),
+              )
+              prevTs = null
+              cancelAnimationFrame(frame)
+              clearTimeout(timeout)
+              timeout = setTimeout(schedule, 1000)
+            }
+            function updateText() {
+              darkPre.replaceChildren(...pre.cloneNode(true).childNodes)
+              litePre.replaceChildren(...pre.cloneNode(true).childNodes)
+            }
+            function onMouseMove(event) {
+              setX(event.clientX)
+            }
+            function onTouchStart(event) {
+              setX(event.touches[0].clientX)
+              const onTouchMove = moveEvent =>
+                setX(moveEvent.touches[0].clientX)
+              const onTouchEnd = () => {
+                removeEventListener('touchmove', onTouchMove)
+                removeEventListener('touchend', onTouchEnd)
+              }
+              addEventListener('touchmove', onTouchMove)
+              addEventListener('touchend', onTouchEnd)
+            }
+          }
+        </script>
+      </div>
+    </section>
 
-        <p>
-          Monospace fonts face a forced tradeoff: characters of typically very
-          different widths must each fill the same space. Narrow characters like
-          <sm>i</sm>, <sm>j</sm>, and <sm>l</sm> use serifs and hooks to
-          visually fill the space, however wide characters like <sm>w</sm> and
-          <sm>m</sm> must be compressed, reducing their clarity. This is most
-          apparent when pairs of narrow and wide characters are next to each
-          other.
-        </p>
-        <p>
-          Texture healing replaces these pairs with more natural widths such
-          that they still add up to full column widths, leading to more
-          consistent visual density and improved clarity. Lode enables this by
-          default under the
-          <em>"calt"</em> font feature.
-        </p>
+    <section>
+      <h2>Terminal fixed width</h2>
+      <p>
+        Terminals require fonts to render every character in exactly one
+        column width. Lode contains many two-column width characters, but has
+        a variant "Lode Term" with single-column variants.
+      </p>
+    </section>
 
-        <pre contenteditable>
+    <section>
+      <h2>Texture healing</h2>
+      <p>
+        Monospace fonts face a forced tradeoff: characters of typically very
+        different widths must each fill the same space. Narrow characters like
+        <sm>i</sm>, <sm>j</sm>, and <sm>l</sm> use serifs and hooks to
+        visually fill the space, however wide characters like <sm>w</sm> and
+        <sm>m</sm> must be compressed, reducing their clarity. This is most
+        apparent when pairs of narrow and wide characters are next to each
+        other.
+      </p>
+      <p>
+        When possible Lode uses <em>"texture healing"</em> to replace these
+        glyphs with contextual alternates (calt) with more natural widths
+        while still aligning to the monospace grid, resulting in a more
+        consistent visual density and improved clarity.
+      </p>
+
+      <pre contenteditable>
 <sn>// Immutable programming for the www</sn>
 <sr>let</sr> myNext = {...myPrev, <sv>width</sv>: minWidth }
 
@@ -619,39 +573,45 @@ window.<sb>onload</sb> <so>=</so> () <so>=></so> {
     image.<sv>width</sv> <so>=</so> minWidth
     image.<sv>height</sv> <so>=</so> minWidth <so>*</so> aspectRatio
   }
-}
+}</pre>
 
-xmx imx xmi imi immi xix mix xim mim miim im im.
-xmx &zwnj;i&zwnj;m&zwnj;x x&zwnj;m&zwnj;i&zwnj; &zwnj;i&zwnj;mi&zwnj; &zwnj;i&zwnj;m&zwnj;m&zwnj;i&zwnj; x&zwnj;i&zwnj;x &zwnj;m&zwnj;i&zwnj;x xi&zwnj;m&zwnj; &zwnj;m&zwnj;i&zwnj;m&zwnj; &zwnj;m&zwnj;i&zwnj;i&zwnj;m&zwnj; &zwnj;i&zwnj;m&zwnj; &zwnj;i&zwnj;m&zwnj;.
-xwx jwx xwj jwj jwwj xjx wjx xjw wjw wjjw jw jw.
-xwx &zwnj;j&zwnj;w&zwnj;x x&zwnj;w&zwnj;j&zwnj; &zwnj;j&zwnj;wj&zwnj; &zwnj;j&zwnj;w&zwnj;w&zwnj;j&zwnj; x&zwnj;j&zwnj;x &zwnj;w&zwnj;j&zwnj;x xj&zwnj;w&zwnj; &zwnj;w&zwnj;j&zwnj;w&zwnj; &zwnj;w&zwnj;j&zwnj;j&zwnj;w&zwnj; &zwnj;j&zwnj;w&zwnj; &zwnj;j&zwnj;w&zwnj;.
+      <h3>How does it work?</h3>
+      <ol>
+        <li>First, pairs of <em>"wide"</em> and <em>"narrow"</em>
+        letters (such as <sb>"mi"</sb>) are replaced with alternates allowing the wide to
+        overlap into the column of the narrow which shrinks to make room.</li>
+        <li>Similarly, triplets (such as <sb>"mim"</sb> or <sb>"imi"</sb>) adjust from both sides.</li>
+        <li>Then, any wide can expand into a narrow punctuation (like <sb>"m."</sb>) or a
+        space (<sb>"m&nbsp;"</sb>). Doing this as an additional step, as opposed to
+        considering all puncution "narrow", maintains the rhythm of individual
+        words.</li>
+        <li>Finally an expanded wide next to a non-expanded wide (like <sb>"immu"</sb>)
+        results in both glyphs becoming half-expanded and shifted to maintain rhythm.</li>
+      </ol>
 </pre
-        >
-      </section>
+      >
+    </section>
 <!--
-      <section>
-        <h2>Powerline</h2>
+    <section>
+      <h2>Powerline</h2>
 
-        <p>
-          Lode comes out of the box ready to support Powerline and other "nerd
-          font" features.
-        </p>
-      </section> -->
+      <p>
+        Lode comes out of the box ready to support Powerline and other "nerd
+        font" features.
+      </p>
+    </section> -->
 
-      <section>
-        <h2>Operator and markup ligatures</h2>
+    <section>
+      <h2>Operator and markup ligatures</h2>
+      <p>
+        Lode is a typeface for code, and many common programming operators and
+        text markup conventions have ligatures to improve their legibility
+        without obscuring the original characters
+      </p>
 
-        <p>
-          Lode is a typeface for code, and many common programming operators and
-          text markup conventions have ligatures to improve their legibility
-          without obscuring the original characters
-        </p>
-
-        <h3>Operators, comparators, and punctuation</h3>
-
-        <p>Most common operators</p>
-
-        <pre class="specimen" contenteditable>
+      <h3>Operators, comparators, and punctuation</h3>
+      <p>Most common operators</p>
+      <pre class="specimen" contenteditable>
 &lt;html> &lt;/html> &lt;> &lt;/> &lt;!-- --&gt;
 == != === !== <= >= += -= *= **= /= <<= >>= >>>= &= ^= |= ||= &&= ??=
 x++ y-- z**n a&lt;&lt;n b>>n a>>>b a&&b a||b
@@ -659,46 +619,38 @@ x++ y-- z**n a&lt;&lt;n b>>n a>>>b a&&b a||b
 {| |} [| |] <> /\ \/ _|_ -| |-
 <- -> <-| >=> <~~> /-> -->--><--<
 </pre
-        >
+      >
 
-        <h3>Literals and escape sequences</h3>
-
-        <pre>
-  3x4 0x0f31 0o755 0b0110011
+      <h3>Literals and escape sequences</h3>
+      <pre>
+3x4 0x0f31 0o755 0b0110011
 </pre
-        >
+      >
 
-        <h3>Continuous lines</h3>
-
-        <p>
-          Three or more of some characters produce continuous lines for use as
-          rules, underlines, or page boundaries.
-        </p>
-
-        <pre class="specimen">
+      <h3>Continuous lines</h3>
+      <p>
+        Three or more of some characters produce continuous lines for use as
+        rules, underlines, or page boundaries.
+      </p>
+      <pre class="specimen">
 _ ____________________________
 - ----------------------------
 + ++++++++++++++++++++++++++++
 ^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ############################</pre>
-
-        <p>
-          Many compilers and REPLs highlight errors with strings of <cm>^</cm> or <cm>^</cm>. Lode
-          replaces three or more as continuous squiggly underlines.
-        </p>
-
-        <pre class="specimen">
+      <p>
+        Many compilers and REPLs highlight errors with strings of <cm>^</cm> or <cm>~</cm>. Lode
+        replaces three or more as continuous squiggly underlines.
+      </p>
+      <pre class="specimen">
 Immutable data-sturctures
           <sy>^^^^^^^^^^^^^^^
           Did you mean "data-structures"?</sy>
 
 for (const x of const y) {}
                 <sr>~~~~~
-                Unexpected token 'const'</sr>
-    </pre>
-
-      </section>
-    </div>
+                Unexpected token 'const'</sr></pre>
+    </section>
   </body>
 </html>

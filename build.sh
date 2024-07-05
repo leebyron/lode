@@ -33,7 +33,6 @@ npm --prefix iosevka run build -- super-ttc::Lode super-ttc::LodeDark webfont::L
 echo "Preparing dist..."
 mkdir -p dist
 cp iosevka/dist/.super-ttc/* dist
-cp iosevka/dist/*/*.css dist
 cp iosevka/dist/*/WOFF2/* dist
 
 mkdir -p docs/woff
