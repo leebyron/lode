@@ -2,7 +2,7 @@
 
 > This is a work in progress! If you're here, awesome. There will be bugs.
 
-Lode is a monospace sans-serif typeface for reading and writing coding in IDEs, text editors, and terminals. It is a modified variant of the excellent open-source typeface Iosevka. Lode is designed for clarity and efficiency at very small sizes on high resolution screens featuring very high x-height, thin strokes, a slender column width, open aperatures, and neo-grotesque forms with disambiguating characters.
+Lode is a monospace typeface for reading and writing coding in text editors, and terminals. It is a modified variant of the excellent open-source typeface Iosevka. Lode is designed for clarity and efficiency at very small sizes on high resolution screens featuring very high x-height, thin strokes, a slender column width, open aperatures, and neo-grotesque forms with disambiguating characters.
 
 ```
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
