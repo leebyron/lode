@@ -11,6 +11,8 @@ permissions:
 jobs:
   build:
     uses: ./.github/workflows/build.yml
+    with:
+      build_type: full
   release:
     needs: build
     runs-on: ubuntu-latest

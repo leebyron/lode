@@ -288,33 +288,57 @@ const LodeDarkTerm = Object.assign({}, LodeDark, {
   spacing: 'term',
 })
 
-const config = {
+const baseConfig = {
   buildPlans: {
     Lode,
     LodeDark,
+  },
+  collectPlans: {
+    Lode: {
+      release: true,
+      from: ['Lode'],
+    },
+    LodeDark: {
+      release: true,
+      from: ['LodeDark'],
+    },
+  },
+}
+
+const fullConfig = deepMerge(baseConfig, {
+  buildPlans: {
     LodeTerm,
     LodeDarkTerm,
   },
   collectPlans: {
     Lode: {
-      release: true,
-      from: ['Lode', 'LodeTerm'],
+      from: [...baseConfig.collectPlans.Lode.from, 'LodeTerm'],
     },
     LodeDark: {
-      release: true,
-      from: ['LodeDark', 'LodeDarkTerm'],
+      from: [...baseConfig.collectPlans.LodeDark.from, 'LodeDarkTerm'],
     },
   },
-}
+})
 
-// comment out for terms
-config.collectPlans.Lode.from = ['Lode']
-config.collectPlans.LodeDark.from = ['LodeDark']
-// comment out for all weights
-for (let plan of Object.values(config.buildPlans)) {
-  // delete plan.slopes.Italic
-  // delete plan.weights.Bold
-}
+const fastConfig = deepMerge(baseConfig, {
+  buildPlans: {
+    Lode: {
+      slopes: { Italic: undefined },
+      weights: { Bold: undefined },
+    },
+    LodeDark: {
+      slopes: { Italic: undefined },
+      weights: { Bold: undefined },
+    },
+  },
+})
+
+const config =
+  process.env.LODE_BUILD === 'full'
+    ? fullConfig
+    : process.env.LODE_BUILD === 'fast'
+      ? fastConfig
+      : baseConfig
 
 // ----------------------------------------------------------------------
 
@@ -355,4 +379,18 @@ function toToml(obj) {
 
 function isObj(value) {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function deepMerge(into, from) {
+  if (!isObj(into) || !isObj(from)) return from
+  return Object.fromEntries([
+    ...Object.entries(into).flatMap(([k, v]) => {
+      if (!from.hasOwnProperty(k)) return [[k, v]]
+      const merged = deepMerge(v, from[k])
+      return merged === undefined ? [] : [[k, merged]]
+    }),
+    ...Object.entries(from).filter(
+      ([k, v]) => !into.hasOwnProperty(k) && v !== undefined,
+    ),
+  ])
 }

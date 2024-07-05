@@ -1,6 +1,10 @@
 name: Build
 
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      build_type:
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}
@@ -10,12 +14,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "LODE_BUILD=${{ inputs.build_type }}" >> $GITHUB_ENV
       - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: actions/setup-node@v4
       - run: sudo apt-get install -y ttfautohint zip
-      - run: build.sh
+      - run: ./build.sh
       - uses: actions/upload-artifact@v4
         with:
           retention-days: 1
