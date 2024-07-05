@@ -11,11 +11,14 @@ permissions:
   id-token: write
 
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+  group: ${{ github.workflow }}-${{ github.ref_type }}
+  cancel-in-progress: true
 
 jobs:
   build:
+    concurrency:
+      group: ${{ github.sha }}
+      cancel-in-progress: ${{ github.ref_type == 'tag' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +31,6 @@ jobs:
         run: ./build.sh
 
   artifacts:
-    if: github.ref_type != 'tag'
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +52,6 @@ jobs:
           generate_release_notes: true
 
   publish:
-    if: github.ref_type != 'tag'
     needs: build
     runs-on: ubuntu-latest
     environment:
