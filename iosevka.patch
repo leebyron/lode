@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72..98b0590a 100644
+index 39e7da72..bedc2d36 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -62,7 +62,7 @@ index 39e7da72..98b0590a 100644
 -	createTextureDerivatives Texture.ShrR  0         SHRINK    [jobs 0xF400]
 -	createTextureDerivatives Texture.ShrLR SHRINK    SHRINK    [jobs 0xF500]
 +	# More dramatic effect to texture extension and shrink
-+	define WIDE_LETTER : 20 / 16
++	define WIDE_LETTER : 19.5 / 16
 +	define EXTEND      : WIDE_LETTER - 1
 +	define HALF_EXTEND : EXTEND / 2
 +	define SHRINK      : 1 - WIDE_LETTER
