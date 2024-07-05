@@ -174,17 +174,32 @@
       }
 
       .controls {
-        background-color: var(--background3);
+        background: none;
         display: flex;
         flex-direction: column;
         line-height: 2;
-        margin-left: auto;
+        /* margin-left: auto; */
         padding: 0.25ch 1ch;
         position: sticky;
         user-select: none;
         top: 1ch;
-        width: fit-content;
+        /* width: fit-content; */
         z-index: 10;
+        width: round(down, 100%, 1ch);
+        align-items: flex-end;
+
+        label {
+          background-color: var(--background3);
+          padding-inline: 1.5ch 1ch;
+          &:first-of-type {
+            padding-block-start: 0.5ch;
+            border-radius: 2ch 2ch 0 0;
+          }
+          &:last-of-type {
+            padding-block-end: 0.5ch;
+            border-radius: 0 0 2ch 2ch;
+          }
+        }
 
         input {
           appearance: none;
@@ -381,10 +396,10 @@
         class="showcols"
         style="padding: 0;"
         contenteditable
-      ><div style="padding: 1em 2ch 0; display: flex; justify-content: space-between;"
-        >Hamburger and a side of fonstiv. <span style="background: none;">Lode</span></div
-        ><div style="font-family: 'Roboto Mono'; padding: 0 2ch 1em; display: flex; justify-content: space-between;"
-        >Hamburger and a side of fonstiv. <span style="background: none;">Roboto Mono</span></div></pre>
+      ><div style="padding: 1em 2ch 0; display: flex; justify-content: space-between; box-sizing: border-box; width: round(down, 100%, 1ch);"
+        >Hamburgerfonstiv. <span style="background: none;">Lode</span></div
+        ><div style="font-family: 'Roboto Mono'; padding: 0 2ch 1em; display: flex; justify-content: space-between; box-sizing: border-box; width: round(down, 100%, 1ch);"
+        >Hamburgerfonstiv. <span style="background: none;">Roboto Mono</span></div></pre>
     </section>
 
     <section>

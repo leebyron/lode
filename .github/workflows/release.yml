@@ -1,9 +1,6 @@
 name: Release
 
 on:
-  push:
-    branches: ['main']
-    tags-ignore: ['v*']
   create:
     tags: ['v*']
 
@@ -12,42 +9,14 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: 'release'
-  cancel-in-progress: true
-
 jobs:
   build:
+    uses: ./.github/workflows/build.yml
+  release:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-      - uses: actions/setup-node@v4
-      - name: Install dependencies
-        run: sudo apt-get install -y ttfautohint zip
-      - name: Build
-        run: ./build.sh
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: Lode-*.zip
-          retention-days: 1
       - name: Publish release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: Lode-*.zip
           generate_release_notes: true
-      - name: Setup pages
-        uses: actions/configure-pages@v5
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'docs/'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
