@@ -12,6 +12,14 @@
     <link rel="preload" href="woff2/LodeDark-Italic.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff2/LodeDark-Bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff2/LodeDark-BoldItalic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeTerm-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeTerm-Italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeTerm-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeTerm-BoldItalic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeDarkTerm-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeDarkTerm-Italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeDarkTerm-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="woff2/LodeDarkTerm-BoldItalic.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
@@ -25,6 +33,7 @@
         --dark-background: #1e2025;
         --dark-background2: #26282d;
         --dark-background3: #2f3136;
+        --dark-controls-bg: #3c3e43cc;
         --dark-highlight: color(display-p3 0.22 1 0 / 1);
         --dark-highlight-thin: color(display-p3 0.22 1 0 / 0.35);
 
@@ -32,6 +41,7 @@
         --lite-background: lab(from var(--dark-background) calc(100 - L) a b);
         --lite-background2: lab(from var(--dark-background2) calc(100 - L) a b);
         --lite-background3: lab(from var(--dark-background3) calc(100 - L) a b);
+        --lite-controls-bg: lab(from var(--dark-background3) calc(100 - L) a b / alpha);
         --lite-highlight: color(display-p3 0 0.3 0.8 / 1);
         --lite-highlight-thin: color(display-p3 0 0.3 0.8 / 0.35);
 
@@ -52,6 +62,11 @@
         line-height: 1.55;
         text-size-adjust: none;
         background-position: center;
+      }
+
+      .term {
+        --lite-font: 'Lode Web Term', monospace;
+        --dark-font: 'Lode Web Dark Term', monospace;
       }
 
       :root,
@@ -182,19 +197,19 @@
         user-select: none;
         top: 1ch;
         z-index: 10;
-        width: round(up, 100%, 1ch);
+        width: calc(round(up, 100%, 1ch) + 0.75ch);
         align-items: flex-end;
 
         label {
-          background-color: var(--background3);
-          padding-inline: 1.5ch 1ch;
+          background-color: var(--controls-bg);
+          padding-inline: 1.25ch 0.75ch;
           &:first-of-type {
-            padding-block-start: 0.5ch;
-            border-radius: 2ch 2ch 0 0;
+            padding-block-start: 0.25ch;
+            border-radius: 1.75ch 1.75ch 0 0;
           }
           &:last-of-type {
-            padding-block-end: 0.5ch;
-            border-radius: 0 0 2ch 2ch;
+            padding-block-end: 0.25ch;
+            border-radius: 0 0 1.75ch 1.75ch;
           }
         }
 
@@ -339,6 +354,9 @@
         calt <input type="checkbox" checked onchange="setClass('nofeat', !this.checked);" />
       </label>
       <label>
+        term <input type="checkbox" onchange="setClass('term', this.checked)" />
+      </label>
+      <label>
         cols <input type="checkbox" onchange="setClass('showcols', this.checked, document.body)" />
       </label>
     </div>
@@ -379,6 +397,11 @@
  !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
 @ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
 `abcdefghijklmno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></i>
+
+<span style="font-weight: bold; font-style: italic;"><sn># Bold Italic</sn>
+ !"#$%&'()*+,-./  0123456789:;<=>?  <sn>U+0020-U+003F</sn>
+@ABCDEFGHIJKLMNO  PQRSTUVWXYZ[\]^_  <sn>U+0040-U+005F</sn>
+`abcdefghijklmno  pqrstuvwxyz{|}~   <sn>U+0060-U+007F</sn></span>
 </pre>
     </section>
     <section>
@@ -416,19 +439,28 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
       <h2>Dark mode</h2>
       <p>
         When light text appears on a dark background, it can be perceived as
-        being slightly bold. Lode has a variant "Lode Dark" with a slightly
-        thinner stroke weight to compensate for this and increase clarity.
+        being slightly bold. "Lode Dark" compensates for this with a slightly
+        thinner stroke weight.
       </p>
       <div class="darkscroll">
         <pre
           contenteditable
           style="position: relative; z-index: 2;"
         >
-(<sr>defn</sr> <sb>lazy-loop</sb> [<sv>n</sv>]
-  (<sb>lazy-seq</sb>
-    (<sb>when</sb> (</sb>pos?</sb> <sv>n</sv>)
-      (<sb>cons</sb> <sy>"When life gives you lambdas, make lazy loops."</sy>
-            (<sb>lazy-loop</sb> (<sb>dec</sb> <sv>n</sv>))))))</pre
+<sb>illuminate</sb> <so>::</so> <sv>String</sv> <so>-></so> <sv>String</sv>
+illuminate text <so>=</so> map <sn>(</sn>\c <so>-></so>
+    <sr>case</sr> c <sr>of</sr>
+        <sy>'o'</sy> <so>-></so> <sy>'☀'</sy>
+        <sy>'D'</sy> <so>-></so> <sy>'◗'</sy>
+          _  <so>-></so> c<sn>)</sn>
+    text
+
+<sb>main</sb> <so>::</so> <sv>IO</sv> <sn>()</sn>
+main <so>=</so> putStrLn <sn>(</sn>
+    illuminate <sy>"Optimum Dark"</sy><sn>)</sn>
+
+<div style="font-size: 500%; line-height: 1;">☀ptimum
+<strong>◗ark</strong></div></pre
         >
         <div
           class="dark theme"
@@ -548,6 +580,9 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
         column width. Lode contains many two-column width characters, but has
         a variant "Lode Term" with single-column variants.
       </p>
+      <pre contenteditable>
+↑↑↓↓←→←→ Ⓑ Ⓐ Start
+←↖↑↗→↘↓↙← — ⏹▲●</pre>
     </section>
 
     <section>
@@ -585,19 +620,24 @@ window.<sb>onload</sb> <so>=</so> () <so>=></so> {
 
       <h3>How does it work?</h3>
       <ol>
-        <li>First, pairs of <em>"wide"</em> and <em>"narrow"</em>
-        letters (such as <sb>"mi"</sb>) are replaced with alternates allowing the wide to
-        overlap into the column of the narrow which shrinks to make room.</li>
-        <li>Similarly, triplets (such as <sb>"mim"</sb> or <sb>"imi"</sb>) adjust from both sides.</li>
-        <li>Then, any wide can expand into a narrow punctuation (like <sb>"m."</sb>) or a
-        space (<sb>"m&nbsp;"</sb>). Doing this as an additional step, as opposed to
-        considering all puncution "narrow", maintains the rhythm of individual
-        words.</li>
+        <li>First, adjacent pairs of <em>"wide"</em> and <em>"narrow"</em>
+        letters (such as <sb>"mi"</sb>) are replaced with alternates allowing
+        the wide to expand towards the narrow which shrinks to make room.
+        Triplets (such as <sb>"mim"</sb> or <sb>"imi"</sb>) adjust from both
+        sides.</li>
+        <li>Afterwards, any wide letter can expand into narrow punctuation (like
+        <sb>"m."</sb>) or whitespace (<sb>"m&nbsp;"</sb>). Doing this as an
+        following step, as opposed to considering all punctuation "narrow",
+        prioritizes expanding within a word rather than treating punctuation or
+        whitespace as part of a triplet (for example <sb>"whim."</sb>).</li>
         <li>Finally an expanded wide next to a non-expanded wide (like <sb>"immu"</sb>)
-        results in both glyphs becoming half-expanded and shifted to maintain rhythm.</li>
+        results in both glyphs becoming half-expanded and shifted.</li>
       </ol>
-</pre
-      >
+      <p>
+        The texture healing technique was adopted from the excellent
+        <a href="https://monaspace.githubnext.com/" target="_blank">Monaspace</a>
+        typeface, which has an excellent explainer of how it works.
+      </p>
     </section>
 <!--
     <section>
@@ -659,6 +699,17 @@ Immutable data-sturctures
 for (const x of const y) {}
                 <sr>~~~~~
                 Unexpected token 'const'</sr></pre>
+    </section>
+    <h2>More</h2>
+    <section>
+      <pre
+        contenteditable
+      >
+(<sr>defn</sr> <sb>lazy-loop</sb> [<sv>n</sv>]
+(<sb>lazy-seq</sb>
+  (<sb>when</sb> (</sb>pos?</sb> <sv>n</sv>)
+    (<sb>cons</sb> <sy>"When life gives you lambdas, make lazy loops."</sy>
+          (<sb>lazy-loop</sb> (<sb>dec</sb> <sv>n</sv>))))))</pre>
     </section>
   </body>
 </html>
