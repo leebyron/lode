@@ -20,5 +20,6 @@ jobs:
       - run: ./build.sh
       - uses: softprops/action-gh-release@v2
         with:
-          files: '*.zip'
+          name: Lode-${{ github.ref_name }}
+          files: 'dist/*.ttc'
           generate_release_notes: true

@@ -27,7 +27,13 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           retention-days: 1
-          path: '*.zip'
+          name: Lode-${{ github.sha }}
+          path: 'dist/*.ttc'
+      - uses: actions/upload-artifact@v4
+        with:
+          retention-days: 1
+          name: Lode-Web-${{ github.sha }}
+          path: 'dist/*.woff2'
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
