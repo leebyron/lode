@@ -1,20 +1,23 @@
 name: Build
 
 on:
-  workflow_call:
-    inputs:
-      build_type:
-        type: string
+  push:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "LODE_BUILD=${{ inputs.build_type }}" >> $GITHUB_ENV
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -24,6 +27,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           retention-days: 1
-          path: |
-            dist/*
-            Lode-*.zip
+          path: Lode-*.zip
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - uses: actions/deploy-pages@v4

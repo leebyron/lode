@@ -9,17 +9,15 @@ permissions:
   contents: write
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yml
-    with:
-      build_type: full
   release:
-    needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
         with:
-          pattern: Lode-*.zip
+          submodules: true
+      - uses: actions/setup-node@v4
+      - run: sudo apt-get install -y ttfautohint zip
+      - run: LODE_BUILD=full ./build.sh
       - uses: softprops/action-gh-release@v2
         with:
           files: Lode-*.zip
