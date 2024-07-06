@@ -20,5 +20,5 @@ jobs:
       - run: LODE_BUILD=full ./build.sh
       - uses: softprops/action-gh-release@v2
         with:
-          files: Lode-*.zip
+          files: '*.zip'
           generate_release_notes: true

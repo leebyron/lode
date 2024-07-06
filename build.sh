@@ -37,6 +37,7 @@ cp iosevka/dist/.super-ttc/* dist
 cp iosevka/dist/*/WOFF2/* dist
 zip -j -X -9 "Lode-$(git describe --tags --always --abbrev=7)" dist/*
 
-source build-docs.sh
+mkdir -p docs/woff2
+cp dist/*.woff2 docs/woff2
 
 echo "Build completed."

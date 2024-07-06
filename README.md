@@ -1,15 +1,15 @@
 # Lode — a typeface for code
 
-> This is a work in progress! If you're here, awesome. There will be bugs.
+> This is a work in progress! Thanks for being here, and watch out for bugs.
 
-Lode is a monospace typeface for reading and writing coding in text editors, and terminals. It is a modified variant of the excellent open-source typeface Iosevka. Lode is designed for clarity and efficiency at very small sizes on high resolution screens featuring very high x-height, thin strokes, a slender column width, open aperatures, and neo-grotesque forms with disambiguating characters.
+Lode is a monospace typeface for reading and writing code in editors and
+terminals. Lode is designed for clarity at small sizes on high-resolution
+screens featuring a very high x-height, thin strokes, slender column
+widths, open aperatures, and neo-grotesque forms with disambiguating
+characters.
 
-```
-ABCDEFGHIJKLMNOPQRSTUVWXYZ
-abcdefghijklmnopqrstuvwxyz
-1234567890 .!?@#$%^&/*+-_\
-(x) [y] {z} <w>
-```
+Lode is a modified variant of the excellent open-source [Iosevka](https://typeof.net/Iosevka/).
+
 
 - `Term` variants with single-unit spaced arrows for use in terminals.
 - `Dark` variants with thinner strokes for improved contrast on dark backgrounds.
