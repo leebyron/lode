@@ -4,7 +4,7 @@
   font-weight: 400;
   font-stretch: normal;
   font-style: normal;
-  src: url('woff/Lode-Regular.woff2') format('woff2');
+  src: url('woff2/Lode-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -13,7 +13,7 @@
   font-weight: 400;
   font-stretch: normal;
   font-style: italic;
-  src: url('woff/Lode-Italic.woff2') format('woff2');
+  src: url('woff2/Lode-Italic.woff2') format('woff2');
 }
 
 @font-face {
@@ -22,7 +22,7 @@
   font-weight: 700;
   font-stretch: normal;
   font-style: normal;
-  src: url('woff/Lode-Bold.woff2') format('woff2');
+  src: url('woff2/Lode-Bold.woff2') format('woff2');
 }
 
 @font-face {
@@ -31,7 +31,7 @@
   font-weight: 700;
   font-stretch: normal;
   font-style: italic;
-  src: url('woff/Lode-BoldItalic.woff2') format('woff2');
+  src: url('woff2/Lode-BoldItalic.woff2') format('woff2');
 }
 
 @font-face {
@@ -40,7 +40,7 @@
   font-weight: 400;
   font-stretch: normal;
   font-style: normal;
-  src: url('woff/LodeDark-Regular.woff2') format('woff2');
+  src: url('woff2/LodeDark-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -49,7 +49,7 @@
   font-weight: 400;
   font-stretch: normal;
   font-style: italic;
-  src: url('woff/LodeDark-Italic.woff2') format('woff2');
+  src: url('woff2/LodeDark-Italic.woff2') format('woff2');
 }
 
 @font-face {
@@ -58,7 +58,7 @@
   font-weight: 700;
   font-stretch: normal;
   font-style: normal;
-  src: url('woff/LodeDark-Bold.woff2') format('woff2');
+  src: url('woff2/LodeDark-Bold.woff2') format('woff2');
 }
 
 @font-face {
@@ -67,5 +67,5 @@
   font-weight: 700;
   font-stretch: normal;
   font-style: italic;
-  src: url('woff/LodeDark-BoldItalic.woff2') format('woff2');
+  src: url('woff2/LodeDark-BoldItalic.woff2') format('woff2');
 }
