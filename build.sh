@@ -28,14 +28,14 @@ echo "Installing dependencies..."
 npm --prefix iosevka ci --silent --prefer-offline
 
 echo "Running build..."
-npm --prefix iosevka run build -- super-ttc::Lode super-ttc::LodeDark webfont::Lode webfont::LodeDark
+npm --prefix iosevka run build -- super-ttc::Lode super-ttc::LodeDark webfont::Lode webfont::LodeDark webfont::LodeTerm webfont::LodeDarkTerm
 
 echo "Preparing dist..."
 rm -rf dist
 mkdir -p dist
 cp iosevka/dist/.super-ttc/* dist
 cp iosevka/dist/*/WOFF2/* dist
-zip -j -X -9 "Lode-$(git describe --tags --always --abbrev=7)" dist/*
+zip -j -X -9 "Lode-$(git describe --tags --always --abbrev=7).zip" dist/*
 
 mkdir -p docs/woff2
 cp dist/*.woff2 docs/woff2

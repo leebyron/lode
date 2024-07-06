@@ -288,39 +288,26 @@ const LodeDarkTerm = Object.assign({}, LodeDark, {
   spacing: 'term',
 })
 
-const baseConfig = {
+const fullConfig = {
   buildPlans: {
     Lode,
     LodeDark,
-  },
-  collectPlans: {
-    Lode: {
-      release: true,
-      from: ['Lode'],
-    },
-    LodeDark: {
-      release: true,
-      from: ['LodeDark'],
-    },
-  },
-}
-
-const fullConfig = deepMerge(baseConfig, {
-  buildPlans: {
     LodeTerm,
     LodeDarkTerm,
   },
   collectPlans: {
     Lode: {
-      from: [...baseConfig.collectPlans.Lode.from, 'LodeTerm'],
+      release: true,
+      from: ['Lode', 'LodeTerm'],
     },
     LodeDark: {
-      from: [...baseConfig.collectPlans.LodeDark.from, 'LodeDarkTerm'],
+      release: true,
+      from: ['LodeDark', 'LodeDarkTerm'],
     },
   },
-})
+}
 
-const fastConfig = deepMerge(baseConfig, {
+const fastConfig = deepMerge(fullConfig, {
   buildPlans: {
     Lode: {
       slopes: { Italic: undefined },
@@ -330,15 +317,16 @@ const fastConfig = deepMerge(baseConfig, {
       slopes: { Italic: undefined },
       weights: { Bold: undefined },
     },
+    LodeTerm: undefined,
+    LodeDarkTerm: undefined,
+  },
+  collectPlans: {
+    Lode: { from: ['Lode'] },
+    LodeDark: { from: ['LodeDark'] },
   },
 })
 
-const config =
-  process.env.LODE_BUILD === 'full'
-    ? fullConfig
-    : process.env.LODE_BUILD === 'fast'
-      ? fastConfig
-      : baseConfig
+const config = process.env.LODE_BUILD_FAST ? fastConfig : fullConfig
 
 // ----------------------------------------------------------------------
 

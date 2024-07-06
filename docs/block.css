@@ -69,3 +69,75 @@
   font-style: italic;
   src: url('woff2/LodeDark-BoldItalic.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'Lode Term Web';
+  font-display: block;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  src: url('woff2/LodeTerm-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lode Term Web';
+  font-display: block;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: italic;
+  src: url('woff2/LodeTerm-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lode Term Web';
+  font-display: block;
+  font-weight: 700;
+  font-stretch: normal;
+  font-style: normal;
+  src: url('woff2/LodeTerm-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lode Term Web';
+  font-display: block;
+  font-weight: 700;
+  font-stretch: normal;
+  font-style: italic;
+  src: url('woff2/LodeTerm-BoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lode Dark Term Web';
+  font-display: block;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  src: url('woff2/LodeDarkTerm-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lode Dark Term Web';
+  font-display: block;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: italic;
+  src: url('woff2/LodeDarkTerm-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lode Dark Term Web';
+  font-display: block;
+  font-weight: 700;
+  font-stretch: normal;
+  font-style: normal;
+  src: url('woff2/LodeDarkTerm-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lode Dark Term Web', monospace;
+  font-display: block;
+  font-weight: 700;
+  font-stretch: normal;
+  font-style: italic;
+  src: url('woff2/LodeDarkTerm-BoldItalic.woff2') format('woff2');
+}
