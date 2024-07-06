@@ -21,18 +21,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+      - run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       - uses: actions/setup-node@v4
       - run: sudo apt-get install -y ttfautohint
       - run: ./build.sh
       - uses: actions/upload-artifact@v4
         with:
           retention-days: 1
-          name: Lode-TTC-$(git rev-parse --short HEAD).zip
+          name: Lode-ttc-${{ env.short_sha }}.zip
           path: 'dist/*.ttc'
       - uses: actions/upload-artifact@v4
         with:
           retention-days: 1
-          name: Lode-WOFF2-$(git rev-parse --short HEAD).zip
+          name: Lode-woff2-${{ env.short_sha }}.zip
           path: 'dist/*.woff2'
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
