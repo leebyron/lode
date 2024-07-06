@@ -2,8 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <title>Lode — a typeface for code</title>
+    <meta property="og:image" content="https://leebyron.com/lode/share.png" />
+    <meta name="description" content="Lode is a monospace typeface for reading and writing code in editors and terminals. Lode is designed for clarity at small sizes on high-resolution screens featuring a very high x-height, thin strokes, slender column widths, open aperatures, and neo-grotesque forms with disambiguating characters.">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="format-detection" content="telephone=no">
+    <link rel="canonical" href="https://leebyron.com/lode/">
     <link rel="preload" href="woff2/Lode-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff2/Lode-Italic.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="woff2/Lode-Bold.woff2" as="font" type="font/woff2" crossorigin />
@@ -92,14 +96,33 @@
       }
 
       body {
-        padding: 0 2rch 50vh;
+        padding: 0 2rch 4rem;
         margin: 0 auto;
         max-width: 70ch;
         background-position: left;
       }
 
-      * {
-        background: inherit;
+      footer {
+        margin: 8rem 0 0 round(down, 50%, 1ch);
+        transform: translateX(round(up, -50%, 1ch));
+        width: max-content;
+        svg {
+          overflow: visible;
+          stroke: var(--primary);
+          stroke-width: 2.1;
+          .dark & {
+            stroke-width: 1.6;
+          }
+          width: 2ch;
+          .term & {
+            width: 1ch;
+            vertical-align: middle;
+            stroke-width: calc(2 * 2.1);
+          }
+          .dark.term & {
+            stroke-width: calc(2 * 1.6);
+          }
+        }
       }
 
       input, button {
@@ -179,16 +202,9 @@
       ol {
         margin: 1rem 0;
         padding-inline-start: 3ch;
-        li {
-          background: none;
-        }
       }
 
-      em, strong, i, b {
-        background: none;
-      }
-
-      .controls {
+      nav {
         background: none;
         display: flex;
         flex-direction: column;
@@ -285,6 +301,14 @@
         );
       }
 
+      * {
+        background: inherit;
+      }
+
+      li, em, strong, i, b, a {
+        background: none;
+      }
+
       a.button {
         border: solid 1px var(--solarized-neutral);
         display: block;
@@ -318,48 +342,38 @@
         const defineSheet = document.currentScript.previousElementSibling
         const rootStyles = [...defineSheet.sheet.cssRules]
           .flatMap(rule => rule instanceof CSSStyleRule && rule.selectorText === ':root' ? [...rule.style] : [])
-        const liteVars = rootStyles
-          .filter(v => v.startsWith('--lite-'))
-          .map(v => `--${v.slice(7)}: var(${v});`)
-          .join('\n')
-        const darkVars = rootStyles
-          .filter(v => v.startsWith('--dark-'))
-          .map(v => `--${v.slice(7)}: var(${v});`)
-          .join('\n')
-        const themeSheet = document.createElement('style')
         defineSheet.textContent += [
-          `:root, .lite {${liteVars}}`,
-          `.dark {${darkVars}}`,
-          `@media (prefers-color-scheme: dark) { :root:not(.lite) {${darkVars}} }`
+          `:root, .lite {${rootStyles
+            .filter(v => v.startsWith('--lite-'))
+            .map(v => `--${v.slice(7)}: var(${v});`)
+            .join('\n')}}`,
+          `.dark {${rootStyles
+            .filter(v => v.startsWith('--dark-'))
+            .map(v => `--${v.slice(7)}: var(${v});`)
+            .join('\n')}}`,
         ].join('\n');
+        document.documentElement.classList.toggle('dark', matchMedia('(prefers-color-scheme: dark)').matches)
       }
     </script>
   </head>
   <body spellcheck="false">
-    <div class="controls">
-      <script>
-        function setClass(name, isEnable, target = document.documentElement) {
-          const classSet = new Set(target.className.split(' '))
-          isEnable ? classSet.add(name) : classSet.delete(name)
-          target.className = [...classSet].join(' ')
-        }
-      </script>
+    <nav>
       <label>
-        dark <input type="checkbox" onchange="setClass('dark', this.checked); setClass('lite', !this.checked);" />
+        dark <input type="checkbox" onchange="document.documentElement.classList.toggle('dark', this.checked);" />
       </label>
       <script>
-        document.currentScript.previousElementSibling.firstElementChild.checked = matchMedia('(prefers-color-scheme: dark)').matches
+        document.currentScript.previousElementSibling.firstElementChild.checked = document.documentElement.classList.contains('dark')
       </script>
       <label>
-        calt <input type="checkbox" checked onchange="setClass('nofeat', !this.checked);" />
+        calt <input type="checkbox" checked onchange="document.documentElement.classList.toggle('nofeat', !this.checked);" />
       </label>
       <label>
-        term <input type="checkbox" onchange="setClass('term', this.checked)" />
+        term <input type="checkbox" onchange="document.documentElement.classList.toggle('term', this.checked)" />
       </label>
       <label>
-        cols <input type="checkbox" onchange="setClass('showcols', this.checked, document.body)" />
+        cols <input type="checkbox" onchange="document.body.classList.toggle('showcols', this.checked)" />
       </label>
-    </div>
+    </nav>
 
     <section>
       <h1><strong>Lode</strong> — a typeface for code</h1>
@@ -375,7 +389,7 @@
       <p>Lode is a modified variant of the excellent open-source
       <a href="https://typeof.net/Iosevka/" target="_blank">Iosevka</a>.</p>
 
-      <a class="button" href="https://github.com/leebyron/lode-font/releases" target="_blank">Download</a>
+      <a class="button" href="https://github.com/leebyron/lode/releases" target="_blank">Download</a>
 
       <p>
         Lode includes support for dark mode, terminal fixed width, texture
@@ -439,8 +453,8 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
       <h2>Dark mode</h2>
       <p>
         When light text appears on a dark background, it can be perceived as
-        being slightly bold. "Lode Dark" compensates for this with a slightly
-        thinner stroke weight.
+        slightly bold. The Lode font family includes <em>"Lode Dark"</em> to
+        compensate for this with a slightly thinner stroke weight.
       </p>
       <div class="darkscroll">
         <pre
@@ -452,7 +466,7 @@ illuminate text <so>=</so> map <sn>(</sn>\c <so>-></so>
     <sr>case</sr> c <sr>of</sr>
         <sy>'o'</sy> <so>-></so> <sy>'☀'</sy>
         <sy>'D'</sy> <so>-></so> <sy>'◗'</sy>
-          _  <so>-></so> c<sn>)</sn>
+         _  <so>-></so> c<sn>)</sn>
     text
 
 <sb>main</sb> <so>::</so> <sv>IO</sv> <sn>()</sn>
@@ -504,7 +518,6 @@ main <so>=</so> putStrLn <sn>(</sn>
                 y="0"
                 width="250"
                 height="600"
-                style="transition: none"
               />
             </clipPath>
           </defs>
@@ -514,59 +527,33 @@ main <so>=</so> putStrLn <sn>(</sn>
             const parentDiv = document.currentScript.parentElement
             const [pre, litePre, darkPre] = parentDiv.querySelectorAll('pre')
             const [mask] = document.getElementById('lite-mask').children
-            let animating = true
-            let x = 0
-            let prevTs, timeout, frame
-            pre.addEventListener('mousemove', onMouseMove)
-            pre.addEventListener('touchstart', onTouchStart)
+            let x = parentDiv.offsetWidth / 3
+            let y = parentDiv.offsetHeight / 2
+            parentDiv.addEventListener('pointermove', onPoint)
+            parentDiv.addEventListener('touchstart', onTouch)
+            parentDiv.addEventListener('touchmove', onTouch)
             pre.addEventListener('input', updateText)
+            window.addEventListener('resize', draw)
             updateText()
-            schedule()
-            // ----
-            function schedule() {
-              frame = requestAnimationFrame(step)
+            draw()
+            function onPoint(pointer) {
+              const rect = parentDiv.getBoundingClientRect()
+              x = pointer.clientX - rect.x
+              y = pointer.clientY - rect.y
+              draw()
             }
-            function step(ts) {
-              const elapsed = ts - (prevTs ?? ts)
-              prevTs = ts
-              draw(x + elapsed / 20)
-              frame = requestAnimationFrame(step)
+            function onTouch(touch) {
+              onPoint(event.touches[0])
             }
-            function draw(nextX) {
-              const width = litePre.offsetWidth
-              x = nextX % (width * 2)
-              mask.setAttribute('x', x - width)
-              mask.setAttribute('width', width)
-            }
-            function setX(globalX) {
-              const width = litePre.offsetWidth
-              draw(
-                globalX -
-                  parentDiv.getBoundingClientRect().x +
-                  (x > width ? width : 0),
-              )
-              prevTs = null
-              cancelAnimationFrame(frame)
-              clearTimeout(timeout)
-              timeout = setTimeout(schedule, 1000)
+            function draw() {
+              const maskWidth = litePre.offsetWidth / 250 * 2
+              const maskHeight = Math.max(600, parentDiv.offsetHeight) / 600
+              const maskShift = x - (y / maskHeight) * Math.sin(Math.PI * -10 / 180)
+              mask.style.transform = `translateX(${maskShift}px) skew(-10deg) scale(${maskWidth}, ${maskHeight})`
             }
             function updateText() {
               darkPre.replaceChildren(...pre.cloneNode(true).childNodes)
               litePre.replaceChildren(...pre.cloneNode(true).childNodes)
-            }
-            function onMouseMove(event) {
-              setX(event.clientX)
-            }
-            function onTouchStart(event) {
-              setX(event.touches[0].clientX)
-              const onTouchMove = moveEvent =>
-                setX(moveEvent.touches[0].clientX)
-              const onTouchEnd = () => {
-                removeEventListener('touchmove', onTouchMove)
-                removeEventListener('touchend', onTouchEnd)
-              }
-              addEventListener('touchmove', onTouchMove)
-              addEventListener('touchend', onTouchEnd)
             }
           }
         </script>
@@ -576,9 +563,11 @@ main <so>=</so> putStrLn <sn>(</sn>
     <section>
       <h2>Terminal fixed width</h2>
       <p>
-        Terminals require fonts to render every character in exactly one
-        column width. Lode contains many two-column width characters, but has
-        a variant "Lode Term" with single-column variants.
+        Lode renders some characters, such as arrows <sm>←</sm>, using
+        two-columns. While this renders well on the web and in many modern
+        applications, some terminals expect all characters to be exactly
+        one column. The Lode font family includes a <em>"Lode Term"</em>
+        with single-column variants for all multi-column characters.
       </p>
       <pre contenteditable>
 ↑↑↓↓←→←→ Ⓑ Ⓐ Start
@@ -711,5 +700,16 @@ for (const x of const y) {}
     (<sb>cons</sb> <sy>"When life gives you lambdas, make lazy loops."</sy>
           (<sb>lazy-loop</sb> (<sb>dec</sb> <sv>n</sv>))))))</pre>
     </section>
-  </body>
+    <footer>
+      Made with
+      <svg viewBox="0 0 33 25" fill="none">
+        <path d="M10.002 7C8.00198 4 13.002 4 11.002 1"/>
+        <path d="M14.002 7C12.002 4 17.002 4 15.002 1"/>
+        <path d="M18.002 7C16.002 4 21.002 4 19.002 1"/>
+        <path d="M26.5 11C32 11 32 19 24 19"/>
+        <path d="M16.9492 24.1H12.0508C7.98889 23.6312 5.73358 21.1741 4.45387 18.1493C3.30117 15.4248 2.97213 12.2917 2.91133 9.9H26.0887C26.0279 12.2917 25.6988 15.4248 24.5461 18.1493C23.2664 21.1741 21.0111 23.6312 16.9492 24.1Z"/>
+      </svg>
+      in SF by <a href="https://leebyron.com" target="_blank">Lee Byron</a>
+    </footer>
+</body>
 </html>
