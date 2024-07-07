@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72..52ea9ada 100644
+index 39e7da72..6f67557f 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -32,20 +32,17 @@ index 39e7da72..52ea9ada 100644
  		local { records relSets targetNameMap } : extendRelatedGlyphs gr.key _records
  		local pendingGlyphs : records.map : [record] => record.1
  
-@@ -718,9 +725,11 @@ glyph-block Autobuild-Transformed-Texture : begin
- 			if [not : query-glyph targetNameMap.(glyphid)] : begin
- 				define glyphT : forked.queryByName glyphid
+@@ -720,7 +727,8 @@ glyph-block Autobuild-Transformed-Texture : begin
  				define glyphO : glyphStore.queryByName glyphid
--				if (glyphT && glyphO && glyphT.advanceWidth != glyphO.advanceWidth) : begin
-+				if ((glyphT && glyphO && glyphT.advanceWidth != glyphO.advanceWidth) ||
-+						(extL + extR < 0 && (unicode == 0x2d || unicode == 0x5F))) : begin
+ 				if (glyphT && glyphO && glyphT.advanceWidth != glyphO.advanceWidth) : begin
  					gr.set glyphO targetNameMap.(glyphid)
- 					create-glyph targetNameMap.(glyphid) unicode : glyph-proc
+-					create-glyph targetNameMap.(glyphid) unicode : glyph-proc
++					create-glyph targetNameMap.(glyphid) null : glyph-proc
 +						Joining.set currentGlyph joinDir
  						include glyphT AS_BASE ALSO_METRICS
  						set-width Width
  						if extL : begin
-@@ -739,7 +748,7 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -739,22 +747,50 @@ glyph-block Autobuild-Transformed-Texture : begin
  		list 0x400 0x4FF
  		list 0x500 0x52F
  
@@ -54,8 +51,9 @@ index 39e7da72..52ea9ada 100644
  		local results {}
  		foreach {low high} [items-of ranges] : begin
  			foreach lch [range low till high] : begin
-@@ -747,14 +756,43 @@ glyph-block Autobuild-Transformed-Texture : begin
- 				if source : results.push { null source }
+ 				local source : glyphStore.queryNameByUnicode lch
+-				if source : results.push { null source }
++				if source : results.push { lch source }
  		return results
  
 -	define EXTENSION :  1 / 12
@@ -67,7 +65,7 @@ index 39e7da72..52ea9ada 100644
 -	createTextureDerivatives Texture.ShrR  0         SHRINK    [jobs 0xF400]
 -	createTextureDerivatives Texture.ShrLR SHRINK    SHRINK    [jobs 0xF500]
 +	# More dramatic effect to texture extension and shrink
-+	define WIDE_LETTER : 19.5 / 16
++	define WIDE_LETTER : 19 / 16
 +	define EXTEND      : WIDE_LETTER - 1
 +	define HALF_EXTEND : EXTEND / 2
 +	define SHRINK      : 1 - WIDE_LETTER
@@ -82,11 +80,10 @@ index 39e7da72..52ea9ada 100644
 +
 +	# Adds more of ascii, allowing letters to expand into punctation
 +	define punctRanges : list
-+		list 0x20 0x2F
++		list 0x21 0x2F
 +		list 0x3A 0x40
 +		list 0x5B 0x60
 +		list 0x7B 0x7E
-+		list 0xA0 0xA0
 +		list 0xA1 0xA1
 +		list 0xB0 0xB3
 +		list 0xB7 0xB7
@@ -935,6 +932,29 @@ index 9ece5e7c..059a66e9 100644
  		MarkSet.plus
  	create-glyph 'asciiCaret.medium' : composite-proc
  		refer-glyph 'asciiCaret.high'
+diff --git a/packages/font-glyphs/src/symbol/punctuation/dashes.ptl b/packages/font-glyphs/src/symbol/punctuation/dashes.ptl
+index 49fc035a..f04eab60 100644
+--- a/packages/font-glyphs/src/symbol/punctuation/dashes.ptl
++++ b/packages/font-glyphs/src/symbol/punctuation/dashes.ptl
+@@ -30,10 +30,14 @@ glyph-block Symbol-Punctuation-Dashes : begin
+ 		define joiningOverlap (-Width / 6)
+ 
+ 		foreach { suffix { yBar } } [Object.entries UnderScoreConfig] : do
+-			create-glyph "underscore.\(suffix)" : HBar.b SB RightSB yBar
+-			create-glyph "doubleUnderscore.\(suffix)" : composite-proc
+-				HBar.b SB RightSB yBar
+-				HBar.b SB RightSB (yBar - openBoxGap)
++			create-glyph "underscore.\(suffix)" : glyph-proc
++				local df : include : DivFrame para.diversityF
++				include : HBar.b df.leftSB df.rightSB yBar
++			create-glyph "doubleUnderscore.\(suffix)" : glyph-proc
++				local df : include : DivFrame para.diversityF
++				composite-proc
++					include : HBar.b df.leftSB df.rightSB yBar
++					include : HBar.b df.leftSB df.rightSB (yBar - openBoxGap)
+ 			create-glyph "openBox.\(suffix)" : composite-proc
+ 				HBar.b SB RightSB yBar
+ 				OpenBoxSide (yBar + Stroke / 2)
 diff --git a/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl b/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
 index 6672eb49..9e1c477e 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/ligation-variants.ptl
@@ -1582,10 +1602,10 @@ index f3301b5d..7bcd4041 100644
  				chain-rule
  					{[sfx "jf"]} ~> {[sfx "jc"]}
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1b..be58c8c2 100644
+index f5286c1b..1e300583 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
-@@ -9,10 +9,32 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -9,9 +9,32 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  	local anyMark : Array.from markGlyphs.all
  	local rec : gsub.beginBlock
  
@@ -1594,7 +1614,8 @@ index f5286c1b..be58c8c2 100644
 +	define txtr : gsub.addCommonFeature : gsub.createFeature 'calt'
  	define { chain-rule reverse-rule } : gsub.ChainRuleBuilder
  	define look-around null
- 
++	define advance : lambda [t] null
++
 +	local firstLookup null
 +	local lastLookup null
 +
@@ -1615,11 +1636,10 @@ index f5286c1b..be58c8c2 100644
 +			.type 'gsub_reverse'
 +			.ignoreGlyphs anyMark
 +			.rules _rules
-+
+ 
  	local extLFrom  { }
  	local extRFrom  { }
- 	local extLRFrom { }
-@@ -27,6 +49,28 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -27,6 +50,29 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  	local shrRTo    { }
  	local shrLRTo   { }
  
@@ -1642,13 +1662,14 @@ index f5286c1b..be58c8c2 100644
 +	local extWFrom      { }
 +	local extWLTo       { }
 +	local extWRTo       { }
++	local extWLRTo      { }
 +
 +	define isW : new RegExp '^[wW](?=\.|$)'
 +
  	local anyInfluence : new Set
  
  	foreach { gid g } [glyphStore.namedEntries] : if (gid.(0) !== ".") : begin
-@@ -36,6 +80,13 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -36,6 +82,13 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  		local shrL : Texture.ShrL.get g
  		local shrR : Texture.ShrR.get g
  		local shrLR : Texture.ShrLR.get g
@@ -1662,7 +1683,7 @@ index f5286c1b..be58c8c2 100644
  
  		if extL : begin [extLFrom.push gid] [extLTo.push extL]
  		if extR : begin [extRFrom.push gid] [extRTo.push extR]
-@@ -46,34 +97,101 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -46,34 +99,138 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  		if shrR : begin [shrRFrom.push gid] [shrRTo.push shrR]
  		if shrLR : begin [shrLRFrom.push gid] [shrLRTo.push shrLR]
  
@@ -1675,7 +1696,7 @@ index f5286c1b..be58c8c2 100644
 +		if (extHalfR && extR) : begin [extHalfRFrom.push gid] [extHalfRTo.push extHalfR]
 +		if (extHalfRR && extR) : begin [extHalfRRFrom.push extR] [extHalfRRTo.push extHalfRR]
 +
-+		if ([isW.test gid] && extL && extR) : begin [extWFrom.push gid] [extWLTo.push extL] [extWRTo.push extR]
++		if ([isW.test gid] && extL && extR && extLR) : begin [extWFrom.push gid] [extWLTo.push extL] [extWRTo.push extR] [extWLRTo.push extLR]
 +
 +	define shrBehind   : {}.concat shrRTo shrLRTo
 +	define shrAhead    : {}.concat shrLFrom shrLRFrom
@@ -1721,16 +1742,36 @@ index f5286c1b..be58c8c2 100644
  			chain-rule # Shrink to the right
 -				shrRFrom                       ~> shrRTo
 -				[{}.concat extLFrom extLRFrom] ~> look-around
--
--	txtr.addLookup sub
 +				shrRFrom      ~> shrRTo
 +				extAhead      ~> look-around
 +
-+	define shrPunctBehind   : { 'parenleft', 'bracketleft', 'braceleft' }.concat shrPunctRTo shrPunctLRTo
-+	define shrPunctAhead    : { 'parenright', 'bracketright', 'braceright' }.concat shrPunctLFrom shrPunctLRFrom
++	define shrPunctBehind : { 'parenLeft' 'bracketLeft' 'braceLeft', 'underscore' }.concat shrPunctRTo shrPunctLRTo
++	define shrPunctAhead  : { 'parenRight' 'bracketRight' 'braceRight' }.concat shrPunctLFrom shrPunctLRFrom
 +
-+	# Expand into whitespace/punctuation if not already expanded
++	define extWBefore : extWFrom.concat extWRTo extWLRTo
++
++	# Expand into punctuation if not already expanded
 +	CreateTextureLookup : list
++		# Special case w and _
++		chain-rule # w_w
++			extWBefore      ~> look-around
++			{'underscore'}  ~> advance
++			extWFrom        ~> look-around
++		chain-rule # w_m
++			extWBefore      ~> look-around
++			{'underscore'}  ~> {'TextureShrPunctR{underscore}'}
++			extAhead        ~> look-around
++		chain-rule # m_w
++			extBehind       ~> look-around
++			{'underscore'}  ~> {'TextureShrPunctL{underscore}'}
++			extWFrom        ~> look-around
++		chain-rule # w_
++			extWBefore      ~> look-around
++			{'underscore'}  ~> advance
++		chain-rule # _w
++			{'underscore'}  ~> advance
++			extWFrom        ~> look-around
++
 +		chain-rule # Extension to both sides
 +			shrPunctBehind  ~> look-around
 +			extLRFrom       ~> extLRTo
@@ -1751,6 +1792,22 @@ index f5286c1b..be58c8c2 100644
 +		chain-rule # Shrink to the right
 +			shrPunctRFrom   ~> shrPunctRTo
 +			extAhead        ~> look-around
+ 
+-	txtr.addLookup sub
++	define whitespace { 'space' 'nbsp' }
++
++	# Expand into whitespace if not already expanded
++	CreateTextureLookup : list
++		chain-rule # Extension to both sides
++			whitespace      ~> look-around
++			extLRFrom       ~> extLRTo
++			whitespace      ~> look-around
++		chain-rule # Extension to the left
++			whitespace      ~> look-around
++			extLFrom        ~> extLTo
++		chain-rule # Extension to the right
++			extRFrom        ~> extRTo
++			whitespace      ~> look-around
 +
 +	# Expand a triple
 +	CreateTextureLookup : list
@@ -1784,7 +1841,7 @@ index f5286c1b..be58c8c2 100644
  
  	# Decompose everything if we enable TXTR
  	if cvs
-@@ -82,7 +200,8 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -82,7 +239,8 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  		foreach cv [cvs.values] : begin
  			if cv.decompositionLookup : begin
  				txtr.addLookup cv.decompositionLookup
@@ -1794,7 +1851,7 @@ index f5286c1b..be58c8c2 100644
  	: else : begin
  		# Built it from scratch
  		local decompose : gsub.createLookup
-@@ -97,6 +216,6 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
+@@ -97,6 +255,6 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
  				if influenced : set decompose.substitutions.(gn) parts
  
  		txtr.addLookup decompose

@@ -28,7 +28,11 @@ echo "Installing dependencies..."
 npm --prefix iosevka ci --silent --prefer-offline
 
 echo "Running build..."
-npm --prefix iosevka run build -- super-ttc::Lode super-ttc::LodeDark webfont::Lode webfont::LodeDark webfont::LodeTerm webfont::LodeDarkTerm
+if [ -n "${LODE_BUILD_FAST:-}" ]; then
+  npm --prefix iosevka run build -- webfont::Lode webfont::LodeDark
+else
+  npm --prefix iosevka run build -- super-ttc::Lode super-ttc::LodeDark webfont::Lode webfont::LodeDark webfont::LodeTerm webfont::LodeDarkTerm
+fi
 
 echo "Preparing dist..."
 rm -rf dist

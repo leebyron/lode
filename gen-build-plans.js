@@ -310,10 +310,12 @@ const fullConfig = {
 const fastConfig = deepMerge(fullConfig, {
   buildPlans: {
     Lode: {
+      variants: { italic: undefined },
       slopes: { Italic: undefined },
       weights: { Bold: undefined },
     },
     LodeDark: {
+      variants: { italic: undefined },
       slopes: { Italic: undefined },
       weights: { Bold: undefined },
     },

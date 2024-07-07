@@ -614,20 +614,29 @@ window.<sb>onload</sb> <so>=</so> () <so>=></so> {
 
       <h3>How does it work?</h3>
       <ol>
-        <li>First, adjacent pairs of <em>"wide"</em> and <em>"narrow"</em>
-        letters (such as <sb>"mi"</sb>) are replaced with alternates allowing
-        the wide to expand towards the narrow which shrinks to make room.
-        Triplets (such as <sb>"mim"</sb> or <sb>"imi"</sb>) adjust from both
-        sides.</li>
-        <li>Afterwards, any wide letter can expand into narrow punctuation (like
-        <sb>"m."</sb>) or whitespace (<sb>"m&nbsp;"</sb>). Doing this as an
-        following step, as opposed to considering all punctuation "narrow",
-        prioritizes expanding within a word rather than treating punctuation or
-        whitespace as part of a triplet (for example <sb>"whim."</sb>). This
-        also includes narrowed - and _ (<sb>"x-w"</sb> and <sb>"m_"</sb>) and
-        expanding within wrapping pairs (<sb>"(m)"</sb> and <sb>"[w]"</sb>).</li>
-        <li>Finally an expanded wide next to a non-expanded wide (like <sb>"immu"</sb>)
-        results in both glyphs becoming half-expanded and shifted.</li>
+        <li>
+          First, adjacent pairs of <em>"wide"</em> and <em>"narrow"</em>
+          letters (such as <sb>"mi"</sb>) are replaced with alternates allowing
+          the wide to expand towards the narrow which shrinks to make room.
+          Triplets (such as <sb>"mim"</sb> or <sb>"imi"</sb>) adjust from both
+          sides.
+        </li>
+        <li>
+          Then, any unexpanded wide letter can expand into narrow punctuation
+          (like <sb>"m."</sb>). Doing this as an following step, as opposed to
+          considering all punctuation "narrow", prioritizes expanding within a
+          word rather than treating punctuation or whitespace as part of a
+          triplet (for example <sb>"whim."</sb>). This also includes narrowed
+          <sm>-</sm> and <sm>_</sm> (<sb>"x-w"</sb> and <sb>"m_"</sb>) and
+          expanding within enclosing brackets (<sb>"(m)"</sb> and <sb>"[w]"</sb>).
+        </li>
+        <li>
+          Similarly, wide letters can then expand into whitespace (<sb>"m&nbsp;"</sb>).
+        </li>
+        <li>
+          Finally, an expanded wide next to a non-expanded wide (like <sb>"immu"</sb>)
+          results in both glyphs becoming half-expanded and shifted.
+        </li>
       </ol>
       <p>
         The texture healing technique was adopted from
