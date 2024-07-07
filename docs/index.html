@@ -45,19 +45,19 @@
         --lite-background: lab(from var(--dark-background) calc(100 - l) a b);
         --lite-background2: lab(from var(--dark-background2) calc(100 - l) a b);
         --lite-background3: lab(from var(--dark-background3) calc(100 - l) a b);
-        --lite-controls-bg: lab(from var(--dark-background3) calc(100 - l) a b / alpha);
+        --lite-controls-bg: lab(from var(--dark-controls-bg) calc(100 - l) a b / alpha);
         --lite-highlight: color(display-p3 0 0.3 0.8 / 1);
         --lite-highlight-thin: color(display-p3 0 0.3 0.8 / 0.35);
 
-        --solarized-red: #dc322f;
-        --solarized-orange: #cb4b16;
-        --solarized-yellow: #b58900;
-        --solarized-green: #859900;
-        --solarized-cyan: #2aa198;
-        --solarized-blue: #268bd2;
-        --solarized-violet: #6c71c4;
-        --solarized-magenta: #d33682;
-        --solarized-neutral: #7f7f7f;
+        --solarized-red: oklch(0.57 0.2 355);
+        --solarized-orange: oklch(0.57 0.2 40);
+        --solarized-yellow: oklch(0.57 0.2 85);
+        --solarized-green: oklch(0.57 0.2 130);
+        --solarized-cyan: oklch(0.57 0.2 175);
+        --solarized-blue: oklch(0.57 0.2 220);
+        --solarized-violet: oklch(0.57 0.2 265);
+        --solarized-magenta: oklch(0.57 0.2 310);
+        --solarized-neutral: oklch(0.57 0 0);
 
         -webkit-text-size-adjust: none;
         caret-color: var(--highlight);
@@ -96,15 +96,22 @@
       }
 
       body {
-        padding: 0 2rch 4rem;
+        padding: 0 2rch;
         margin: 0 auto;
         max-width: 70ch;
+        overflow-x: clip;
+      }
+
+      main {
+        margin: 0 -8ch;
+        padding: 0 8ch 4rem;
         background-position: left;
       }
 
       footer {
         margin: 8rem 0 0 round(down, 50%, 1ch);
         transform: translateX(round(up, -50%, 1ch));
+        background-position-x: calc(-1 * round(down, 50%, 1ch));
         width: max-content;
         svg {
           overflow: visible;
@@ -290,14 +297,13 @@
         font-feature-settings: 'calt' 0;
       }
 
-      .showcols {
+      .showgrid main, .grid {
+
         background-attachment: local;
         background-image: repeating-linear-gradient(
           to right,
-          #00000010, #00000010 1ch,
-          hsl(60 100% 85% / 0.07) 1ch, hsl(60 100% 85% / 0.07) 2ch,
-          #00000010 2ch, #00000010 3ch,
-          hsl(240 100% 85% / 0.07) 3ch, hsl(240 100% 85% / 0.07) 4ch
+          #7f7f7f17, #7f7f7f17 1ch,
+          transparent 1ch, transparent 2ch
         );
       }
 
@@ -331,7 +337,7 @@
           overflow: visible;
         }
         > pre:first-child {
-          background-color: transparent;
+          background: transparent;
           color: transparent;
         }
       }
@@ -356,7 +362,7 @@
       }
     </script>
   </head>
-  <body spellcheck="false">
+  <body spellcheck="false"><main>
     <nav>
       <label>
         dark <input type="checkbox" onchange="document.documentElement.classList.toggle('dark', this.checked);" />
@@ -371,10 +377,9 @@
         term <input type="checkbox" onchange="document.documentElement.classList.toggle('term', this.checked)" />
       </label>
       <label>
-        cols <input type="checkbox" onchange="document.body.classList.toggle('showcols', this.checked)" />
+        grid <input type="checkbox" onchange="document.documentElement.classList.toggle('showgrid', this.checked)" />
       </label>
     </nav>
-
     <section>
       <h1><strong>Lode</strong> — a typeface for code</h1>
 
@@ -427,7 +432,7 @@
         keeping more columns on your screen.
       </p>
       <pre
-        class="showcols"
+        class="grid"
         style="padding: 0;"
         contenteditable
       ><div style="padding: 1em 2ch 0; display: flex; justify-content: space-between; box-sizing: border-box; width: round(down, 100%, 1ch);"
@@ -618,7 +623,9 @@ window.<sb>onload</sb> <so>=</so> () <so>=></so> {
         <sb>"m."</sb>) or whitespace (<sb>"m&nbsp;"</sb>). Doing this as an
         following step, as opposed to considering all punctuation "narrow",
         prioritizes expanding within a word rather than treating punctuation or
-        whitespace as part of a triplet (for example <sb>"whim."</sb>).</li>
+        whitespace as part of a triplet (for example <sb>"whim."</sb>). This
+        also includes narrowed - and _ (<sb>"x-w"</sb> and <sb>"m_"</sb>) and
+        expanding within wrapping pairs (<sb>"(m)"</sb> and <sb>"[w]"</sb>).</li>
         <li>Finally an expanded wide next to a non-expanded wide (like <sb>"immu"</sb>)
         results in both glyphs becoming half-expanded and shifted.</li>
       </ol>
@@ -691,6 +698,7 @@ for (const x of const y) {}
     </section>
     <h2>More</h2>
     <section>
+      <p>I'll find something to put here...</p>
       <pre
         contenteditable
       >
@@ -711,5 +719,5 @@ for (const x of const y) {}
       </svg>
       in SF by <a href="https://leebyron.com" target="_blank">Lee Byron</a>
     </footer>
-</body>
+</main></body>
 </html>

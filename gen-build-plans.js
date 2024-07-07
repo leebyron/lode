@@ -128,7 +128,7 @@ const Lode = {
       g: 'double-storey',
       h: 'tailed-serifless',
       i: 'serifed-diagonal-tailed',
-      k: 'symmetric-connected-serifless', // 'cursive-bottom-right-serifed',
+      // k: 'symmetric-connected-serifless', // 'cursive-bottom-right-serifed',
       l: 'serifed-diagonal-tailed',
       m: 'tailed-serifless',
       n: 'tailed-serifless',

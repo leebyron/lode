@@ -1,5 +1,5 @@
 diff --git a/packages/font-glyphs/src/auto-build/transformed.ptl b/packages/font-glyphs/src/auto-build/transformed.ptl
-index 39e7da72..bedc2d36 100644
+index 39e7da72..52ea9ada 100644
 --- a/packages/font-glyphs/src/auto-build/transformed.ptl
 +++ b/packages/font-glyphs/src/auto-build/transformed.ptl
 @@ -1,6 +1,7 @@
@@ -32,15 +32,20 @@ index 39e7da72..bedc2d36 100644
  		local { records relSets targetNameMap } : extendRelatedGlyphs gr.key _records
  		local pendingGlyphs : records.map : [record] => record.1
  
-@@ -721,6 +728,7 @@ glyph-block Autobuild-Transformed-Texture : begin
- 				if (glyphT && glyphO && glyphT.advanceWidth != glyphO.advanceWidth) : begin
+@@ -718,9 +725,11 @@ glyph-block Autobuild-Transformed-Texture : begin
+ 			if [not : query-glyph targetNameMap.(glyphid)] : begin
+ 				define glyphT : forked.queryByName glyphid
+ 				define glyphO : glyphStore.queryByName glyphid
+-				if (glyphT && glyphO && glyphT.advanceWidth != glyphO.advanceWidth) : begin
++				if ((glyphT && glyphO && glyphT.advanceWidth != glyphO.advanceWidth) ||
++						(extL + extR < 0 && (unicode == 0x2d || unicode == 0x5F))) : begin
  					gr.set glyphO targetNameMap.(glyphid)
  					create-glyph targetNameMap.(glyphid) unicode : glyph-proc
 +						Joining.set currentGlyph joinDir
  						include glyphT AS_BASE ALSO_METRICS
  						set-width Width
  						if extL : begin
-@@ -739,7 +747,7 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -739,7 +748,7 @@ glyph-block Autobuild-Transformed-Texture : begin
  		list 0x400 0x4FF
  		list 0x500 0x52F
  
@@ -49,7 +54,7 @@ index 39e7da72..bedc2d36 100644
  		local results {}
  		foreach {low high} [items-of ranges] : begin
  			foreach lch [range low till high] : begin
-@@ -747,14 +755,43 @@ glyph-block Autobuild-Transformed-Texture : begin
+@@ -747,14 +756,43 @@ glyph-block Autobuild-Transformed-Texture : begin
  				if source : results.push { null source }
  		return results
  
@@ -1577,7 +1582,7 @@ index f3301b5d..7bcd4041 100644
  				chain-rule
  					{[sfx "jf"]} ~> {[sfx "jc"]}
 diff --git a/packages/font-otl/src/gsub-texture.ptl b/packages/font-otl/src/gsub-texture.ptl
-index f5286c1b..011dd7a8 100644
+index f5286c1b..be58c8c2 100644
 --- a/packages/font-otl/src/gsub-texture.ptl
 +++ b/packages/font-otl/src/gsub-texture.ptl
 @@ -9,10 +9,32 @@ export : define [buildGsubTexture gsub glyphStore markGlyphs cvs] : begin
@@ -1721,8 +1726,8 @@ index f5286c1b..011dd7a8 100644
 +				shrRFrom      ~> shrRTo
 +				extAhead      ~> look-around
 +
-+	define shrPunctBehind   : {}.concat shrPunctRTo shrPunctLRTo
-+	define shrPunctAhead    : {}.concat shrPunctLFrom shrPunctLRFrom
++	define shrPunctBehind   : { 'parenleft', 'bracketleft', 'braceleft' }.concat shrPunctRTo shrPunctLRTo
++	define shrPunctAhead    : { 'parenright', 'bracketright', 'braceright' }.concat shrPunctLFrom shrPunctLRFrom
 +
 +	# Expand into whitespace/punctuation if not already expanded
 +	CreateTextureLookup : list
