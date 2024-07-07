@@ -1028,6 +1028,43 @@ index e5545b53..ea7f203a 100644
  
  	do "number sign"
  		define fine : AdviceStroke 2.75
+diff --git a/packages/font-glyphs/src/symbol/punctuation/small.ptl b/packages/font-glyphs/src/symbol/punctuation/small.ptl
+index ae9ac91e..043ef869 100644
+--- a/packages/font-glyphs/src/symbol/punctuation/small.ptl
++++ b/packages/font-glyphs/src/symbol/punctuation/small.ptl
+@@ -39,7 +39,7 @@ glyph-block Symbol-Punctuation-Small : begin
+ 		local {.x mx1 .y my1} : GlobalTransform.apply {.x cx .y cy}
+ 		include : Translate (mx1) (my1)
+ 
+-	create-glyph 'comma.round' : glyph-proc
++	create-glyph 'comma.round-TEMPHACK' : glyph-proc
+ 		local df : include : DivFrame para.diversityF
+ 		include : CommaShapeT df.middle 0 : glyph-proc
+ 			local r : PeriodRadius + 0
+@@ -88,6 +88,23 @@ glyph-block Symbol-Punctuation-Small : begin
+ 					quadControls (0 + TanSlope / 2) (0.5 - TanSlope * r / Descender) 12
+ 					g4 (-commaOverflow + Descender * TanSlope) Descender [widths.rhs swEnd]
+ 
++	create-glyph 'comma.round' : glyph-proc # Should be comma.straight when config is working (TODO: comma variants)
++		local df : include : DivFrame para.diversityF
++		include : with-transform [Translate df.middle 0] : glyph-proc
++			local sqr : PeriodSize * DesignParameters.squareDotScalar
++			local sw : Math.max (Stroke * 1.1) (sqr * 0.9)
++			local swEnd : Stroke * 0.9
++			local r : (sqr - sw) / 2
++			local l : (-sqr - swEnd) / 2 + Descender * TanSlope
++			local t   PeriodSize
++			local b   Descender
++			local corT : (1 / 2) * HVContrast / [Math.sqrt (1 - [Math.pow ((r - l - sw) / (t - b)) 2])]
++			local corB : (1 / 2) * HVContrast / [Math.sqrt (1 - [Math.pow ((r - l - swEnd) / (t - b)) 2])]
++			include : spiro-outline
++				corner (r - sw * corT) t
++				corner (r + sw * corT) t
++				corner (l + swEnd * corB) b
++				corner (l - swEnd * corB) b
+ 
+ 	create-glyph 'revComma.round' : glyph-proc
+ 		local df : include : DivFrame para.diversityF
 diff --git a/packages/font-glyphs/src/symbol/shared.ptl b/packages/font-glyphs/src/symbol/shared.ptl
 index b46689fd..2a6aa628 100644
 --- a/packages/font-glyphs/src/symbol/shared.ptl

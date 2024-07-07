@@ -106,6 +106,7 @@ const Lode = {
       r: 'hookless-serifless',
       //# t: "flat-hook",
       t: 'flat-hook-short-neck2',
+      u: 'toothless-rounded-serifless',
       v: 'straight-serifless',
       //# w: "straight-serifless",
       w: 'straight-flat-top-serifless',
@@ -241,7 +242,7 @@ const Lode = {
       css: 'normal',
     },
     Italic: {
-      angle: 15, // 9.4
+      angle: 11, // 15, // 9.4
       shape: 'italic',
       menu: 'italic',
       css: 'italic',

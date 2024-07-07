@@ -6,7 +6,7 @@ if ! git -C iosevka diff --quiet; then
   echo "Changes detected."
   choice=""
   while [[ ! "$choice" =~ ^[123]$ ]]; do
-    read -p "1) Overwrite. 2) Adopt. 3) Ignore (1/2/3): " choice
+    read -p "1) Overwrite 2) Adopt 3) Ignore (1/2/3): " choice
   done
   if [[ "$choice" == "1" ]]; then
     echo "Restoring and applying patch..."
