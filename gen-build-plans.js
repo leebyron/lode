@@ -70,7 +70,7 @@ const Lode = {
       'capital-g': 'toothless-rounded-serifless-hooked',
       'capital-i': 'short-serifed',
       'capital-j': 'serifless',
-      'capital-k': 'straight-serifless',
+      'capital-k': 'symmetric-touching-serifless', // 'straight-serifless',
       'capital-m': 'hanging-serifless',
       'capital-n': 'standard-serifless',
       'capital-q': 'curly-tailed', //# "crossing",
@@ -101,7 +101,7 @@ const Lode = {
       l: 'serifed-flat-tailed',
       j: 'flat-hook-serifed',
 
-      k: 'symmetric-connected-serifless', // 'straight-serifless',
+      k: 'symmetric-touching-serifless', // 'straight-serifless',
       q: 'tailed-serifless',
       r: 'hookless-serifless',
       //# t: "flat-hook",

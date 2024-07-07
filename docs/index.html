@@ -41,11 +41,11 @@
         --dark-highlight: color(display-p3 0.22 1 0 / 1);
         --dark-highlight-thin: color(display-p3 0.22 1 0 / 0.35);
 
-        --lite-primary: lab(from var(--dark-primary) calc(100 - L) a b);
-        --lite-background: lab(from var(--dark-background) calc(100 - L) a b);
-        --lite-background2: lab(from var(--dark-background2) calc(100 - L) a b);
-        --lite-background3: lab(from var(--dark-background3) calc(100 - L) a b);
-        --lite-controls-bg: lab(from var(--dark-background3) calc(100 - L) a b / alpha);
+        --lite-primary: lab(from var(--dark-primary) calc(100 - l) a b);
+        --lite-background: lab(from var(--dark-background) calc(100 - l) a b);
+        --lite-background2: lab(from var(--dark-background2) calc(100 - l) a b);
+        --lite-background3: lab(from var(--dark-background3) calc(100 - l) a b);
+        --lite-controls-bg: lab(from var(--dark-background3) calc(100 - l) a b / alpha);
         --lite-highlight: color(display-p3 0 0.3 0.8 / 1);
         --lite-highlight-thin: color(display-p3 0 0.3 0.8 / 0.35);
 
@@ -330,7 +330,7 @@
         pre {
           overflow: visible;
         }
-        > pre:first-child, > pre:first-child {
+        > pre:first-child {
           background-color: transparent;
           color: transparent;
         }
@@ -462,18 +462,18 @@ fΓſßoðdþb  G96bgpq¶P    $S5Z2zs   -_`'"«»&lt;&gt;</pre
           style="position: relative; z-index: 2;"
         >
 <sb>illuminate</sb> <so>::</so> <sv>String</sv> <so>-></so> <sv>String</sv>
-illuminate text <so>=</so> map <sn>(</sn>\c <so>-></so>
-    <sr>case</sr> c <sr>of</sr>
-        <sy>'o'</sy> <so>-></so> <sy>'☀'</sy>
+illuminate text <so>=</so> map <sn>(</sn>\char <so>-></so>
+    <sr>case</sr> char <sr>of</sr>
+        <sy>'O'</sy> <so>-></so> <sy>'☀'</sy>
         <sy>'D'</sy> <so>-></so> <sy>'◗'</sy>
-         _  <so>-></so> c<sn>)</sn>
+         _  <so>-></so> char<sn>)</sn>
     text
 
 <sb>main</sb> <so>::</so> <sv>IO</sv> <sn>()</sn>
 main <so>=</so> putStrLn <sn>(</sn>
-    illuminate <sy>"Optimum Dark"</sy><sn>)</sn>
+    illuminate <sy>"Optimal Dark"</sy><sn>)</sn>
 
-<div style="font-size: 500%; line-height: 1;">☀ptimum
+<div style="font-size: 500%; line-height: 1;">☀ptimal
 <strong>◗ark</strong></div></pre
         >
         <div
@@ -563,7 +563,7 @@ main <so>=</so> putStrLn <sn>(</sn>
     <section>
       <h2>Terminal fixed width</h2>
       <p>
-        Lode renders some characters, such as arrows <sm>←</sm>, using
+        Lode renders some characters, such as arrows <sm>←↓↑→</sm>, using
         two-columns. While this renders well on the web and in many modern
         applications, some terminals expect all characters to be exactly
         one column. The Lode font family includes a <em>"Lode Term"</em>
@@ -623,9 +623,9 @@ window.<sb>onload</sb> <so>=</so> () <so>=></so> {
         results in both glyphs becoming half-expanded and shifted.</li>
       </ol>
       <p>
-        The texture healing technique was adopted from the excellent
-        <a href="https://monaspace.githubnext.com/" target="_blank">Monaspace</a>
-        typeface, which has an excellent explainer of how it works.
+        The texture healing technique was adopted from
+        <a href="https://monaspace.githubnext.com/" target="_blank">Monaspace</a>,
+        which has an excellent visual explainer of how it works.
       </p>
     </section>
 <!--
