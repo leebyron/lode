@@ -1029,7 +1029,7 @@ index e5545b53..ea7f203a 100644
  	do "number sign"
  		define fine : AdviceStroke 2.75
 diff --git a/packages/font-glyphs/src/symbol/punctuation/small.ptl b/packages/font-glyphs/src/symbol/punctuation/small.ptl
-index ae9ac91e..8dac3700 100644
+index ae9ac91e..67f321ae 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/small.ptl
 +++ b/packages/font-glyphs/src/symbol/punctuation/small.ptl
 @@ -39,7 +39,7 @@ glyph-block Symbol-Punctuation-Small : begin
@@ -1129,8 +1129,8 @@ index ae9ac91e..8dac3700 100644
  	derive-composites 'raisedPeriod.square' null 'period.square' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
 -	derive-composites 'raisedComma.round'  null 'comma.round'  [ApparentTranslate 0 (XH / 2 - PeriodRadius)]
 -	derive-composites 'raisedComma.square' null 'comma.square' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
-+	derive-composites 'raisedComma.round'  null 'comma.dotted.round'  [ApparentTranslate 0 (XH / 2 - PeriodRadius)]
-+	derive-composites 'raisedComma.square' null 'comma.dotted.square' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
++	derive-composites 'raisedComma.dotted.round'  null 'comma.dotted.round'  [ApparentTranslate 0 (XH / 2 - PeriodRadius)]
++	derive-composites 'raisedComma.dotted.square' null 'comma.dotted.square' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
 +	derive-composites 'raisedComma.straight' null 'comma.straight' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
  	select-variant 'raisedPeriod' 0x2E33 (follow -- 'punctuationDot')
 -	select-variant 'raisedComma'  0x2E34 (follow -- 'punctuationDot')
