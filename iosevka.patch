@@ -1029,7 +1029,7 @@ index e5545b53..ea7f203a 100644
  	do "number sign"
  		define fine : AdviceStroke 2.75
 diff --git a/packages/font-glyphs/src/symbol/punctuation/small.ptl b/packages/font-glyphs/src/symbol/punctuation/small.ptl
-index ae9ac91e..043ef869 100644
+index ae9ac91e..8dac3700 100644
 --- a/packages/font-glyphs/src/symbol/punctuation/small.ptl
 +++ b/packages/font-glyphs/src/symbol/punctuation/small.ptl
 @@ -39,7 +39,7 @@ glyph-block Symbol-Punctuation-Small : begin
@@ -1037,23 +1037,33 @@ index ae9ac91e..043ef869 100644
  		include : Translate (mx1) (my1)
  
 -	create-glyph 'comma.round' : glyph-proc
-+	create-glyph 'comma.round-TEMPHACK' : glyph-proc
++	create-glyph 'comma.dotted.round' : glyph-proc
  		local df : include : DivFrame para.diversityF
  		include : CommaShapeT df.middle 0 : glyph-proc
  			local r : PeriodRadius + 0
-@@ -88,6 +88,23 @@ glyph-block Symbol-Punctuation-Small : begin
+@@ -72,7 +72,7 @@ glyph-block Symbol-Punctuation-Small : begin
  					quadControls (0 + TanSlope / 2) (0.5 - TanSlope * r / Descender) 12
  					g4 (-commaOverflow + Descender * TanSlope) Descender [widths.rhs swEnd]
  
-+	create-glyph 'comma.round' : glyph-proc # Should be comma.straight when config is working (TODO: comma variants)
+-	create-glyph 'comma.square' : glyph-proc
++	create-glyph 'comma.dotted.square' : glyph-proc
+ 		local df : include : DivFrame para.diversityF
+ 		include : with-transform [Translate df.middle 0] : glyph-proc
+ 			local r : PeriodRadius * DesignParameters.squareDotScalar + 0
+@@ -88,8 +88,24 @@ glyph-block Symbol-Punctuation-Small : begin
+ 					quadControls (0 + TanSlope / 2) (0.5 - TanSlope * r / Descender) 12
+ 					g4 (-commaOverflow + Descender * TanSlope) Descender [widths.rhs swEnd]
+ 
+-
+-	create-glyph 'revComma.round' : glyph-proc
++	create-glyph 'comma.straight' : glyph-proc
 +		local df : include : DivFrame para.diversityF
 +		include : with-transform [Translate df.middle 0] : glyph-proc
-+			local sqr : PeriodSize * DesignParameters.squareDotScalar
-+			local sw : Math.max (Stroke * 1.1) (sqr * 0.9)
++			local sw : Math.max (Stroke * 1.1) (PeriodSize * DesignParameters.squareDotScalar * 0.9)
 +			local swEnd : Stroke * 0.9
-+			local r : (sqr - sw) / 2
-+			local l : (-sqr - swEnd) / 2 + Descender * TanSlope
-+			local t   PeriodSize
++			local r : (PeriodSize - sw) / 2
++			local l : (-PeriodSize - swEnd) / 2 + Descender * TanSlope
++			local t   sw
 +			local b   Descender
 +			local corT : (1 / 2) * HVContrast / [Math.sqrt (1 - [Math.pow ((r - l - sw) / (t - b)) 2])]
 +			local corB : (1 / 2) * HVContrast / [Math.sqrt (1 - [Math.pow ((r - l - swEnd) / (t - b)) 2])]
@@ -1062,9 +1072,113 @@ index ae9ac91e..043ef869 100644
 +				corner (r + sw * corT) t
 +				corner (l + swEnd * corB) b
 +				corner (l - swEnd * corB) b
- 
- 	create-glyph 'revComma.round' : glyph-proc
++
++	create-glyph 'revComma.dotted.round' : glyph-proc
  		local df : include : DivFrame para.diversityF
+ 		include : CommaShapeT df.middle 0 : glyph-proc
+ 			local r : PeriodRadius + 0
+@@ -122,7 +138,7 @@ glyph-block Symbol-Punctuation-Small : begin
+ 					quadControls (0 - TanSlope / 2) (0.5 - TanSlope * r / Descender) 12
+ 					g4 (commaOverflow + Descender * TanSlope) Descender [widths.lhs swEnd]
+ 
+-	create-glyph 'revComma.square' : glyph-proc
++	create-glyph 'revComma.dotted.square' : glyph-proc
+ 		local df : include : DivFrame para.diversityF
+ 		include : with-transform [Translate df.middle 0] : glyph-proc
+ 			local r : PeriodRadius * DesignParameters.squareDotScalar + 0
+@@ -138,20 +154,42 @@ glyph-block Symbol-Punctuation-Small : begin
+ 					quadControls (0 - TanSlope / 2) (0.5 - TanSlope * r / Descender) 12
+ 					g4 (commaOverflow + Descender * TanSlope) Descender [widths.lhs swEnd]
+ 
+-
+-	select-variant 'comma' ',' (follow -- 'punctuationDot')
+-	select-variant 'revComma' 0x2E41 (follow -- 'punctuationDot')
+-
+-	turned "turnComma.round"  null "comma.round"  [DivFrame para.diversityF].middle PeriodRadius
+-	turned "turnComma.square" null "comma.square" [DivFrame para.diversityF].middle (PeriodRadius * DesignParameters.squareDotScalar)
+-	select-variant 'turnComma' 0x2E32 (follow -- 'punctuationDot')
++	create-glyph 'revComma.straight' : glyph-proc
++		local df : include : DivFrame para.diversityF
++		include : with-transform [Translate df.middle 0] : glyph-proc
++			local sw : Math.max (Stroke * 1.1) (PeriodSize * DesignParameters.squareDotScalar * 0.9)
++			local swEnd : Stroke * 0.9
++			local r : (PeriodSize - sw) / -2
++			local l : (-PeriodSize - swEnd) / -2 + Descender * TanSlope
++			local t   sw
++			local b   Descender
++			local corT : (1 / 2) * HVContrast / [Math.sqrt (1 - [Math.pow ((r - l - sw) / (t - b)) 2])]
++			local corB : (1 / 2) * HVContrast / [Math.sqrt (1 - [Math.pow ((r - l - swEnd) / (t - b)) 2])]
++			include : spiro-outline
++				corner (r - sw * corT) t
++				corner (r + sw * corT) t
++				corner (l + swEnd * corB) b
++				corner (l - swEnd * corB) b
++
++	select-variant 'comma.dotted' null (follow -- 'punctuationDot')
++	select-variant 'comma' ','
++	select-variant 'revComma.dotted' null (follow -- 'punctuationDot')
++	select-variant 'revComma' 0x2E41 (follow -- 'comma')
++
++	turned "turnComma.dotted.round"  null "comma.dotted.round"  [DivFrame para.diversityF].middle PeriodRadius
++	turned "turnComma.dotted.square" null "comma.dotted.square" [DivFrame para.diversityF].middle (PeriodRadius * DesignParameters.squareDotScalar)
++	turned "turnComma.straight" null "comma.straight" [DivFrame para.diversityF].middle (PeriodRadius * DesignParameters.squareDotScalar)
++	select-variant 'turnComma.dotted' 0x2E32 (follow -- 'punctuationDot')
++	select-variant 'turnComma' 0x2E32 (follow -- 'comma')
+ 
+ 	derive-composites 'raisedPeriod.round'  null 'period.round'  [ApparentTranslate 0 (XH / 2 - PeriodRadius)]
+ 	derive-composites 'raisedPeriod.square' null 'period.square' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
+-	derive-composites 'raisedComma.round'  null 'comma.round'  [ApparentTranslate 0 (XH / 2 - PeriodRadius)]
+-	derive-composites 'raisedComma.square' null 'comma.square' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
++	derive-composites 'raisedComma.round'  null 'comma.dotted.round'  [ApparentTranslate 0 (XH / 2 - PeriodRadius)]
++	derive-composites 'raisedComma.square' null 'comma.dotted.square' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
++	derive-composites 'raisedComma.straight' null 'comma.straight' [ApparentTranslate 0 (XH / 2 - PeriodRadius * DesignParameters.squareDotScalar)]
+ 	select-variant 'raisedPeriod' 0x2E33 (follow -- 'punctuationDot')
+-	select-variant 'raisedComma'  0x2E34 (follow -- 'punctuationDot')
++	select-variant 'raisedComma.dotted' null (follow -- 'punctuationDot')
++	select-variant 'raisedComma'  0x2E34 (follow -- 'comma')
+ 
+ 	foreach { suffix { DrawAt kDotRadius overshoot } } [Object.entries DotVariants] : do
+ 		create-glyph "colon.\(suffix)" : glyph-proc
+@@ -179,12 +217,20 @@ glyph-block Symbol-Punctuation-Small : begin
+ 			include : DrawAt df.middle (CAP - [mix dr (XH - dr) k]) (dr - overshoot)
+ 			include : DrawAt df.middle (CAP - [mix dr (XH - dr) (1 - k)]) (dr - overshoot)
+ 
+-		create-glyph "semicolon.\(suffix)" : glyph-proc
+-			include [refer-glyph "comma.\(suffix)"] AS_BASE ALSO_METRICS
++		create-glyph "semicolon.dotted.\(suffix)" : glyph-proc
++			include [refer-glyph "comma.dotted.\(suffix)"] AS_BASE ALSO_METRICS
++			include [refer-glyph "xhPeriod.\(suffix)"]
++
++		create-glyph "semicolon.straight.\(suffix)" : glyph-proc
++			include [refer-glyph "comma.straight"] AS_BASE ALSO_METRICS
++			include [refer-glyph "xhPeriod.\(suffix)"]
++
++		create-glyph "invertSemicolon.dotted.\(suffix)" : glyph-proc
++			include [refer-glyph "revComma.dotted.\(suffix)"] AS_BASE ALSO_METRICS
+ 			include [refer-glyph "xhPeriod.\(suffix)"]
+ 
+-		create-glyph "invertSemicolon.\(suffix)" : glyph-proc
+-			include [refer-glyph "revComma.\(suffix)"] AS_BASE ALSO_METRICS
++		create-glyph "invertSemicolon.straight.\(suffix)" : glyph-proc
++			include [refer-glyph "revComma.straight"] AS_BASE ALSO_METRICS
+ 			include [refer-glyph "xhPeriod.\(suffix)"]
+ 
+ 		local multiDotShift : RightSB - (DotRadius * kDotRadius) - Middle
+@@ -270,8 +316,12 @@ glyph-block Symbol-Punctuation-Small : begin
+ 	select-variant 'colon/mid' (follow -- 'punctuationDot')
+ 	select-variant 'modifierLetterColon' 0xA789 (follow -- 'punctuationDot')
+ 	select-variant 'modifierLetterRaisedColon' 0x2F8 (follow -- 'punctuationDot')
+-	select-variant 'semicolon' ';' (follow -- 'punctuationDot')
+-	select-variant 'invertSemicolon' 0x204F (follow -- 'punctuationDot')
++	select-variant 'semicolon.dotted' null (follow -- 'punctuationDot')
++	select-variant 'semicolon.straight' null (follow -- 'punctuationDot')
++	select-variant 'semicolon' ';' (follow -- 'comma')
++	select-variant 'invertSemicolon.dotted' null (follow -- 'punctuationDot')
++	select-variant 'invertSemicolon.straight' null (follow -- 'punctuationDot')
++	select-variant 'invertSemicolon' 0x204F (follow -- 'comma')
+ 
+ 	select-variant 'threeDotPunct' 0x2056 (follow -- 'punctuationDot')
+ 	select-variant 'geor/paragraphSeparator' 0x10FB (follow -- 'punctuationDot')
 diff --git a/packages/font-glyphs/src/symbol/shared.ptl b/packages/font-glyphs/src/symbol/shared.ptl
 index b46689fd..2a6aa628 100644
 --- a/packages/font-glyphs/src/symbol/shared.ptl
@@ -2021,3 +2135,29 @@ index e06f0199..808c754d 100644
  
  refJut = 85
  
+diff --git a/params/variants.toml b/params/variants.toml
+index 591e8492..c077440f 100644
+--- a/params/variants.toml
++++ b/params/variants.toml
+@@ -6977,6 +6977,21 @@ description = "Lower circumflex `^`"
+ selector.asciiCaret = "low"
+ 
+ 
++[prime.comma]
++sampler = ",;"
++samplerExplain = "Comma and semicolon shape in punctuations and symbols"
++tagKind = "symbol"
++
++[prime.comma.variants.dotted]
++rank = 1
++description = "Comma and semicolon with dot (follows punctuationDot)"
++selector.comma = "dotted"
++
++[prime.comma.variants.straight]
++rank = 2
++description = "Comma and semicolon with short diagonal straight bar"
++selector.comma = "straight"
++
+ 
+ [prime.ascii-grave]
+ sampler = "`"

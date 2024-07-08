@@ -51,6 +51,7 @@ const Lode = {
       eight: 'two-circles',
       // nine: 'open-contour',
       nine: 'straight-bar',
+      comma: 'straight',
       tilde: 'low',
       asterisk: 'turn-hex-low', // 'hex-low',
       underscore: 'high', //# "above-baseline",
